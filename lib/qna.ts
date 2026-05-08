@@ -101,6 +101,53 @@ export async function countPosts(): Promise<number> {
   return (await kv.zcard("qna:posts")) ?? 0;
 }
 
+/** 전체 글 (admin 목록용, zset 순서: createdAt 내림차순) */
+export async function listAllPosts(): Promise<QnaPost[]> {
+  const raw = await kv.zrange<string[]>("qna:posts", 0, -1, { rev: true });
+  if (!raw?.length) return [];
+  const posts = await Promise.all(raw.map((mid) => getPost(Number(mid))));
+  return posts.filter((p): p is QnaPost => p !== null);
+}
+
+export function buildChildrenMap(posts: QnaPost[]): Map<number, number[]> {
+  const m = new Map<number, number[]>();
+  for (const p of posts) {
+    if (p.parentId == null) continue;
+    if (!m.has(p.parentId)) m.set(p.parentId, []);
+    m.get(p.parentId)!.push(p.id);
+  }
+  for (const [, arr] of m) {
+    arr.sort((a, b) => a - b);
+  }
+  return m;
+}
+
+/** rootId 기준: 해당 글 + 모든 하위 답글 id (DFS) */
+export function collectSubtreeIds(
+  postId: number,
+  childrenMap: Map<number, number[]>
+): number[] {
+  const out: number[] = [];
+  const stack = [postId];
+  while (stack.length) {
+    const id = stack.pop()!;
+    out.push(id);
+    for (const c of childrenMap.get(id) ?? []) stack.push(c);
+  }
+  return out;
+}
+
+/** 글과 모든 답글 삭제 (KV + zset). 삭제된 id 목록 반환 */
+export async function deletePostTree(postId: number): Promise<number[]> {
+  const posts = await listAllPosts();
+  const childrenMap = buildChildrenMap(posts);
+  const ids = collectSubtreeIds(postId, childrenMap);
+  for (const id of ids) {
+    await deletePostById(id);
+  }
+  return ids;
+}
+
 export async function checkRateLimit(ip: string): Promise<boolean> {
   const key = `qna:rl:${ip}`;
   const exists = await kv.get(key);

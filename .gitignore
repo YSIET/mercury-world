@@ -41,6 +41,7 @@ lib/*
 !lib/attachments.ts
 !lib/iq.ts
 !lib/turnstile.ts
+!lib/admin-auth.ts
 cache/
 zwebmy/
 mercury/admin/

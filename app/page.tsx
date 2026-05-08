@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -16,57 +16,6 @@ export default function HomePage() {
   const [activeTab, setActiveTab] = useState<"notice" | "news" | "pds">(
     "notice"
   );
-
-  // 원본 배너 슬라이더 동작 (jQuery 기반 — 마운트 후 초기화)
-  useEffect(() => {
-    const $ = (window as any).$ || (window as any).jQuery;
-    if (!$) return;
-
-    const bn_pause = 3000;
-    let bn_speed = 1000;
-    let bn_direction = 1;
-    let bn_interval_id: any;
-
-    function banner_on() {
-      const bn_width = $("#banner li").width();
-      if (bn_direction === -1) {
-        $("#banner")
-          .prepend($("#banner li:last"))
-          .css("left", "-" + bn_width + "px");
-        $("#banner").stop().animate({ left: "0" }, bn_speed, function () {});
-      } else {
-        const $banner = $("#banner");
-        $banner
-          .stop()
-          .animate({ left: "-" + bn_width + "px" }, bn_speed, function () {
-            $banner.find("li").first().appendTo($banner);
-            $banner.css("left", "0px");
-          });
-      }
-    }
-
-    bn_interval_id = setInterval(banner_on, bn_pause);
-    $("#banner")
-      .parent()
-      .hover(
-        function () {
-          clearInterval(bn_interval_id);
-        },
-        function () {
-          bn_speed = 1500;
-          bn_interval_id = setInterval(banner_on, bn_pause);
-        }
-      );
-
-    // 글로벌 노출 (좌우 화살표 onclick에서 사용)
-    (window as any).banner_nav = (_dir: number) => {
-      bn_direction = _dir;
-    };
-
-    return () => {
-      clearInterval(bn_interval_id);
-    };
-  }, []);
 
   return (
     <>
@@ -134,18 +83,10 @@ export default function HomePage() {
                       </Link>
                     </li>
                   </ul>
-                  <span
-                    className="g_cursor nav_left"
-                    onClick={() => (window as any).banner_nav?.(1)}
-                    title="왼쪽"
-                  >
+                  <span className="g_cursor nav_left" title="왼쪽">
                     ◀
                   </span>
-                  <span
-                    className="g_cursor nav_right"
-                    onClick={() => (window as any).banner_nav?.(-1)}
-                    title="오른쪽"
-                  >
+                  <span className="g_cursor nav_right" title="오른쪽">
                     ▶
                   </span>
                 </div>

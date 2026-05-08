@@ -27,6 +27,10 @@ export default function RootLayout({
           src="https://code.jquery.com/jquery-1.12.4.min.js"
           strategy="beforeInteractive"
         />
+        <Script
+          src="/js/banner-slider.js"
+          strategy="afterInteractive"
+        />
         {/* 원본 페이지 내 보조 스크립트들 (필요 시 해당 페이지에서 추가 로드) */}
         {children}
       </body>

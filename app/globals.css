@@ -418,6 +418,10 @@ table.wide {
     box-sizing: border-box;
   }
 
+  .mw-home-top-rail > table > tbody > tr > td:empty {
+    display: none !important;
+  }
+
   div.banner {
     max-width: min(331px, 100%);
     margin-left: auto;

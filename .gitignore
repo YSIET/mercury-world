@@ -1,27 +1,73 @@
-node_modules
-.next
-out
-dist
-build
+# ============================================================
+# Mercury World — .gitignore
+# 절대 GitHub에 올리면 안 되는 파일들 명시 차단
+# ============================================================
 
+# Next.js
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+next-env.d.ts
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Cafe24 백업 / DB / 개인정보 (절대 커밋 금지)
+*.sql
+*.sql.gz
+*.tar.gz
+*.tar
+*_DB_Backup*
+*_Data_Backup*
+mercury24/
+mercury24_*
+backup/
+backups/
+mercury_original_slim_bundle.zip
+mercury_original_slim_bundle/
+
+# 카페24 admin/conf/lib/cache 흔적
+admin/
+conf/
+lib/
+cache/
+zwebmy/
+mercury/admin/
+mercury/conf/
+
+# 환경 변수 / 시크릿
 .env
 .env.local
 .env.*.local
+.env.production
+.env.development
 
+# OS / 에디터
 .DS_Store
 Thumbs.db
-desktop.ini
+*.swp
+*.swo
+.vscode/
+.idea/
+*.iml
 
-*.log
+# 로그
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
+logs/
 
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Vercel
+.vercel
 
-next-env.d.ts
-
-scripts/legacy-data
-scripts/output
+# 임시
+tmp/
+temp/
+*.tmp
+*.bak

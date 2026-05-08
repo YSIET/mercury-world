@@ -196,14 +196,19 @@ function ResultDialog({
         <img
           src={C.img}
           alt={result.level}
-          style={{ display: "block", margin: "12px auto" }}
+          style={{
+            display: "block",
+            margin: "16px auto 8px",
+            width: 131,
+            height: 45,
+          }}
         />
         <div
           style={{
-            fontSize: 20,
+            fontSize: 24,
             fontWeight: "bold",
             color: C.bg,
-            margin: "12px 0",
+            margin: "4px 0 16px",
           }}
         >
           {result.total_ug.toFixed(2)} μg

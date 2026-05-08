@@ -101,9 +101,7 @@ export default function Header({ activeGroup, activePath }: HeaderProps) {
           </li>
           <li>
             <Link href="/test/q" className="quick_menu_iq" title="수은IQ테스트">
-              수은IQ
-              <br />
-              테스트
+              수은IQ테스트
             </Link>
           </li>
           <li>

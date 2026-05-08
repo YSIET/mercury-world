@@ -31,8 +31,8 @@ backups/
 mercury_original_slim_bundle.zip
 mercury_original_slim_bundle/
 
-# 카페24 admin/conf/lib/cache 흔적
-admin/
+# 카페24 admin/conf/lib/cache 흔적 (루트의 admin 폴더만 — app/admin Next 라우트와 구분)
+/admin/
 conf/
 lib/*
 !lib/posts.ts

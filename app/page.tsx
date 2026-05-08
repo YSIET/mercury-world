@@ -54,7 +54,7 @@ export default function HomePage() {
                 <area
                   shape="rect"
                   coords="830,269,940,414"
-                  href="/content/content"
+                  href="/test/q"
                   alt="수은IQ테스트"
                 />
               </map>

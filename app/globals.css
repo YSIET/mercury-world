@@ -206,6 +206,17 @@ ul.side_nav li a.on, ul.side_nav li a:hover { color: #0099cc; background-positio
 #quick_menu ul { margin: 0; padding: 0; list-style-type: none; background: url(/img/common/quick_bottom.gif) no-repeat center bottom; padding-bottom: 23px; }
 #quick_menu ul li { padding: 2px 0; background: url(/img/common/quick_bg.gif) repeat-y; }
 #quick_menu ul li img { padding: 0; margin: 0; }
+#quick_menu ul li a.quick_menu_iq {
+  display: block;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.2;
+  color: #333;
+  text-decoration: none;
+  padding: 4px 2px;
+  font-family: 굴림, sans-serif;
+}
+#quick_menu ul li a.quick_menu_iq:hover { color: #007bd1; }
 #quick_menu div.top { padding-top: 5px; text-align: center; }
 #quick_menu div.top img { cursor: pointer; }
 

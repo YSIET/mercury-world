@@ -1,0 +1,706 @@
+[
+  {
+    "id": 134,
+    "food": "빵(팥빵류)",
+    "unit_text": "제품별 참조",
+    "mercury_ng_g": 0.66,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 133,
+    "food": "과자, 비스켓",
+    "unit_text": "제품별 참조",
+    "mercury_ng_g": 0.55,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 132,
+    "food": "백미",
+    "unit_text": "쌀밥 1/3공기 약70g",
+    "mercury_ng_g": 1.91,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 135,
+    "food": "빵(식빵류)",
+    "unit_text": "제품별 참조",
+    "mercury_ng_g": 0.42,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 136,
+    "food": "과자,스낵과자",
+    "unit_text": "제품별 참조",
+    "mercury_ng_g": 1.99,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 137,
+    "food": "찹쌀",
+    "unit_text": "찹쌀 3큰스푼 약50g",
+    "mercury_ng_g": 6.72,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 138,
+    "food": "보리",
+    "unit_text": "보리밥 1/3공기 약70g",
+    "mercury_ng_g": 5.1,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 139,
+    "food": "혼합잡곡",
+    "unit_text": "혼합잡곡 1되 약750g",
+    "mercury_ng_g": 5.21,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 140,
+    "food": "현미",
+    "unit_text": "현미 3큰스푼 약50g",
+    "mercury_ng_g": 6.63,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 141,
+    "food": "목살",
+    "unit_text": "돼지고기 1근 약600g",
+    "mercury_ng_g": 0.9,
+    "category_idx": 20,
+    "category_name": "육류"
+  },
+  {
+    "id": 142,
+    "food": "라면",
+    "unit_text": "라면 1봉지 약120g",
+    "mercury_ng_g": 6.93,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 143,
+    "food": "쇠고기,수입우",
+    "unit_text": "쇠고기 한근 약600g",
+    "mercury_ng_g": 0.75,
+    "category_idx": 20,
+    "category_name": "육류"
+  },
+  {
+    "id": 144,
+    "food": "국수(생면/삶은것)",
+    "unit_text": "1봉지 약1kg",
+    "mercury_ng_g": 1.09,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 145,
+    "food": "국수(마른것)",
+    "unit_text": "국수 1봉지 약1kg",
+    "mercury_ng_g": 5.07,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 146,
+    "food": "닭고기",
+    "unit_text": "닭 1토막 약40g",
+    "mercury_ng_g": 1.0,
+    "category_idx": 20,
+    "category_name": "육류"
+  },
+  {
+    "id": 147,
+    "food": "우족국물",
+    "unit_text": "국물 1인분 약600g",
+    "mercury_ng_g": 1.13,
+    "category_idx": 20,
+    "category_name": "육류"
+  },
+  {
+    "id": 148,
+    "food": "삼겹살",
+    "unit_text": "돼지고기 1근 약600g",
+    "mercury_ng_g": 1.52,
+    "category_idx": 20,
+    "category_name": "육류"
+  },
+  {
+    "id": 149,
+    "food": "햄,가공품",
+    "unit_text": "스팸햄 1쪽 약40g",
+    "mercury_ng_g": 2.7,
+    "category_idx": 20,
+    "category_name": "육류"
+  },
+  {
+    "id": 150,
+    "food": "메밀/냉면국수(삶은것)",
+    "unit_text": "메밀/냉면국수 1봉지 약1kg",
+    "mercury_ng_g": 0.77,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 151,
+    "food": "달걀",
+    "unit_text": "달걀 1개 약55g",
+    "mercury_ng_g": 1.57,
+    "category_idx": 21,
+    "category_name": "난류"
+  },
+  {
+    "id": 152,
+    "food": "라면(용기면)",
+    "unit_text": "컵라면 1개 약65g",
+    "mercury_ng_g": 7.08,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 153,
+    "food": "고등어",
+    "unit_text": "고등어 1토막 약50g",
+    "mercury_ng_g": 83.17,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 154,
+    "food": "우동",
+    "unit_text": "우동사리 1봉지 약200g",
+    "mercury_ng_g": 0.57,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 155,
+    "food": "오징어",
+    "unit_text": "오징어 1토막 약50g",
+    "mercury_ng_g": 46.13,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 156,
+    "food": "밀가루",
+    "unit_text": "밀가루 5큰스푼 약30g",
+    "mercury_ng_g": 0.65,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 157,
+    "food": "멸치(자건품)",
+    "unit_text": "멸치 1/4컵 약15g",
+    "mercury_ng_g": 10.86,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 158,
+    "food": "조기",
+    "unit_text": "조기 1토막 약50g",
+    "mercury_ng_g": 113.66,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 159,
+    "food": "가래떡/백설기",
+    "unit_text": "1조각 약400g",
+    "mercury_ng_g": 1.66,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 160,
+    "food": "명태/동태",
+    "unit_text": "동태 1토막 약50g",
+    "mercury_ng_g": 70.89,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 161,
+    "food": "갈치",
+    "unit_text": "갈치 1토막 약50g",
+    "mercury_ng_g": 127.04,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 162,
+    "food": "넙치/광어",
+    "unit_text": "광어 1토막 약50g",
+    "mercury_ng_g": 75.75,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 163,
+    "food": "참치(통조림)",
+    "unit_text": "통조림 1통 약150g",
+    "mercury_ng_g": 19.55,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 164,
+    "food": "떡,시루떡",
+    "unit_text": "시루떡 1조각 약120g",
+    "mercury_ng_g": 0.97,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 165,
+    "food": "다랑어",
+    "unit_text": "다랑어 1마리 약150kg",
+    "mercury_ng_g": 687.14,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 166,
+    "food": "꽁치",
+    "unit_text": "꽁치 1토막 약50g",
+    "mercury_ng_g": 16.81,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 167,
+    "food": "새우",
+    "unit_text": "새우 3마리 약50g",
+    "mercury_ng_g": 1.33,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 168,
+    "food": "햄버거/샌드위치",
+    "unit_text": "햄버거/샌드위치 1개 약130g",
+    "mercury_ng_g": 0.6,
+    "category_idx": 15,
+    "category_name": "곡류"
+  },
+  {
+    "id": 169,
+    "food": "삼치",
+    "unit_text": "삼치 1토막 약50g",
+    "mercury_ng_g": 59.16,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 170,
+    "food": "감자",
+    "unit_text": "감자 1개 약130g",
+    "mercury_ng_g": 0.69,
+    "category_idx": 16,
+    "category_name": "전분류"
+  },
+  {
+    "id": 171,
+    "food": "장어",
+    "unit_text": "장어 1토막 약50g",
+    "mercury_ng_g": 148.84,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 172,
+    "food": "고구마",
+    "unit_text": "고구마 1개 약100g",
+    "mercury_ng_g": 0.4,
+    "category_idx": 16,
+    "category_name": "전분류"
+  },
+  {
+    "id": 173,
+    "food": "연어",
+    "unit_text": "연어 1토막 약50g",
+    "mercury_ng_g": 31.24,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 174,
+    "food": "조개",
+    "unit_text": "조개살 1/3컵 약70g",
+    "mercury_ng_g": 4.14,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 175,
+    "food": "대두(말린것)",
+    "unit_text": "대두 1되 약700g",
+    "mercury_ng_g": 0.9,
+    "category_idx": 17,
+    "category_name": "두류"
+  },
+  {
+    "id": 176,
+    "food": "어패류알",
+    "unit_text": "한숟가락 약15g",
+    "mercury_ng_g": 1.33,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 177,
+    "food": "두유",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.37,
+    "category_idx": 17,
+    "category_name": "두류"
+  },
+  {
+    "id": 178,
+    "food": "전복",
+    "unit_text": "전복 小2개 약70g",
+    "mercury_ng_g": 2.48,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 179,
+    "food": "어묵",
+    "unit_text": "어묵 1장 약30g",
+    "mercury_ng_g": 41.79,
+    "category_idx": 22,
+    "category_name": "어패류"
+  },
+  {
+    "id": 180,
+    "food": "두부",
+    "unit_text": "두부 1/6모 약80g",
+    "mercury_ng_g": 0.28,
+    "category_idx": 17,
+    "category_name": "두류"
+  },
+  {
+    "id": 181,
+    "food": "아이스크림",
+    "unit_text": "제품별 참조",
+    "mercury_ng_g": 0.21,
+    "category_idx": 23,
+    "category_name": "낙농제품"
+  },
+  {
+    "id": 182,
+    "food": "김치(배추김치)",
+    "unit_text": "배추 1쪽 약1kg",
+    "mercury_ng_g": 2.52,
+    "category_idx": 18,
+    "category_name": "채소류"
+  },
+  {
+    "id": 183,
+    "food": "우유",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.49,
+    "category_idx": 23,
+    "category_name": "낙농제품"
+  },
+  {
+    "id": 184,
+    "food": "요구르트(액상)",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.07,
+    "category_idx": 23,
+    "category_name": "낙농제품"
+  },
+  {
+    "id": 185,
+    "food": "요구르트(호상)",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.14,
+    "category_idx": 23,
+    "category_name": "낙농제품"
+  },
+  {
+    "id": 186,
+    "food": "맥주",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.34,
+    "category_idx": 24,
+    "category_name": "음료 및 주류"
+  },
+  {
+    "id": 187,
+    "food": "소주",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.13,
+    "category_idx": 24,
+    "category_name": "음료 및 주류"
+  },
+  {
+    "id": 188,
+    "food": "콜라",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.16,
+    "category_idx": 24,
+    "category_name": "음료 및 주류"
+  },
+  {
+    "id": 189,
+    "food": "사이다",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.26,
+    "category_idx": 24,
+    "category_name": "음료 및 주류"
+  },
+  {
+    "id": 190,
+    "food": "막걸리",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.23,
+    "category_idx": 24,
+    "category_name": "음료 및 주류"
+  },
+  {
+    "id": 191,
+    "food": "과일탄산음료",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.16,
+    "category_idx": 23,
+    "category_name": "낙농제품"
+  },
+  {
+    "id": 192,
+    "food": "김치(깍두기)",
+    "unit_text": "깍두기 1쪽 약1kg",
+    "mercury_ng_g": 0.72,
+    "category_idx": 18,
+    "category_name": "채소류"
+  },
+  {
+    "id": 193,
+    "food": "기능성음료",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.17,
+    "category_idx": 24,
+    "category_name": "음료 및 주류"
+  },
+  {
+    "id": 194,
+    "food": "식혜",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.15,
+    "category_idx": 24,
+    "category_name": "음료 및 주류"
+  },
+  {
+    "id": 195,
+    "food": "녹차음료",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.17,
+    "category_idx": 24,
+    "category_name": "음료 및 주류"
+  },
+  {
+    "id": 196,
+    "food": "김치(열무김치)",
+    "unit_text": "열무김치 1쪽 약1kg",
+    "mercury_ng_g": 1.34,
+    "category_idx": 18,
+    "category_name": "채소류"
+  },
+  {
+    "id": 197,
+    "food": "커피음료",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 0.18,
+    "category_idx": 24,
+    "category_name": "음료 및 주류"
+  },
+  {
+    "id": 198,
+    "food": "김치(나박김치)",
+    "unit_text": "나박김치 1쪽 약1kg",
+    "mercury_ng_g": 0.88,
+    "category_idx": 18,
+    "category_name": "채소류"
+  },
+  {
+    "id": 199,
+    "food": "김치(총각김치)",
+    "unit_text": "총각김치 1쪽 약1kg",
+    "mercury_ng_g": 0.79,
+    "category_idx": 18,
+    "category_name": "채소류"
+  },
+  {
+    "id": 200,
+    "food": "커피믹스",
+    "unit_text": "용기별 기준",
+    "mercury_ng_g": 2.4,
+    "category_idx": 24,
+    "category_name": "음료 및 주류"
+  },
+  {
+    "id": 201,
+    "food": "김치(동치미)",
+    "unit_text": "동치미 1쪽 약1kg",
+    "mercury_ng_g": 0.91,
+    "category_idx": 18,
+    "category_name": "채소류"
+  },
+  {
+    "id": 202,
+    "food": "된장",
+    "unit_text": "된장 1스푼 약7g",
+    "mercury_ng_g": 4.0,
+    "category_idx": 25,
+    "category_name": "조미료"
+  },
+  {
+    "id": 203,
+    "food": "간장",
+    "unit_text": "간장 1스푼 약2g",
+    "mercury_ng_g": 1.02,
+    "category_idx": 25,
+    "category_name": "조미료"
+  },
+  {
+    "id": 204,
+    "food": "김치(파김치)",
+    "unit_text": "파김치 1쪽 약1kg",
+    "mercury_ng_g": 1.6,
+    "category_idx": 18,
+    "category_name": "채소류"
+  },
+  {
+    "id": 205,
+    "food": "고추장",
+    "unit_text": "고추장 1스푼 약7g",
+    "mercury_ng_g": 1.12,
+    "category_idx": 25,
+    "category_name": "조미료"
+  },
+  {
+    "id": 206,
+    "food": "단무지",
+    "unit_text": "단무지 1개 약6g",
+    "mercury_ng_g": 0.29,
+    "category_idx": 18,
+    "category_name": "채소류"
+  },
+  {
+    "id": 207,
+    "food": "설탕",
+    "unit_text": "설탕 1스푼 약5g",
+    "mercury_ng_g": 1.28,
+    "category_idx": 24,
+    "category_name": "음료 및 주류"
+  },
+  {
+    "id": 208,
+    "food": "콩기름",
+    "unit_text": "콩기름 1스푼 약5g",
+    "mercury_ng_g": 13.38,
+    "category_idx": 25,
+    "category_name": "조미료"
+  },
+  {
+    "id": 209,
+    "food": "소금",
+    "unit_text": "소금 1스푼 약5g",
+    "mercury_ng_g": 0.81,
+    "category_idx": 25,
+    "category_name": "조미료"
+  },
+  {
+    "id": 210,
+    "food": "토마토",
+    "unit_text": "토마토 1개 약 250g",
+    "mercury_ng_g": 0.53,
+    "category_idx": 18,
+    "category_name": "채소류"
+  },
+  {
+    "id": 211,
+    "food": "참기름",
+    "unit_text": "참기름 1스푼 약2g",
+    "mercury_ng_g": 16.75,
+    "category_idx": 25,
+    "category_name": "조미료"
+  },
+  {
+    "id": 212,
+    "food": "들미나리",
+    "unit_text": "들미나리 1근 약200g",
+    "mercury_ng_g": 3.91,
+    "category_idx": 18,
+    "category_name": "채소류"
+  },
+  {
+    "id": 213,
+    "food": "고사리",
+    "unit_text": "고사리 1근 약600g",
+    "mercury_ng_g": 3.05,
+    "category_idx": 18,
+    "category_name": "채소류"
+  },
+  {
+    "id": 214,
+    "food": "오렌지",
+    "unit_text": "오렌지 1/2개 약100g",
+    "mercury_ng_g": 1.19,
+    "category_idx": 19,
+    "category_name": "과실류"
+  },
+  {
+    "id": 215,
+    "food": "사과",
+    "unit_text": "사과 1/3개 약100g",
+    "mercury_ng_g": 0.65,
+    "category_idx": 19,
+    "category_name": "과실류"
+  },
+  {
+    "id": 216,
+    "food": "부추",
+    "unit_text": "부추 1단 약300g",
+    "mercury_ng_g": 3.25,
+    "category_idx": 18,
+    "category_name": "채소류"
+  },
+  {
+    "id": 217,
+    "food": "참외",
+    "unit_text": "참외 1/2개 약120g",
+    "mercury_ng_g": 0.9,
+    "category_idx": 19,
+    "category_name": "과실류"
+  },
+  {
+    "id": 218,
+    "food": "딸기",
+    "unit_text": "딸기 10개 약150g",
+    "mercury_ng_g": 1.39,
+    "category_idx": 19,
+    "category_name": "과실류"
+  },
+  {
+    "id": 219,
+    "food": "바나나",
+    "unit_text": "바나나 1/2개 약60g",
+    "mercury_ng_g": 1.48,
+    "category_idx": 19,
+    "category_name": "과실류"
+  }
+]

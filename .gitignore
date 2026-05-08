@@ -36,6 +36,7 @@ admin/
 conf/
 lib/*
 !lib/posts.ts
+!lib/signal.ts
 cache/
 zwebmy/
 mercury/admin/

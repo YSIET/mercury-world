@@ -34,7 +34,8 @@ mercury_original_slim_bundle/
 # 카페24 admin/conf/lib/cache 흔적
 admin/
 conf/
-lib/
+lib/*
+!lib/posts.ts
 cache/
 zwebmy/
 mercury/admin/

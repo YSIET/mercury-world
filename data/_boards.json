@@ -1,0 +1,37 @@
+[
+  {
+    "slug": "notice",
+    "title": "공지사항",
+    "description": "수은세상 공지사항",
+    "legacy_table": "frame_board_board_notice",
+    "post_count": 3
+  },
+  {
+    "slug": "news",
+    "title": "수은관련뉴스",
+    "description": "수은 관련 언론·연구 뉴스",
+    "legacy_table": "frame_board_board_news2",
+    "post_count": 170
+  },
+  {
+    "slug": "pds",
+    "title": "수은함유량정보",
+    "description": "수은 함유량 자료실",
+    "legacy_table": "frame_board_pds",
+    "post_count": 16
+  },
+  {
+    "slug": "freeboard",
+    "title": "묻고답하기",
+    "description": "수은 관련 질문/답변",
+    "legacy_table": "frame_board_anerhekqgkrl1",
+    "post_count": 950
+  },
+  {
+    "slug": "mercury_eat",
+    "title": "수은섭취량",
+    "description": "수은 섭취 관련 데이터",
+    "legacy_table": "frame_board_mercury_eat",
+    "post_count": 217
+  }
+]

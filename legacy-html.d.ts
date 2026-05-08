@@ -16,4 +16,14 @@ declare module "react" {
   interface TableHTMLAttributes<T> {
     height?: number | string;
   }
+
+  interface ThHTMLAttributes<T> {
+    height?: number | string;
+    width?: number | string;
+  }
+
+  interface TdHTMLAttributes<T> {
+    height?: number | string;
+    width?: number | string;
+  }
 }

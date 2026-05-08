@@ -1,6 +1,16 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { useRouter } from "next/navigation";
+
+const btn: CSSProperties = {
+  fontSize: 14,
+  padding: "6px 16px",
+  marginRight: 8,
+  background: "#f0f0f0",
+  border: "1px solid #ccc",
+  cursor: "pointer",
+};
 
 export default function QnaDetailActions({ id }: { id: number }) {
   const router = useRouter();
@@ -26,12 +36,12 @@ export default function QnaDetailActions({ id }: { id: number }) {
     <p style={{ marginTop: 16, textAlign: "right" }}>
       <button
         type="button"
+        style={btn}
         onClick={() => router.push(`/community/freeboard/edit/${id}`)}
-        style={{ marginRight: 8 }}
       >
         수정
       </button>
-      <button type="button" onClick={onDelete}>
+      <button type="button" style={{ ...btn, marginRight: 0 }} onClick={onDelete}>
         삭제
       </button>
     </p>

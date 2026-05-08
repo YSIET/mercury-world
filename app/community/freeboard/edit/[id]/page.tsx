@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { useEffect, useState, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import SubPageLayout from "@/components/SubPageLayout";
@@ -15,6 +16,25 @@ export default function QnaEditPage() {
   const [content, setContent] = useState("");
 
   const prompted = useRef(false);
+
+  const cellTd: CSSProperties = {
+    padding: 8,
+    border: "1px solid #dedede",
+    fontSize: 14,
+  };
+  const cellTh: CSSProperties = {
+    background: "#f9f9f9",
+    width: 100,
+    padding: 8,
+    border: "1px solid #dedede",
+    fontSize: 14,
+    fontWeight: "bold",
+  };
+  const inputStyle: CSSProperties = {
+    fontSize: 14,
+    padding: "4px 6px",
+    fontFamily: "굴림",
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -82,7 +102,7 @@ export default function QnaEditPage() {
         titleImg="/img/community/title_1.gif"
         breadcrumb={<>HOME &gt; 수은상담소 &gt; 묻고답하기 &gt; 수정</>}
       >
-        <p style={{ padding: 20 }}>불러오는 중…</p>
+        <p style={{ padding: 20, fontSize: 14 }}>불러오는 중…</p>
       </SubPageLayout>
     );
   }
@@ -97,8 +117,18 @@ export default function QnaEditPage() {
       titleImg="/img/community/title_1.gif"
       breadcrumb={<>HOME &gt; 수은상담소 &gt; 묻고답하기 &gt; 수정</>}
     >
-      <div style={{ width: 940, margin: "0 auto", fontFamily: "굴림" }}>
-        <h2 style={{ fontSize: 14, fontWeight: "bold", margin: "20px 0 10px" }}>
+      <div
+        style={{
+          width: 940,
+          margin: "0 auto",
+          fontFamily: "굴림",
+          fontSize: 14,
+          lineHeight: 1.5,
+        }}
+      >
+        <h2
+          style={{ fontSize: 16, fontWeight: "bold", margin: "20px 0 10px" }}
+        >
           수정
         </h2>
         <form onSubmit={onSubmit}>
@@ -107,96 +137,65 @@ export default function QnaEditPage() {
               borderCollapse: "collapse",
               width: "100%",
               border: "1px solid #dedede",
-              fontSize: 12,
             }}
           >
             <tbody>
               <tr>
-                <th
-                  style={{
-                    background: "#f9f9f9",
-                    width: 80,
-                    padding: 6,
-                    border: "1px solid #dedede",
-                  }}
-                >
-                  비밀번호 *
-                </th>
-                <td
-                  colSpan={3}
-                  style={{ padding: 6, border: "1px solid #dedede" }}
-                >
+                <th style={cellTh}>비밀번호 *</th>
+                <td colSpan={3} style={cellTd}>
                   <input
                     name="password"
                     type="password"
                     required
                     minLength={4}
                     maxLength={20}
-                    style={{ width: 200 }}
+                    style={{ ...inputStyle, width: 200 }}
                   />
                 </td>
               </tr>
               <tr>
-                <th
-                  style={{
-                    background: "#f9f9f9",
-                    padding: 6,
-                    border: "1px solid #dedede",
-                  }}
-                >
-                  제목 *
-                </th>
-                <td
-                  colSpan={3}
-                  style={{ padding: 6, border: "1px solid #dedede" }}
-                >
+                <th style={cellTh}>제목 *</th>
+                <td colSpan={3} style={cellTd}>
                   <input
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
                     maxLength={200}
-                    style={{ width: "95%" }}
+                    style={{ ...inputStyle, width: "95%" }}
                   />
                 </td>
               </tr>
               <tr>
-                <th
-                  style={{
-                    background: "#f9f9f9",
-                    padding: 6,
-                    border: "1px solid #dedede",
-                  }}
-                >
-                  내용 *
-                </th>
-                <td
-                  colSpan={3}
-                  style={{ padding: 6, border: "1px solid #dedede" }}
-                >
+                <th style={cellTh}>내용 *</th>
+                <td colSpan={3} style={cellTd}>
                   <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     required
                     rows={15}
-                    style={{ width: "95%", fontFamily: "굴림" }}
+                    style={{ ...inputStyle, width: "95%" }}
                   />
                 </td>
               </tr>
             </tbody>
           </table>
           {error && (
-            <p style={{ color: "red", margin: "10px 0", fontSize: 12 }}>
+            <p style={{ color: "red", margin: "10px 0", fontSize: 14 }}>
               {error}
             </p>
           )}
           <div style={{ marginTop: 16, textAlign: "center" }}>
-            <button type="submit" disabled={submitting}>
+            <button
+              type="submit"
+              disabled={submitting}
+              style={{ fontSize: 14, padding: "6px 16px" }}
+            >
               {submitting ? "저장 중..." : "저장"}
             </button>
             <button
               type="button"
               onClick={() => router.back()}
-              style={{ marginLeft: 8 }}
+              style={{ marginLeft: 8, fontSize: 14, padding: "6px 16px" }}
             >
               취소
             </button>

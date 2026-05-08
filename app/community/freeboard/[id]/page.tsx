@@ -8,6 +8,17 @@ function formatQnaDate(ts: number): string {
   return new Date(ts).toISOString().slice(0, 10).replace(/-/g, ".");
 }
 
+const metaStyle = {
+  fontSize: 13,
+  color: "#666",
+  lineHeight: 1.5,
+} as const;
+
+const bodyStyle = {
+  fontSize: 14,
+  lineHeight: 1.5,
+} as const;
+
 export default async function Page({ params }: { params: { id: string } }) {
   const slug = "freeboard";
   const idNum = parseInt(params.id, 10);
@@ -35,18 +46,25 @@ export default async function Page({ params }: { params: { id: string } }) {
           <tbody>
             <tr style={{ borderBottom: "1px solid #ddd", background: "#f9f9f9" }}>
               <td colSpan={2} style={{ padding: 10 }}>
-                <strong style={{ fontSize: 14 }}>{qna.title}</strong>
-                <span style={{ marginLeft: 8, fontSize: 11, color: "#0066cc" }}>
+                <strong style={{ fontSize: 14, lineHeight: 1.5 }}>{qna.title}</strong>
+                <span
+                  style={{
+                    marginLeft: 8,
+                    fontSize: 13,
+                    color: "#0066cc",
+                    lineHeight: 1.5,
+                  }}
+                >
                   [동적]
                 </span>
               </td>
             </tr>
-            <tr style={{ borderBottom: "1px solid #eee", fontSize: 11, color: "#777" }}>
-              <td style={{ padding: "6px 10px" }}>
+            <tr style={{ borderBottom: "1px solid #eee", ...metaStyle }}>
+              <td style={{ padding: "6px 10px", ...metaStyle }}>
                 {qna.name}
                 {qna.email ? ` · ${qna.email}` : ""}
               </td>
-              <td style={{ padding: "6px 10px", textAlign: "right" }}>
+              <td style={{ padding: "6px 10px", textAlign: "right", ...metaStyle }}>
                 {formatQnaDate(qna.createdAt)}
                 {qna.updatedAt !== qna.createdAt
                   ? ` · 수정 ${formatQnaDate(qna.updatedAt)}`
@@ -57,15 +75,17 @@ export default async function Page({ params }: { params: { id: string } }) {
             <tr>
               <td
                 colSpan={2}
-                style={{ padding: 20, minHeight: 200, lineHeight: 1.6 }}
+                style={{ padding: 20, minHeight: 200, ...bodyStyle }}
               >
-                <div style={{ whiteSpace: "pre-wrap" }}>{qna.content}</div>
+                <div style={{ whiteSpace: "pre-wrap", ...bodyStyle }}>
+                  {qna.content}
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
         <QnaDetailActions id={idNum} />
-        <p style={{ marginTop: 20, textAlign: "right" }}>
+        <p style={{ marginTop: 20, textAlign: "right", fontSize: 14 }}>
           <a href="/community/freeboard" style={{ color: "#444" }}>
             [ 목록 ]
           </a>
@@ -97,21 +117,32 @@ export default async function Page({ params }: { params: { id: string } }) {
         <tbody>
           <tr style={{ borderBottom: "1px solid #ddd", background: "#f9f9f9" }}>
             <td colSpan={2} style={{ padding: 10 }}>
-              <strong style={{ fontSize: 14 }}>{post.title}</strong>
+              <strong style={{ fontSize: 14, lineHeight: 1.5 }}>{post.title}</strong>
             </td>
           </tr>
-          <tr style={{ borderBottom: "1px solid #eee", fontSize: 11, color: "#777" }}>
-            <td style={{ padding: "6px 10px" }}>{post.author_name}</td>
-            <td style={{ padding: "6px 10px", textAlign: "right" }}>
+          <tr style={{ borderBottom: "1px solid #eee", ...metaStyle }}>
+            <td style={{ padding: "6px 10px", ...metaStyle }}>{post.author_name}</td>
+            <td style={{ padding: "6px 10px", textAlign: "right", ...metaStyle }}>
               {formatDate(post.created_at)} | 조회 {post.hit_count}
             </td>
           </tr>
           <tr>
-            <td colSpan={2} style={{ padding: 20, minHeight: 200, lineHeight: 1.6 }}>
+            <td
+              colSpan={2}
+              style={{ padding: 20, minHeight: 200, ...bodyStyle }}
+            >
               {postBodyUsesHtml(post) ? (
-                <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                <div
+                  style={bodyStyle}
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                />
               ) : (
-                <div style={{ whiteSpace: post.no_br ? "pre-wrap" : "pre-line" }}>
+                <div
+                  style={{
+                    ...bodyStyle,
+                    whiteSpace: post.no_br ? "pre-wrap" : "pre-line",
+                  }}
+                >
                   {post.content}
                 </div>
               )}
@@ -119,7 +150,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           </tr>
         </tbody>
       </table>
-      <p style={{ marginTop: 20, textAlign: "right" }}>
+      <p style={{ marginTop: 20, textAlign: "right", fontSize: 14 }}>
         <a href="/community/freeboard" style={{ color: "#444" }}>
           [ 목록 ]
         </a>

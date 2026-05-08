@@ -14,16 +14,6 @@ export type QnaPost = {
 
 const SALT = "mercury-qna-v1";
 
-/** Legacy freeboard JSON uses legacy_bd_no up to ~1027; avoid URL collisions. */
-const QNA_ID_SEED = 10_000;
-
-async function ensureQnaCounterSeeded(): Promise<void> {
-  const seeded = await kv.get("qna:counter:seed");
-  if (seeded) return;
-  await kv.set("qna:counter", QNA_ID_SEED);
-  await kv.set("qna:counter:seed", "1");
-}
-
 export async function hashPassword(password: string): Promise<string> {
   const enc = new TextEncoder();
   const buf = await crypto.subtle.digest(
@@ -43,13 +33,15 @@ export async function verifyPassword(
 }
 
 export async function nextPostId(): Promise<number> {
-  await ensureQnaCounterSeeded();
   return await kv.incr("qna:counter");
 }
 
 export async function savePost(post: QnaPost): Promise<void> {
   await kv.set(`qna:post:${post.id}`, post);
-  await kv.zadd("qna:posts", { score: post.createdAt, member: String(post.id) });
+  await kv.zadd("qna:posts", {
+    score: post.createdAt,
+    member: String(post.id),
+  });
 }
 
 export async function getPost(id: number): Promise<QnaPost | null> {
@@ -70,13 +62,12 @@ export async function listPosts(
     rev: true,
   });
   if (!raw?.length) return [];
-  const posts = await Promise.all(raw.map((id) => getPost(Number(id))));
+  const posts = await Promise.all(raw.map((mid) => getPost(Number(mid))));
   return posts.filter((p): p is QnaPost => p !== null);
 }
 
 export async function countPosts(): Promise<number> {
-  const n = await kv.zcard("qna:posts");
-  return n ?? 0;
+  return (await kv.zcard("qna:posts")) ?? 0;
 }
 
 export async function checkRateLimit(ip: string): Promise<boolean> {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 /**
@@ -40,6 +40,7 @@ interface HeaderProps {
 }
 
 export default function Header({ activeGroup, activePath }: HeaderProps) {
+  const [iqQuickHover, setIqQuickHover] = useState(false);
   // 원본 jQuery hover/scroll 동작 재현
   useEffect(() => {
     const $ = (window as any).$ || (window as any).jQuery;
@@ -100,8 +101,20 @@ export default function Header({ activeGroup, activePath }: HeaderProps) {
             </Link>
           </li>
           <li>
-            <Link href="/test/q" className="quick_menu_iq" title="수은IQ테스트">
-              수은IQ테스트
+            <Link
+              href="/test/q"
+              className="quick_menu_iq"
+              onMouseEnter={() => setIqQuickHover(true)}
+              onMouseLeave={() => setIqQuickHover(false)}
+            >
+              <img
+                src={
+                  iqQuickHover
+                    ? "/img/common/quick_4_ov.gif"
+                    : "/img/common/quick_4.gif"
+                }
+                alt="수은IQ테스트"
+              />
             </Link>
           </li>
           <li>

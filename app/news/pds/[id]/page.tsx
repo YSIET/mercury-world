@@ -1,4 +1,5 @@
 import SubPageLayout from "@/components/SubPageLayout";
+import PostAttachmentSection from "@/components/PostAttachmentSection";
 import { getPostByLegacyId, formatDate, postBodyUsesHtml } from "@/lib/posts";
 import { notFound } from "next/navigation";
 
@@ -49,6 +50,7 @@ export default function Page({ params }: { params: { id: string } }) {
           </tr>
         </tbody>
       </table>
+      <PostAttachmentSection boardId="pds" bdNo={post.legacy_bd_no} />
       <p style={{ marginTop: 20, textAlign: "right" }}>
         <a href="/news/pds" style={{ color: "#444" }}>
           [ 목록 ]

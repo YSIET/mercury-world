@@ -4,6 +4,8 @@ import { formatDate, postBodyUsesHtml } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import {
   attachmentBoardIdForType,
+  BOARD_TITLE_IMG,
+  boardSectionHeading,
   getBoardNeighbors,
   listPathForBoardType,
   resolveBoardPost,
@@ -12,37 +14,11 @@ import {
 import { isAdminFromCookies } from "@/lib/admin-auth-server";
 import BoardViewTracker from "@/components/BoardViewTracker";
 import BoardDetailAdminActions from "@/components/BoardDetailAdminActions";
-import type { ReactNode } from "react";
 
 function kvBodyUsesHtml(content: string): boolean {
   if (!content) return false;
   return /<\s*[a-zA-Z!?/]/.test(content);
 }
-
-const BOARD_UI: Record<
-  BoardType,
-  {
-    activePath: string;
-    titleImg: string;
-    breadcrumb: ReactNode;
-  }
-> = {
-  notice: {
-    activePath: "/news/board",
-    titleImg: "/img/news/title_5.gif",
-    breadcrumb: <>HOME &gt; 수은소식 &gt; 공지사항</>,
-  },
-  news: {
-    activePath: "/news/news",
-    titleImg: "/img/news/title_2.gif",
-    breadcrumb: <>HOME &gt; 수은소식 &gt; 수은관련뉴스</>,
-  },
-  pds: {
-    activePath: "/news/pds",
-    titleImg: "/img/news/title_3.gif",
-    breadcrumb: <>HOME &gt; 수은소식 &gt; 수은함유량정보</>,
-  },
-};
 
 function KvAttachmentBlock({
   attachments,
@@ -93,9 +69,13 @@ export default async function BoardNewsDetail({
 
   const isAdmin = await isAdminFromCookies();
   const neighbors = await getBoardNeighbors(boardType, id, resolved.source);
-  const ui = BOARD_UI[boardType];
+  const activePath = listPathForBoardType(boardType);
+  const heading = boardSectionHeading(boardType);
   const listBase = listPathForBoardType(boardType);
-  const listId = resolved.source === "json" ? String(resolved.post.legacy_bd_no) : resolved.post.id;
+  const listId =
+    resolved.source === "json"
+      ? String(resolved.post.legacy_bd_no)
+      : resolved.post.id;
 
   const title =
     resolved.source === "json" ? resolved.post.title : resolved.post.title;
@@ -115,11 +95,11 @@ export default async function BoardNewsDetail({
     <SubPageLayout
       activeGroup={1300}
       sideGroup={1300}
-      activePath={ui.activePath}
+      activePath={activePath}
       leftCategory="news"
       heroImg="/img/news/img.gif"
-      titleImg={ui.titleImg}
-      breadcrumb={ui.breadcrumb}
+      titleImg={BOARD_TITLE_IMG[boardType]}
+      breadcrumb={<>HOME &gt; 수은소식 &gt; {heading}</>}
     >
       <BoardViewTracker
         boardType={boardType}
@@ -136,14 +116,17 @@ export default async function BoardNewsDetail({
         <tbody>
           <tr style={{ borderBottom: "1px solid #ddd", background: "#f9f9f9" }}>
             <td colSpan={2} style={{ padding: 10 }}>
-              <strong style={{ fontSize: 14 }}>{title}</strong>
+              <h1 style={{ fontSize: 14, fontWeight: 700, margin: 0 }}>{title}</h1>
             </td>
           </tr>
           <tr style={{ borderBottom: "1px solid #eee", fontSize: 11, color: "#777" }}>
             <td style={{ padding: "6px 10px" }}>
               {authorName}
               {isAdmin && resolved.source === "kv" ? (
-                <BoardDetailAdminActions boardType={boardType} kvId={resolved.post.id} />
+                <BoardDetailAdminActions
+                  boardType={boardType}
+                  kvId={resolved.post.id}
+                />
               ) : null}
             </td>
             <td style={{ padding: "6px 10px", textAlign: "right" }}>

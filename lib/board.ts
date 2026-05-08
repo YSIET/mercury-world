@@ -27,6 +27,24 @@ export function listPathForBoardType(t: BoardType): string {
   return m[t];
 }
 
+/** 본문 H1 · 브레드크럼 꼬리 · document title — 사이드바(Header MENU)와 동일 문구 (cafe24 news) */
+export const BOARD_SECTION_HEADING: Record<BoardType, string> = {
+  notice: "공지사항",
+  news: "수은관련뉴스",
+  pds: "수은함유량정보",
+};
+
+export function boardSectionHeading(t: BoardType): string {
+  return BOARD_SECTION_HEADING[t];
+}
+
+/** SubPageLayout 좌측 제목 이미지 (board.php=title_5, news.php=title_1, pds.php=title_3) */
+export const BOARD_TITLE_IMG: Record<BoardType, string> = {
+  notice: "/img/news/title_5.gif",
+  news: "/img/news/title_1.gif",
+  pds: "/img/news/title_3.gif",
+};
+
 /** Legacy attachment bucket id for imported JSON rows (PostAttachmentSection). */
 export function attachmentBoardIdForType(t: BoardType): string | null {
   if (t === "news") return "board_news2";

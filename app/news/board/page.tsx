@@ -1,9 +1,21 @@
 import SubPageLayout from "@/components/SubPageLayout";
 import BoardListClient from "@/components/BoardListClient";
 import { isAdminFromCookies } from "@/lib/admin-auth-server";
+import {
+  BOARD_TITLE_IMG,
+  boardSectionHeading,
+} from "@/lib/board";
+import type { Metadata } from "next";
+
+const BOARD: "notice" = "notice";
+
+export const metadata: Metadata = {
+  title: `${boardSectionHeading(BOARD)} — 수은세상`,
+};
 
 export default async function Page() {
   const isAdmin = await isAdminFromCookies();
+  const heading = boardSectionHeading(BOARD);
 
   return (
     <SubPageLayout
@@ -12,9 +24,19 @@ export default async function Page() {
       activePath="/news/board"
       leftCategory="news"
       heroImg="/img/news/img.gif"
-      titleImg="/img/news/title_5.gif"
-      breadcrumb={<>HOME &gt; 수은소식 &gt; 공지사항</>}
+      titleImg={BOARD_TITLE_IMG[BOARD]}
+      breadcrumb={<>HOME &gt; 수은소식 &gt; {heading}</>}
     >
+      <h1
+        style={{
+          fontSize: 18,
+          fontWeight: 600,
+          margin: "4px 0 12px",
+          lineHeight: 1.35,
+        }}
+      >
+        {heading}
+      </h1>
       <BoardListClient boardType="notice" isAdmin={isAdmin} />
     </SubPageLayout>
   );

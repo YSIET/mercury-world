@@ -3,7 +3,35 @@ import { getPostByUrlId } from "@/lib/qna";
 import { notFound } from "next/navigation";
 import QnaDetailActions from "./QnaDetailActions";
 import QnaSecretBody from "./QnaSecretBody";
-import { contentUsesHtml } from "@/lib/post-utils";
+import { contentUsesHtml, plainTextExcerpt } from "@/lib/post-utils";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const idNum = parseInt(params.id, 10);
+  if (Number.isNaN(idNum)) return { title: "묻고답하기" };
+  const qna = await getPostByUrlId(idNum);
+  if (!qna) return { title: "묻고답하기" };
+  const desc = qna.isSecret
+    ? "비밀글입니다."
+    : plainTextExcerpt(qna.content, 160);
+  return {
+    title: qna.title,
+    description: desc,
+    robots: qna.isSecret ? { index: false, follow: true } : undefined,
+    openGraph: {
+      title: qna.title,
+      description: desc,
+    },
+    twitter: {
+      title: qna.title,
+      description: desc,
+    },
+  };
+}
 
 function formatQnaDate(ts: number): string {
   return new Date(ts).toISOString().slice(0, 10).replace(/-/g, ".");

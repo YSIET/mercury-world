@@ -2,12 +2,58 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 
+const SITE = new URL("https://www.mercury.or.kr");
+
+const rootTitle = "수은세상 - mercury world";
+const rootDescription =
+  "수은의 위험성과 안전 관리에 대한 종합 정보 - (주)와이에스환경기술연구원이 운영하는 수은 정보 사이트";
+
 export const metadata: Metadata = {
-  title: "수은세상",
-  description: "수은세상 — 수은 안전 정보 포털",
-  // 원본 verification 태그 보존
-  other: {
-    "naver-site-verification": "49469930b8af79467aea1fa71a1e2258732c31ef",
+  metadataBase: SITE,
+  title: {
+    default: rootTitle,
+    template: "%s | 수은세상",
+  },
+  description: rootDescription,
+  keywords: [
+    "수은",
+    "mercury",
+    "수은 안전",
+    "수은 분석",
+    "수은 함유량",
+    "KOLAS",
+    "YS환경기술연구원",
+  ],
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: rootTitle,
+    description: rootDescription,
+    siteName: "수은세상",
+    locale: "ko_KR",
+    type: "website",
+    url: SITE,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "수은세상",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: rootTitle,
+    description: rootDescription,
+    images: ["/og-image.png"],
+  },
+  verification: {
+    other: {
+      "naver-site-verification": "49469930b8af79467aea1fa71a1e2258732c31ef",
+    },
   },
 };
 

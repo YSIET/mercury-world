@@ -19,3 +19,15 @@ export function listPathForSlug(slug: string): string {
 export function contentUsesHtml(content: string): boolean {
   return /<\s*[a-zA-Z!?/]/.test(content);
 }
+
+/** 메타 description용 — 태그 제거 후 길이 제한 */
+export function plainTextExcerpt(htmlOrText: string, maxLen: number): string {
+  const stripped = htmlOrText
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, " ")
+    .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (stripped.length <= maxLen) return stripped;
+  return `${stripped.slice(0, Math.max(0, maxLen - 1))}…`;
+}

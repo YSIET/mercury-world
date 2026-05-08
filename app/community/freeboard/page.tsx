@@ -1,6 +1,11 @@
 import SubPageLayout from "@/components/SubPageLayout";
 import { listPathForSlug } from "@/lib/post-utils";
 import FreeboardListMerged from "./FreeboardListMerged";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "묻고답하기",
+};
 
 export default function Page() {
   const slug = "freeboard";

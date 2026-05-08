@@ -1,4 +1,9 @@
 import SubPageLayout from "@/components/SubPageLayout";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "수은 분석의뢰",
+};
 
 export default function Page() {
   return (

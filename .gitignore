@@ -42,6 +42,7 @@ lib/*
 !lib/mercury-content.ts
 !lib/qna.ts
 !lib/board.ts
+!lib/seo-metadata.ts
 !lib/admin-auth-server.ts
 !lib/today.ts
 !lib/stats.ts

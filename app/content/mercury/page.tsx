@@ -5,6 +5,13 @@ import {
   ensureMercuryPlaceholderRows,
   listMercuryRows,
 } from "@/lib/mercury-content";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "식품속수은 - 수은 함유량 데이터",
+  description:
+    "(주)와이에스환경기술연구원 KOLAS 인정 시험분석 결과",
+};
 
 export const dynamic = "force-dynamic";
 

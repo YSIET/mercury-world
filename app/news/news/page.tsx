@@ -10,7 +10,7 @@ import type { Metadata } from "next";
 const BOARD: "news" = "news";
 
 export const metadata: Metadata = {
-  title: `${boardSectionHeading(BOARD)} — 수은세상`,
+  title: boardSectionHeading(BOARD),
 };
 
 export default async function Page() {

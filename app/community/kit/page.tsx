@@ -1,4 +1,9 @@
 import SubPageLayout from "@/components/SubPageLayout";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "수은응급처리키트(YSMK101)",
+};
 
 const bodyStyle = {
   fontFamily: "굴림, Gulim, sans-serif",

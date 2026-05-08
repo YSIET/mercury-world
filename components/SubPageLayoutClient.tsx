@@ -1,26 +1,22 @@
-import Header, { SideNav } from "./Header";
-import Footer from "./Footer";
+"use client";
 
-interface SubPageLayoutProps {
-  /** 상단 메뉴 active 그룹 (1100/1200/1300/1400/1500) */
+import HeaderClient, { SideNav } from "@/components/HeaderClient";
+import AdminHeaderTopLinksClient from "@/components/AdminHeaderTopLinksClient";
+import Footer from "@/components/Footer";
+
+interface SubPageLayoutClientProps {
   activeGroup: number | null;
-  /** 좌측 사이드 메뉴 그룹 (없으면 표시 안 함, greeting 페이지 등) */
   sideGroup: number | null;
-  /** 현재 페이지 경로 (active 표시용) */
   activePath: string;
-  /** 좌측 카테고리 — left_top.gif/left_bg.gif/left_bottom.gif가 들어있는 폴더명 (site/mercury/news/community/content) */
   leftCategory: string;
-  /** 본문 비주얼 이미지 경로 (각 카테고리의 img.gif) */
   heroImg: string;
-  /** 본문 좌측 제목 이미지 (title_1.gif 등) */
   titleImg: string;
-  /** breadcrumb (HOME > 수은백서 > 수은이란 같은 텍스트) */
   breadcrumb: React.ReactNode;
-  /** 본문 콘텐츠 영역 */
   children: React.ReactNode;
 }
 
-export default function SubPageLayout({
+/** Client pages that cannot import server `Header` / `SubPageLayout`. */
+export default function SubPageLayoutClient({
   activeGroup,
   sideGroup,
   activePath,
@@ -29,15 +25,18 @@ export default function SubPageLayout({
   titleImg,
   breadcrumb,
   children,
-}: SubPageLayoutProps) {
+}: SubPageLayoutClientProps) {
   return (
     <>
-      <Header activeGroup={activeGroup} activePath={activePath} />
+      <HeaderClient
+        activeGroup={activeGroup}
+        activePath={activePath}
+        adminTopLinks={<AdminHeaderTopLinksClient />}
+      />
 
       <table border={0} cellSpacing={0} cellPadding={0} style={{ margin: "0 auto" }}>
         <tbody>
           <tr>
-            {/* 좌측 213 */}
             <td width={213} valign="top">
               <table width="100%" border={0} cellSpacing={0} cellPadding={0}>
                 <tbody>
@@ -75,7 +74,6 @@ export default function SubPageLayout({
               </table>
             </td>
 
-            {/* 본문 727 */}
             <td width={727} valign="top">
               <table width="100%" border={0} cellSpacing={0} cellPadding={0}>
                 <tbody>
@@ -118,7 +116,6 @@ export default function SubPageLayout({
                 </tbody>
               </table>
 
-              {/* 페이지별 본문 */}
               <div style={{ width: 727, textAlign: "left" }}>{children}</div>
             </td>
           </tr>

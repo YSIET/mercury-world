@@ -35,6 +35,7 @@ mercury_original_slim_bundle/
 /admin/
 conf/
 lib/*
+!lib/menu-items.ts
 !lib/posts.ts
 !lib/qna.ts
 !lib/board.ts

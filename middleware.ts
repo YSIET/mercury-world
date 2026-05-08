@@ -7,7 +7,8 @@ export async function middleware(req: NextRequest) {
   if (
     pathname === "/admin/login" ||
     pathname === "/api/admin/login" ||
-    pathname === "/api/admin/logout"
+    pathname === "/api/admin/logout" ||
+    pathname === "/api/admin/session"
   ) {
     return NextResponse.next();
   }

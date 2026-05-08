@@ -1,9 +1,7 @@
-"use client";
-
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { MENU_ITEMS } from "@/components/Header";
+import { MENU_ITEMS } from "@/lib/menu-items";
 
 const GROUP_LABEL: Record<number, string> = {
   1100: "수은세상소개",

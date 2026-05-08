@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import SubPageLayout from "@/components/SubPageLayout";
+import SubPageLayoutClient from "@/components/SubPageLayoutClient";
 
 export default function QnaEditPage() {
   const router = useRouter();
@@ -78,7 +78,7 @@ export default function QnaEditPage() {
 
   if (!post) {
     return (
-      <SubPageLayout
+      <SubPageLayoutClient
         activeGroup={1400}
         sideGroup={1400}
         activePath="/community/freeboard"
@@ -90,7 +90,7 @@ export default function QnaEditPage() {
         <div style={{ width: 940, margin: "20px auto", fontSize: 14 }}>
           {error || "불러오는 중..."}
         </div>
-      </SubPageLayout>
+      </SubPageLayoutClient>
     );
   }
 
@@ -114,7 +114,7 @@ export default function QnaEditPage() {
   } as const;
 
   return (
-    <SubPageLayout
+    <SubPageLayoutClient
       activeGroup={1400}
       sideGroup={1400}
       activePath="/community/freeboard"
@@ -244,6 +244,6 @@ export default function QnaEditPage() {
           </form>
         )}
       </div>
-    </SubPageLayout>
+    </SubPageLayoutClient>
   );
 }

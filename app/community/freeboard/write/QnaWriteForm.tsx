@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Turnstile } from "@marsidev/react-turnstile";
-import SubPageLayout from "@/components/SubPageLayout";
+import SubPageLayoutClient from "@/components/SubPageLayoutClient";
 
 const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
@@ -130,7 +130,7 @@ export default function QnaWriteForm() {
   };
 
   return (
-    <SubPageLayout
+    <SubPageLayoutClient
       activeGroup={1400}
       sideGroup={1400}
       activePath="/community/freeboard"
@@ -306,6 +306,6 @@ export default function QnaWriteForm() {
           </div>
         </form>
       </div>
-    </SubPageLayout>
+    </SubPageLayoutClient>
   );
 }

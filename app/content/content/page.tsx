@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import SubPageLayout from "@/components/SubPageLayout";
+import SubPageLayoutClient from "@/components/SubPageLayoutClient";
 import {
   signalCategories,
   signalFoods,
@@ -34,7 +34,7 @@ export default function Page() {
   };
 
   return (
-    <SubPageLayout
+    <SubPageLayoutClient
       activeGroup={1500}
       sideGroup={1500}
       activePath="/content/content"
@@ -150,7 +150,7 @@ export default function Page() {
       {result && (
         <ResultDialog result={result} onClose={() => setResult(null)} />
       )}
-    </SubPageLayout>
+    </SubPageLayoutClient>
   );
 }
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  getPost,
+  getPostByUrlId,
   savePost,
   deletePostById,
   verifyPassword,
@@ -13,7 +13,7 @@ type Ctx = { params: Promise<{ id: string }> };
 
 export async function GET(_req: NextRequest, context: Ctx) {
   const { id: idStr } = await context.params;
-  const post = await getPost(parseInt(idStr, 10));
+  const post = await getPostByUrlId(parseInt(idStr, 10));
   if (!post) return NextResponse.json({ error: "not found" }, { status: 404 });
   const safe = stripPrivate(post);
   if (post.isSecret) {
@@ -25,7 +25,7 @@ export async function GET(_req: NextRequest, context: Ctx) {
 export async function PUT(req: NextRequest, context: Ctx) {
   const { id: idStr } = await context.params;
   const id = parseInt(idStr, 10);
-  const post = await getPost(id);
+  const post = await getPostByUrlId(id);
   if (!post) return NextResponse.json({ error: "not found" }, { status: 404 });
   const { title, content, password } = await req.json();
   if (!title?.trim() || !content?.trim() || !password) {
@@ -50,7 +50,7 @@ export async function PUT(req: NextRequest, context: Ctx) {
 export async function DELETE(req: NextRequest, context: Ctx) {
   const { id: idStr } = await context.params;
   const id = parseInt(idStr, 10);
-  const post = await getPost(id);
+  const post = await getPostByUrlId(id);
   if (!post) return NextResponse.json({ error: "not found" }, { status: 404 });
   const { password } = await req.json();
   if (!password || !(await verifyPassword(password, post.passwordHash))) {
@@ -59,6 +59,6 @@ export async function DELETE(req: NextRequest, context: Ctx) {
       { status: 401 }
     );
   }
-  await deletePostById(id);
+  await deletePostById(post.id);
   return NextResponse.json({ ok: true });
 }

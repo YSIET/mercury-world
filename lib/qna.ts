@@ -14,6 +14,8 @@ export type QnaPost = {
   createdAt: number;
   updatedAt: number;
   ip?: string;
+  /** 레거시 JSON → KV 마이그레이션: 공개 URL은 legacy_bd_no 유지 */
+  legacyBdNo?: number;
 };
 
 export type QnaPostListItem = Omit<
@@ -65,10 +67,33 @@ export async function getPost(id: number): Promise<QnaPost | null> {
   };
 }
 
+/** URL의 id(레거시 legacy_bd_no)로 동적 글 조회 — 마이그레이션 id(90_000_000+) */
+export const QNA_LEGACY_URL_ID_BASE = 90_000_000;
+
+export function migratedFreeboardKvId(legacyBdNo: number): number {
+  return QNA_LEGACY_URL_ID_BASE + legacyBdNo;
+}
+
+/** /freeboard/123 → qna:post:123 또는 qna:post:90000123 */
+export async function getPostByUrlId(idFromUrl: number): Promise<QnaPost | null> {
+  const direct = await getPost(idFromUrl);
+  if (direct) return direct;
+  if (idFromUrl >= QNA_LEGACY_URL_ID_BASE) return null;
+  return getPost(migratedFreeboardKvId(idFromUrl));
+}
+
+export async function saveMigratedQnaPost(post: QnaPost): Promise<void> {
+  await kv.set(`qna:post:${post.id}`, post);
+  await kv.zadd("qna:posts", {
+    score: post.createdAt,
+    member: String(post.id),
+  });
+}
+
 export async function createReplyMeta(
   parentId: number
 ): Promise<{ parentId: number; rootId: number; depth: number } | null> {
-  const parent = await getPost(parentId);
+  const parent = await getPostByUrlId(parentId);
   if (!parent) return null;
   const newDepth = (parent.depth ?? 0) + 1;
   if (newDepth > MAX_DEPTH) return null;

@@ -67,6 +67,7 @@ export interface BoardPost {
   updatedAt: string;
   views: number;
   attachments?: BoardAttachment[];
+  isNotice?: boolean;
 }
 
 export type MergedBoardListRow = {
@@ -204,6 +205,11 @@ export async function updateBoardPost(
   return next;
 }
 
+function boardPostPublicListId(p: BoardPost): string {
+  if (p.id.startsWith("legacy:")) return p.id.slice(7);
+  return p.id;
+}
+
 export async function mergeBoardListRows(
   type: BoardType
 ): Promise<MergedBoardListRow[]> {
@@ -230,14 +236,14 @@ export async function mergeBoardListRows(
 
   const kvRows: MergedBoardListRow[] = kvPosts.map((p) => ({
     key: `k-${p.id}`,
-    listId: p.id,
+    listId: boardPostPublicListId(p),
     source: "kv" as const,
     title: p.title,
     author: p.author,
     dateStr: formatDate(p.createdAt),
     displayHits: p.views,
     sortTime: Date.parse(p.createdAt),
-    isNotice: false,
+    isNotice: p.isNotice ?? false,
   }));
 
   const merged = [...jsonRows, ...kvRows];
@@ -275,6 +281,10 @@ export async function resolveBoardPost(
   const slug = boardTypeToSlug(type);
   if (/^\d+$/.test(id)) {
     const bd = parseInt(id, 10);
+    const kvLegacy = await getKvPost(type, `legacy:${bd}`);
+    if (kvLegacy) {
+      return { source: "kv", post: kvLegacy, displayHits: kvLegacy.views };
+    }
     const post = getPostByLegacyId(slug, bd);
     if (post) {
       const extra = await getLegacyViewExtra(type, bd);

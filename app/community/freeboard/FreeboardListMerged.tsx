@@ -40,6 +40,7 @@ type ApiPost = {
   rootId?: number;
   depth?: number;
   isSecret?: boolean;
+  legacyBdNo?: number;
 };
 
 function staticRows(posts: Post[], listBase: string): QnaRow[] {
@@ -89,21 +90,24 @@ function mergeStaticAndDynamic(
 
   const merged: QnaRow[] = [];
   type N = (typeof normalized)[number];
-  const toRow = (p: N): QnaRow => ({
-    id: p.id,
-    title: p.title,
-    author: p.name,
-    dateStr: new Date(p.createdAt)
-      .toISOString()
-      .slice(0, 10)
-      .replace(/-/g, "."),
-    hit: 0,
-    href: `${listBase}/${p.id}`,
-    isDynamic: true,
-    sortTime: p.createdAt,
-    depth: p.depth,
-    isSecret: p.isSecret,
-  });
+  const toRow = (p: N): QnaRow => {
+    const pubId = p.legacyBdNo ?? p.id;
+    return {
+      id: pubId,
+      title: p.title,
+      author: p.name,
+      dateStr: new Date(p.createdAt)
+        .toISOString()
+        .slice(0, 10)
+        .replace(/-/g, "."),
+      hit: 0,
+      href: `${listBase}/${pubId}`,
+      isDynamic: true,
+      sortTime: p.createdAt,
+      depth: p.depth,
+      isSecret: p.isSecret,
+    };
+  };
 
   function dfs(p: N) {
     merged.push(toRow(p));

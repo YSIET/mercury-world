@@ -1,6 +1,6 @@
 import SubPageLayout from "@/components/SubPageLayout";
 import { getPostByLegacyId, formatDate, postBodyUsesHtml } from "@/lib/posts";
-import { getPost } from "@/lib/qna";
+import { getPostByUrlId } from "@/lib/qna";
 import { notFound } from "next/navigation";
 import QnaDetailActions from "./QnaDetailActions";
 import QnaSecretBody from "./QnaSecretBody";
@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const idNum = parseInt(params.id, 10);
   if (Number.isNaN(idNum)) notFound();
 
-  const qna = await getPost(idNum);
+  const qna = await getPostByUrlId(idNum);
   if (qna) {
     return (
       <SubPageLayout

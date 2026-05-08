@@ -41,6 +41,7 @@ lib/*
 !lib/admin-auth-server.ts
 !lib/today.ts
 !lib/stats.ts
+!lib/migrate-legacy.ts
 !lib/signal.ts
 !lib/attachments.ts
 !lib/iq.ts

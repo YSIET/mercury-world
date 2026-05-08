@@ -16,7 +16,7 @@ export default function QnaDetailActions({ id }: { id: number }) {
   const router = useRouter();
 
   async function onDelete() {
-    const pwd = window.prompt("삭제하려면 비밀번호를 입력하세요.");
+    const pwd = window.prompt("비밀번호를 입력해 주세요");
     if (pwd === null) return;
     const res = await fetch(`/api/qna/posts/${id}`, {
       method: "DELETE",

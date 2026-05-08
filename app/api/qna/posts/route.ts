@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
   const size = Math.min(
     1000,
-    Math.max(1, parseInt(searchParams.get("size") ?? "10", 10))
+    Math.max(1, parseInt(searchParams.get("size") ?? "1000", 10))
   );
   const offset = (page - 1) * size;
   const [posts, total] = await Promise.all([

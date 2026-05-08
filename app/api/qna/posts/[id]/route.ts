@@ -9,17 +9,18 @@ import {
 
 export const dynamic = "force-dynamic";
 
-type Ctx = { params: { id: string } };
+type Ctx = { params: Promise<{ id: string }> };
 
-export async function GET(_req: NextRequest, { params }: Ctx) {
-  const id = parseInt(params.id, 10);
-  const post = await getPost(id);
+export async function GET(_req: NextRequest, context: Ctx) {
+  const { id: idStr } = await context.params;
+  const post = await getPost(parseInt(idStr, 10));
   if (!post) return NextResponse.json({ error: "not found" }, { status: 404 });
   return NextResponse.json(stripPrivate(post));
 }
 
-export async function PUT(req: NextRequest, { params }: Ctx) {
-  const id = parseInt(params.id, 10);
+export async function PUT(req: NextRequest, context: Ctx) {
+  const { id: idStr } = await context.params;
+  const id = parseInt(idStr, 10);
   const post = await getPost(id);
   if (!post) return NextResponse.json({ error: "not found" }, { status: 404 });
   const { title, content, password } = await req.json();
@@ -42,8 +43,9 @@ export async function PUT(req: NextRequest, { params }: Ctx) {
   return NextResponse.json({ ok: true });
 }
 
-export async function DELETE(req: NextRequest, { params }: Ctx) {
-  const id = parseInt(params.id, 10);
+export async function DELETE(req: NextRequest, context: Ctx) {
+  const { id: idStr } = await context.params;
+  const id = parseInt(idStr, 10);
   const post = await getPost(id);
   if (!post) return NextResponse.json({ error: "not found" }, { status: 404 });
   const { password } = await req.json();

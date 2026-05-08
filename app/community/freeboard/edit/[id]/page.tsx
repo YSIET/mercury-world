@@ -1,85 +1,42 @@
 "use client";
 
-import type { CSSProperties } from "react";
-import { useEffect, useState, useRef } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 import SubPageLayout from "@/components/SubPageLayout";
 
 export default function QnaEditPage() {
-  const params = useParams();
   const router = useRouter();
-  const id = String(params?.id ?? "");
-  const [loading, setLoading] = useState(true);
+  const params = useParams<{ id: string }>();
+  const id = params.id;
+  const [post, setPost] = useState<{ title: string; content: string } | null>(
+    null
+  );
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
-  const prompted = useRef(false);
-
-  const cellTd: CSSProperties = {
-    padding: 8,
-    border: "1px solid #dedede",
-    fontSize: 14,
-  };
-  const cellTh: CSSProperties = {
-    background: "#f9f9f9",
-    width: 100,
-    padding: 8,
-    border: "1px solid #dedede",
-    fontSize: 14,
-    fontWeight: "bold",
-  };
-  const inputStyle: CSSProperties = {
-    fontSize: 14,
-    padding: "4px 6px",
-    fontFamily: "굴림",
-  };
 
   useEffect(() => {
     if (!id) return;
-    if (prompted.current) return;
-    prompted.current = true;
-
-    const run = async () => {
-      const gate =
-        typeof window !== "undefined"
-          ? window.prompt(
-              "게시글을 수정하려면 비밀번호를 입력하세요. (저장 시 다시 확인됩니다.)",
-              ""
-            )
-          : null;
-      if (gate === null) {
-        router.replace(`/community/freeboard/${id}`);
-        return;
-      }
-      const res = await fetch(`/api/qna/posts/${id}`);
-      if (!res.ok) {
-        setError("글을 불러오지 못했습니다.");
-        setLoading(false);
-        return;
-      }
-      const d = await res.json();
-      setTitle(d.title ?? "");
-      setContent(d.content ?? "");
-      setLoading(false);
-    };
-    void run();
-  }, [id, router]);
+    fetch(`/api/qna/posts/${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d) setPost({ title: d.title, content: d.content });
+        else setError("글을 찾을 수 없습니다.");
+      })
+      .catch(() => setError("글을 불러오지 못했습니다."));
+  }, [id]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitting(true);
     setError("");
     const fd = new FormData(e.currentTarget);
-    const password = String(fd.get("password") ?? "");
     const res = await fetch(`/api/qna/posts/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        title,
-        content,
-        password,
+        title: fd.get("title"),
+        content: fd.get("content"),
+        password: fd.get("password"),
       }),
     });
     const data = await res.json();
@@ -91,7 +48,7 @@ export default function QnaEditPage() {
     router.push(`/community/freeboard/${id}`);
   }
 
-  if (loading) {
+  if (!post) {
     return (
       <SubPageLayout
         activeGroup={1400}
@@ -102,10 +59,31 @@ export default function QnaEditPage() {
         titleImg="/img/community/title_1.gif"
         breadcrumb={<>HOME &gt; 수은상담소 &gt; 묻고답하기 &gt; 수정</>}
       >
-        <p style={{ padding: 20, fontSize: 14 }}>불러오는 중…</p>
+        <div style={{ width: 940, margin: "20px auto", fontSize: 14 }}>
+          {error || "불러오는 중..."}
+        </div>
       </SubPageLayout>
     );
   }
+
+  const cellTd = {
+    padding: 8,
+    border: "1px solid #dedede",
+    fontSize: 14,
+  } as const;
+  const cellTh = {
+    background: "#f9f9f9",
+    width: 100,
+    padding: 8,
+    border: "1px solid #dedede",
+    fontSize: 14,
+    fontWeight: "bold" as const,
+  };
+  const inputStyle = {
+    fontSize: 14,
+    padding: "4px 6px",
+    fontFamily: "굴림",
+  } as const;
 
   return (
     <SubPageLayout
@@ -129,7 +107,7 @@ export default function QnaEditPage() {
         <h2
           style={{ fontSize: 16, fontWeight: "bold", margin: "20px 0 10px" }}
         >
-          수정
+          글 수정
         </h2>
         <form onSubmit={onSubmit}>
           <table
@@ -142,7 +120,7 @@ export default function QnaEditPage() {
             <tbody>
               <tr>
                 <th style={cellTh}>비밀번호 *</th>
-                <td colSpan={3} style={cellTd}>
+                <td style={cellTd} colSpan={3}>
                   <input
                     name="password"
                     type="password"
@@ -151,16 +129,21 @@ export default function QnaEditPage() {
                     maxLength={20}
                     style={{ ...inputStyle, width: 200 }}
                   />
+                  <span
+                    style={{ color: "#666", marginLeft: 8, fontSize: 13 }}
+                  >
+                    (작성 시 입력한 비밀번호)
+                  </span>
                 </td>
               </tr>
               <tr>
                 <th style={cellTh}>제목 *</th>
                 <td colSpan={3} style={cellTd}>
                   <input
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    name="title"
                     required
                     maxLength={200}
+                    defaultValue={post.title}
                     style={{ ...inputStyle, width: "95%" }}
                   />
                 </td>
@@ -169,10 +152,10 @@ export default function QnaEditPage() {
                 <th style={cellTh}>내용 *</th>
                 <td colSpan={3} style={cellTd}>
                   <textarea
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
+                    name="content"
                     required
                     rows={15}
+                    defaultValue={post.content}
                     style={{ ...inputStyle, width: "95%" }}
                   />
                 </td>

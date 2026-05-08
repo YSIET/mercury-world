@@ -162,9 +162,9 @@ function ResultDialog({
   onClose: () => void;
 }) {
   const C = {
-    green: { bg: "#4CAF50", e: "🟢" },
-    yellow: { bg: "#FFC107", e: "🟡" },
-    red: { bg: "#F44336", e: "🔴" },
+    green: { bg: "#4CAF50", img: "/img/content/green.gif" },
+    yellow: { bg: "#FFC107", img: "/img/content/yellow.gif" },
+    red: { bg: "#F44336", img: "/img/content/red.gif" },
   }[result.level];
   return (
     <div
@@ -193,7 +193,11 @@ function ResultDialog({
         }}
       >
         <h3 style={{ margin: "0 0 16px 0" }}>나의 수은 섭취량</h3>
-        <div style={{ fontSize: 64 }}>{C.e}</div>
+        <img
+          src={C.img}
+          alt={result.level}
+          style={{ display: "block", margin: "12px auto" }}
+        />
         <div
           style={{
             fontSize: 20,

@@ -1,13 +1,12 @@
 import SubPageLayout from "@/components/SubPageLayout";
-import PostAttachmentSection from "@/components/PostAttachmentSection";
-import { formatDate, postBodyUsesHtml } from "@/lib/posts";
+import { formatDate, contentUsesHtml } from "@/lib/post-utils";
 import { notFound } from "next/navigation";
 import {
-  attachmentBoardIdForType,
   BOARD_TITLE_IMG,
   boardSectionHeading,
   getBoardNeighbors,
   listPathForBoardType,
+  publicBoardListId,
   resolveBoardPost,
   type BoardType,
 } from "@/lib/board";
@@ -15,15 +14,10 @@ import { isAdminFromCookies } from "@/lib/admin-auth-server";
 import BoardViewTracker from "@/components/BoardViewTracker";
 import BoardDetailAdminActions from "@/components/BoardDetailAdminActions";
 
-function kvBodyUsesHtml(content: string): boolean {
-  if (!content) return false;
-  return /<\s*[a-zA-Z!?/]/.test(content);
-}
-
 function KvAttachmentBlock({
   attachments,
 }: {
-  attachments?: { name: string; url: string }[];
+  attachments?: { name: string; url: string; size?: number }[];
 }) {
   if (!attachments?.length) return null;
   return (
@@ -37,11 +31,19 @@ function KvAttachmentBlock({
       }}
     >
       <div style={{ fontWeight: "bold", marginBottom: 8 }}>
-        📎 첨부 ({attachments.length})
+        첨부 ({attachments.length})
       </div>
-      <ul style={{ margin: 0, paddingLeft: 20 }}>
+      <ul
+        style={{
+          margin: 0,
+          paddingLeft: 0,
+          listStyle: "none",
+          display: "grid",
+          gap: 8,
+        }}
+      >
         {attachments.map((a, i) => (
-          <li key={`${a.url}-${i}`} style={{ padding: "4px 0" }}>
+          <li key={`${a.url}-${i}`}>
             <a
               href={a.url}
               target="_blank"
@@ -50,6 +52,11 @@ function KvAttachmentBlock({
             >
               {a.name}
             </a>
+            {a.size != null ? (
+              <span style={{ marginLeft: 8, color: "#888", fontSize: 12 }}>
+                ({(a.size / 1024).toFixed(1)} KB)
+              </span>
+            ) : null}
           </li>
         ))}
       </ul>
@@ -68,28 +75,17 @@ export default async function BoardNewsDetail({
   if (!resolved) notFound();
 
   const isAdmin = await isAdminFromCookies();
-  const neighbors = await getBoardNeighbors(boardType, id, resolved.source);
+  const publicId = publicBoardListId(resolved.post);
+  const neighbors = await getBoardNeighbors(boardType, publicId);
   const activePath = listPathForBoardType(boardType);
   const heading = boardSectionHeading(boardType);
   const listBase = listPathForBoardType(boardType);
-  const listId =
-    resolved.source === "json"
-      ? String(resolved.post.legacy_bd_no)
-      : resolved.post.id;
 
-  const title =
-    resolved.source === "json" ? resolved.post.title : resolved.post.title;
-  const authorName =
-    resolved.source === "json"
-      ? resolved.post.author_name
-      : resolved.post.author;
-  const created =
-    resolved.source === "json"
-      ? resolved.post.created_at
-      : resolved.post.createdAt;
+  const { post } = resolved;
+  const title = post.title;
+  const authorName = post.author;
+  const created = post.createdAt;
   const hits = resolved.displayHits;
-
-  const attBoardId = attachmentBoardIdForType(boardType);
 
   return (
     <SubPageLayout
@@ -101,11 +97,7 @@ export default async function BoardNewsDetail({
       titleImg={BOARD_TITLE_IMG[boardType]}
       breadcrumb={<>HOME &gt; 수은소식 &gt; {heading}</>}
     >
-      <BoardViewTracker
-        boardType={boardType}
-        listId={listId}
-        source={resolved.source}
-      />
+      <BoardViewTracker boardType={boardType} kvPostId={post.id} />
       <table
         width="100%"
         border={0}
@@ -122,10 +114,10 @@ export default async function BoardNewsDetail({
           <tr style={{ borderBottom: "1px solid #eee", fontSize: 11, color: "#777" }}>
             <td style={{ padding: "6px 10px" }}>
               {authorName}
-              {isAdmin && resolved.source === "kv" ? (
+              {isAdmin ? (
                 <BoardDetailAdminActions
                   boardType={boardType}
-                  kvId={resolved.post.id}
+                  kvId={post.id}
                 />
               ) : null}
             </td>
@@ -135,36 +127,16 @@ export default async function BoardNewsDetail({
           </tr>
           <tr>
             <td colSpan={2} style={{ padding: 20, minHeight: 200, lineHeight: 1.6 }}>
-              {resolved.source === "json" ? (
-                postBodyUsesHtml(resolved.post) ? (
-                  <div dangerouslySetInnerHTML={{ __html: resolved.post.content }} />
-                ) : (
-                  <div
-                    style={{
-                      whiteSpace: resolved.post.no_br ? "pre-wrap" : "pre-line",
-                    }}
-                  >
-                    {resolved.post.content}
-                  </div>
-                )
-              ) : kvBodyUsesHtml(resolved.post.content) ? (
-                <div dangerouslySetInnerHTML={{ __html: resolved.post.content }} />
+              {contentUsesHtml(post.content) ? (
+                <div dangerouslySetInnerHTML={{ __html: post.content }} />
               ) : (
-                <div style={{ whiteSpace: "pre-wrap" }}>{resolved.post.content}</div>
+                <div style={{ whiteSpace: "pre-wrap" }}>{post.content}</div>
               )}
             </td>
           </tr>
         </tbody>
       </table>
-      {resolved.source === "json" && attBoardId ? (
-        <PostAttachmentSection
-          boardId={attBoardId}
-          bdNo={resolved.post.legacy_bd_no}
-        />
-      ) : null}
-      {resolved.source === "kv" ? (
-        <KvAttachmentBlock attachments={resolved.post.attachments} />
-      ) : null}
+      <KvAttachmentBlock attachments={post.attachments} />
       <p style={{ marginTop: 16, fontSize: 13, color: "#555" }}>
         {neighbors.next ? (
           <>

@@ -1,5 +1,4 @@
 import { kv } from "@vercel/kv";
-import { getPostsByBoard } from "@/lib/posts";
 import { listAllPosts, countPosts } from "@/lib/qna";
 import {
   todayKST,
@@ -11,16 +10,11 @@ import {
 } from "@/lib/today";
 import type { BoardType } from "@/lib/board";
 
-export type BoardBucketStats = {
-  kv: number;
-  legacy: number;
-};
-
 export type BoardStatsMap = {
-  notice: BoardBucketStats;
-  news: BoardBucketStats;
-  pds: BoardBucketStats;
-  freeboard: BoardBucketStats;
+  notice: number;
+  news: number;
+  pds: number;
+  freeboard: number;
 };
 
 export type QnaStats = {
@@ -68,10 +62,10 @@ export async function getBoardStats(): Promise<BoardStatsMap> {
     countPosts(),
   ]);
   return {
-    notice: { kv: nKv ?? 0, legacy: getPostsByBoard("notice").length },
-    news: { kv: wKv ?? 0, legacy: getPostsByBoard("news").length },
-    pds: { kv: pKv ?? 0, legacy: getPostsByBoard("pds").length },
-    freeboard: { kv: fbKvCount ?? 0, legacy: getPostsByBoard("freeboard").length },
+    notice: nKv ?? 0,
+    news: wKv ?? 0,
+    pds: pKv ?? 0,
+    freeboard: fbKvCount ?? 0,
   };
 }
 

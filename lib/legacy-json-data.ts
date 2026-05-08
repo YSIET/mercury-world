@@ -1,3 +1,6 @@
+/**
+ * 레거시 Cafe24 export JSON — 마이그레이션·백업 전용. 런타임 앱 라우트에서는 import하지 않음.
+ */
 import noticeData from "@/data/notice.json";
 import newsData from "@/data/news.json";
 import pdsData from "@/data/pds.json";
@@ -62,31 +65,16 @@ export function getRecentPosts(slug: string, limit = 5): Post[] {
   return sortByDateDesc(dataByBoard[slug] ?? []).slice(0, limit);
 }
 
-export function getPostByLegacyId(slug: string, legacyBdNo: number): Post | null {
-  return (dataByBoard[slug] ?? []).find((p) => p.legacy_bd_no === legacyBdNo) ?? null;
+export function getPostByLegacyId(
+  slug: string,
+  legacyBdNo: number
+): Post | null {
+  return (
+    (dataByBoard[slug] ?? []).find((p) => p.legacy_bd_no === legacyBdNo) ??
+    null
+  );
 }
 
 export function getBoardMeta(slug: string): Board | null {
   return boards.find((b) => b.slug === slug) ?? null;
-}
-
-export function formatDate(iso: string | null): string {
-  if (!iso) return "";
-  return iso.slice(0, 10).replace(/-/g, ".");
-}
-
-export function listPathForSlug(slug: string): string {
-  const m: Record<string, string> = {
-    notice: "/news/board",
-    news: "/news/news",
-    pds: "/news/pds",
-    freeboard: "/community/freeboard",
-  };
-  return m[slug] ?? "/";
-}
-
-/** Cafe24 export: some rows have HTML in content but is_html === false. */
-export function postBodyUsesHtml(post: Post): boolean {
-  if (post.is_html) return true;
-  return /<\s*[a-zA-Z!?/]/.test(post.content);
 }

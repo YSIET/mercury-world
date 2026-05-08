@@ -8,7 +8,7 @@ export default async function Page({
   params: { type: string; id: string };
 }) {
   if (!isBoardType(params.type)) notFound();
-  const post = await getKvPost(params.type, params.id);
+  const post = await getKvPost(params.type, decodeURIComponent(params.id));
   if (!post) notFound();
   return <BoardEditForm post={post} />;
 }

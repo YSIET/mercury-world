@@ -1,10 +1,9 @@
 import SubPageLayout from "@/components/SubPageLayout";
-import { getPostsByBoard, listPathForSlug } from "@/lib/posts";
+import { listPathForSlug } from "@/lib/post-utils";
 import FreeboardListMerged from "./FreeboardListMerged";
 
 export default function Page() {
   const slug = "freeboard";
-  const posts = getPostsByBoard(slug);
   const listBase = listPathForSlug(slug);
 
   return (
@@ -26,7 +25,7 @@ export default function Page() {
           </tr>
         </tbody>
       </table>
-      <FreeboardListMerged initialPosts={posts} listBase={listBase} />
+      <FreeboardListMerged listBase={listBase} />
     </SubPageLayout>
   );
 }

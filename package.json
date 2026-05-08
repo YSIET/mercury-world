@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate:local": "tsx scripts/migrate-local.ts"
   },
   "dependencies": {
     "@marsidev/react-turnstile": "^1.5.2",
@@ -20,6 +21,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "playwright": "^1.49.1",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }

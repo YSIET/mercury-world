@@ -5,22 +5,8 @@ import { listPathForBoardType } from "@/lib/board";
 import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 import { useState } from "react";
-
-function parseAttachments(raw: string) {
-  const lines = raw
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean);
-  const out: { name: string; url: string }[] = [];
-  for (const line of lines) {
-    const i = line.indexOf("|");
-    if (i <= 0) continue;
-    const name = line.slice(0, i).trim();
-    const url = line.slice(i + 1).trim();
-    if (name && url) out.push({ name, url });
-  }
-  return out.length ? out : undefined;
-}
+import type { BoardAttachment } from "@/lib/board";
+import AdminBoardAttachmentsField from "@/components/AdminBoardAttachmentsField";
 
 export default function BoardWriteForm({
   boardType,
@@ -32,7 +18,9 @@ export default function BoardWriteForm({
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("수은세상");
-  const [attachments, setAttachments] = useState("");
+  const [attachmentItems, setAttachmentItems] = useState<BoardAttachment[]>(
+    []
+  );
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -41,7 +29,6 @@ export default function BoardWriteForm({
     setErr("");
     setBusy(true);
     try {
-      const at = parseAttachments(attachments);
       const r = await fetch("/api/admin/board", {
         method: "POST",
         credentials: "include",
@@ -51,7 +38,7 @@ export default function BoardWriteForm({
           title,
           content,
           author,
-          attachments: at,
+          attachments: attachmentItems.length ? attachmentItems : undefined,
         }),
       });
       const d = (await r.json()) as { error?: string };
@@ -115,16 +102,10 @@ export default function BoardWriteForm({
           </label>
         </p>
         <p>
-          <label>
-            첨부 (선택, 한 줄에 하나씩 <code>표시이름|URL</code>)
-            <br />
-            <textarea
-              value={attachments}
-              onChange={(e) => setAttachments(e.target.value)}
-              rows={4}
-              style={{ ...inputStyle, minHeight: 80 }}
-            />
-          </label>
+          <AdminBoardAttachmentsField
+            items={attachmentItems}
+            onChange={setAttachmentItems}
+          />
         </p>
         {err ? (
           <p style={{ color: "#c00", fontSize: 14 }}>{err}</p>

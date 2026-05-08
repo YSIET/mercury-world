@@ -23,7 +23,7 @@ export default function BoardDetailAdminActions({
       const r = await fetch("/api/admin/board", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: boardType, id: kvId }),
+        body: JSON.stringify({ type: boardType, id: decodeURIComponent(kvId) }),
         credentials: "include",
       });
       if (r.ok) {
@@ -38,7 +38,7 @@ export default function BoardDetailAdminActions({
   return (
     <span style={{ marginLeft: 12 }}>
       <a
-        href={`/admin/news/${boardType}/${kvId}/edit`}
+        href={`/admin/news/${boardType}/${encodeURIComponent(kvId)}/edit`}
         style={{ color: "#007bd1", marginRight: 10 }}
       >
         수정

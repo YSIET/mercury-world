@@ -2,17 +2,17 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import type { Post } from "@/lib/posts";
-import { listPathForSlug } from "@/lib/posts";
+
+export type HomeRecentLink = { title: string; href: string };
 
 export default function HomeTopSection({
   recentNotice,
   recentNews,
   recentPds,
 }: {
-  recentNotice: Post[];
-  recentNews: Post[];
-  recentPds: Post[];
+  recentNotice: HomeRecentLink[];
+  recentNews: HomeRecentLink[];
+  recentPds: HomeRecentLink[];
 }) {
   const [activeTab, setActiveTab] = useState<"notice" | "news" | "pds">("notice");
 
@@ -71,9 +71,6 @@ export default function HomeTopSection({
       : activeTab === "news"
         ? recentNews
         : recentPds;
-  const slugForTab =
-    activeTab === "notice" ? "notice" : activeTab === "news" ? "news" : "pds";
-  const detailBase = listPathForSlug(slugForTab);
 
   return (
     <div id="Layer1">
@@ -184,7 +181,6 @@ export default function HomeTopSection({
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
                 rows={listForTab}
-                detailBase={detailBase}
               />
             </td>
           </tr>
@@ -198,12 +194,10 @@ function BoardTabsWidget({
   activeTab,
   setActiveTab,
   rows,
-  detailBase,
 }: {
   activeTab: "notice" | "news" | "pds";
   setActiveTab: (t: "notice" | "news" | "pds") => void;
-  rows: Post[];
-  detailBase: string;
+  rows: HomeRecentLink[];
 }) {
   const tabImg = (key: "notice" | "news" | "pds") => {
     return {
@@ -280,16 +274,13 @@ function BoardTabsWidget({
                 <tr>
                   <td height={7} />
                 </tr>
-                {rows.map((post) => (
-                  <tr key={post.id}>
+                {rows.map((row, i) => (
+                  <tr key={`${row.href}-${i}`}>
                     <td height={18} className="main_list">
-                      <a
-                        href={`${detailBase}/${post.legacy_bd_no}`}
-                        style={{ color: "#444" }}
-                      >
-                        {post.title.length > 32
-                          ? post.title.slice(0, 32) + "..."
-                          : post.title}
+                      <a href={row.href} style={{ color: "#444" }}>
+                        {row.title.length > 32
+                          ? row.title.slice(0, 32) + "..."
+                          : row.title}
                       </a>
                     </td>
                   </tr>

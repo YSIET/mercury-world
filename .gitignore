@@ -36,7 +36,9 @@ mercury_original_slim_bundle/
 conf/
 lib/*
 !lib/menu-items.ts
-!lib/posts.ts
+!lib/post-utils.ts
+!lib/legacy-json-data.ts
+!lib/kv-file-blob.ts
 !lib/qna.ts
 !lib/board.ts
 !lib/admin-auth-server.ts

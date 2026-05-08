@@ -1,5 +1,5 @@
-import type { Post } from "@/lib/posts";
-import { getPostsByBoard } from "@/lib/posts";
+import type { Post } from "@/lib/legacy-json-data";
+import { getPostsByBoard } from "@/lib/legacy-json-data";
 import {
   attachmentBoardIdForType,
   type BoardAttachment,
@@ -56,11 +56,15 @@ function legacyBoardMember(legacyBdNo: number): string {
 async function migrateBoardType(
   type: BoardType,
   posts: Post[],
-  opts: { dryRun: boolean; overwrite: boolean },
+  opts: { dryRun: boolean; overwrite: boolean; verbose?: boolean },
   counts: { migrated: number; skipped: number }
 ): Promise<string[]> {
   const errors: string[] = [];
+  const verbose = !!opts.verbose;
+  const total = posts.length;
+  let idx = 0;
   for (const post of posts) {
+    idx++;
     const member = legacyBoardMember(post.legacy_bd_no);
     try {
       const exists = await getKvPost(type, member);
@@ -98,19 +102,32 @@ async function migrateBoardType(
     } catch (e) {
       errors.push(`${type} legacy_bd_no=${post.legacy_bd_no}: ${String(e)}`);
     }
+    if (
+      verbose &&
+      total > 0 &&
+      (idx % 50 === 0 || idx === total)
+    ) {
+      console.log(
+        `[migrate-legacy] ${type}: ${idx}/${total} scanned (migrated=${counts.migrated} skipped=${counts.skipped})`
+      );
+    }
   }
   return errors;
 }
 
 async function migrateFreeboard(
   posts: Post[],
-  opts: { dryRun: boolean; overwrite: boolean },
+  opts: { dryRun: boolean; overwrite: boolean; verbose?: boolean },
   legacyPasswordHash: string,
   counts: { migrated: number; skipped: number }
 ): Promise<string[]> {
   const errors: string[] = [];
+  const verbose = !!opts.verbose;
   const sorted = [...posts].sort((a, b) => a.thread_depth - b.thread_depth);
+  const total = sorted.length;
+  let idx = 0;
   for (const post of sorted) {
+    idx++;
     const id = migratedFreeboardKvId(post.legacy_bd_no);
     try {
       const exists = await getPost(id);
@@ -157,6 +174,15 @@ async function migrateFreeboard(
     } catch (e) {
       errors.push(`freeboard legacy_bd_no=${post.legacy_bd_no}: ${String(e)}`);
     }
+    if (
+      verbose &&
+      total > 0 &&
+      (idx % 100 === 0 || idx === total)
+    ) {
+      console.log(
+        `[migrate-legacy] freeboard: ${idx}/${total} scanned (migrated=${counts.migrated} skipped=${counts.skipped})`
+      );
+    }
   }
   return errors;
 }
@@ -164,9 +190,11 @@ async function migrateFreeboard(
 export async function migrateLegacyToKv(opts: {
   dryRun?: boolean;
   overwrite?: boolean;
+  verbose?: boolean;
 }): Promise<MigrateLegacyResult> {
   const dryRun = !!opts.dryRun;
   const overwrite = !!opts.overwrite;
+  const verbose = !!opts.verbose;
 
   const migrated = { notice: 0, news: 0, pds: 0, freeboard: 0 };
   const skipped = { notice: 0, news: 0, pds: 0, freeboard: 0 };
@@ -213,23 +241,39 @@ export async function migrateLegacyToKv(opts: {
         : type === "news"
           ? newsPosts
           : pdsPosts;
+    if (verbose) {
+      console.log(`[migrate-legacy] --- ${type}: ${posts.length} legacy rows ---`);
+    }
     const bucket = { migrated: 0, skipped: 0 };
-    const err = await migrateBoardType(type, posts, { dryRun, overwrite }, bucket);
+    const err = await migrateBoardType(type, posts, { dryRun, overwrite, verbose }, bucket);
     errors.push(...err);
     migrated[type] = bucket.migrated;
     skipped[type] = bucket.skipped;
+    if (verbose) {
+      console.log(
+        `[migrate-legacy] --- ${type} done: migrated=${bucket.migrated} skipped=${bucket.skipped} ---`
+      );
+    }
   }
 
+  if (verbose) {
+    console.log(`[migrate-legacy] --- freeboard: ${freePosts.length} legacy rows ---`);
+  }
   const fbBucket = { migrated: 0, skipped: 0 };
   const fbErr = await migrateFreeboard(
     freePosts,
-    { dryRun, overwrite },
+    { dryRun, overwrite, verbose },
     legacyPasswordHash,
     fbBucket
   );
   errors.push(...fbErr);
   migrated.freeboard = fbBucket.migrated;
   skipped.freeboard = fbBucket.skipped;
+  if (verbose) {
+    console.log(
+      `[migrate-legacy] --- freeboard done: migrated=${fbBucket.migrated} skipped=${fbBucket.skipped} ---`
+    );
+  }
 
   return {
     ok: errors.length === 0,

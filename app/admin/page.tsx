@@ -77,7 +77,7 @@ export default async function AdminDashboardPage() {
             공지사항
           </div>
           <div style={{ fontSize: 13, lineHeight: 1.65, color: "#444" }}>
-            KV {board.notice.kv}건 + 레거시 {board.notice.legacy}건
+            총 {board.notice}건
           </div>
           <div style={{ marginTop: 10, fontSize: 12, color: "#007bd1" }}>
             글쓰기 →
@@ -89,7 +89,7 @@ export default async function AdminDashboardPage() {
             수은관련뉴스
           </div>
           <div style={{ fontSize: 13, lineHeight: 1.65, color: "#444" }}>
-            KV {board.news.kv}건 + 레거시 {board.news.legacy}건
+            총 {board.news}건
           </div>
           <div style={{ marginTop: 10, fontSize: 12, color: "#007bd1" }}>
             글쓰기 →
@@ -101,7 +101,7 @@ export default async function AdminDashboardPage() {
             수은함유량정보
           </div>
           <div style={{ fontSize: 13, lineHeight: 1.65, color: "#444" }}>
-            KV {board.pds.kv}건 + 레거시 {board.pds.legacy}건
+            총 {board.pds}건
           </div>
           <div style={{ marginTop: 10, fontSize: 12, color: "#007bd1" }}>
             글쓰기 →
@@ -122,9 +122,8 @@ export default async function AdminDashboardPage() {
       </div>
 
       <p style={{ marginTop: 24, fontSize: 12, color: "#888", lineHeight: 1.6 }}>
-        게시판 수: KV ZSET·묻고답하기·수은소식 공지/뉴스/pds · 레거시 JSON 합산. 자유게시판 KV =
-        묻고답하기 전체 글 수 ({board.freeboard.kv}건) / 레거시{" "}
-        {board.freeboard.legacy}건.
+        게시판 수는 KV 기준입니다. 묻고답하기(자유게시판) 총{" "}
+        <strong>{board.freeboard}</strong>건(글+답글 포함).
       </p>
     </div>
   );

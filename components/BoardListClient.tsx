@@ -3,7 +3,7 @@
 import type { CSSProperties } from "react";
 import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import type { BoardType, MergedBoardListRow } from "@/lib/board";
+import type { BoardType, BoardListRow } from "@/lib/board";
 import { listPathForBoardType } from "@/lib/board";
 
 const PAGE_SIZE = 10;
@@ -18,7 +18,7 @@ const writeBtnStyle: CSSProperties = {
 };
 
 type ApiPage = {
-  rows: MergedBoardListRow[];
+  rows: BoardListRow[];
   total: number;
   page: number;
   totalPages: number;
@@ -168,7 +168,7 @@ function BoardListInner({
                     <a
                       href={`${listBase}/${row.listId}`}
                       style={{
-                        color: row.source === "kv" ? "#0066cc" : "#444",
+                        color: "#444",
                         fontSize: 14,
                       }}
                     >

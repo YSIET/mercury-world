@@ -1,31 +1,11 @@
 "use client";
 
-import type { BoardPost, BoardType } from "@/lib/board";
-import { listPathForBoardType } from "@/lib/board";
+import type { BoardPost, BoardType, BoardAttachment } from "@/lib/board";
+import { listPathForBoardType, publicBoardListId } from "@/lib/board";
 import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 import { useState } from "react";
-
-function attachmentsToText(a?: { name: string; url: string }[]) {
-  if (!a?.length) return "";
-  return a.map((x) => `${x.name}|${x.url}`).join("\n");
-}
-
-function parseAttachments(raw: string) {
-  const lines = raw
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean);
-  const out: { name: string; url: string }[] = [];
-  for (const line of lines) {
-    const i = line.indexOf("|");
-    if (i <= 0) continue;
-    const name = line.slice(0, i).trim();
-    const url = line.slice(i + 1).trim();
-    if (name && url) out.push({ name, url });
-  }
-  return out.length ? out : undefined;
-}
+import AdminBoardAttachmentsField from "@/components/AdminBoardAttachmentsField";
 
 export default function BoardEditForm({ post }: { post: BoardPost }) {
   const router = useRouter();
@@ -33,7 +13,9 @@ export default function BoardEditForm({ post }: { post: BoardPost }) {
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
   const [author, setAuthor] = useState(post.author);
-  const [attachments, setAttachments] = useState(attachmentsToText(post.attachments));
+  const [attachmentItems, setAttachmentItems] = useState<BoardAttachment[]>(
+    post.attachments ?? []
+  );
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -42,7 +24,6 @@ export default function BoardEditForm({ post }: { post: BoardPost }) {
     setErr("");
     setBusy(true);
     try {
-      const at = parseAttachments(attachments);
       const r = await fetch("/api/admin/board", {
         method: "PUT",
         credentials: "include",
@@ -53,7 +34,7 @@ export default function BoardEditForm({ post }: { post: BoardPost }) {
           title,
           content,
           author,
-          attachments: at ?? [],
+          attachments: attachmentItems,
         }),
       });
       const d = (await r.json()) as { error?: string };
@@ -61,7 +42,7 @@ export default function BoardEditForm({ post }: { post: BoardPost }) {
         setErr(d.error ?? "저장 실패");
         return;
       }
-      router.push(`${list}/${post.id}`);
+      router.push(`${list}/${publicBoardListId(post)}`);
       router.refresh();
     } finally {
       setBusy(false);
@@ -117,16 +98,10 @@ export default function BoardEditForm({ post }: { post: BoardPost }) {
           </label>
         </p>
         <p>
-          <label>
-            첨부 (선택, 한 줄에 하나씩 <code>표시이름|URL</code>)
-            <br />
-            <textarea
-              value={attachments}
-              onChange={(e) => setAttachments(e.target.value)}
-              rows={4}
-              style={{ ...inputStyle, minHeight: 80 }}
-            />
-          </label>
+          <AdminBoardAttachmentsField
+            items={attachmentItems}
+            onChange={setAttachmentItems}
+          />
         </p>
         {err ? (
           <p style={{ color: "#c00", fontSize: 14 }}>{err}</p>
@@ -146,7 +121,7 @@ export default function BoardEditForm({ post }: { post: BoardPost }) {
         </p>
       </form>
       <p style={{ marginTop: 16 }}>
-        <a href={`${list}/${post.id}`} style={{ color: "#007bd1" }}>
+        <a href={`${list}/${publicBoardListId(post)}`} style={{ color: "#007bd1" }}>
           ← 글 보기
         </a>
       </p>

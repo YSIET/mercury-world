@@ -1,10 +1,5 @@
 import { kv } from "@vercel/kv";
-import type { Post } from "@/lib/posts";
-import {
-  getPostByLegacyId,
-  getPostsByBoard,
-  formatDate,
-} from "@/lib/posts";
+import { formatDate } from "@/lib/post-utils";
 
 export type BoardType = "notice" | "news" | "pds";
 
@@ -38,14 +33,13 @@ export function boardSectionHeading(t: BoardType): string {
   return BOARD_SECTION_HEADING[t];
 }
 
-/** SubPageLayout 좌측 제목 이미지 (board.php=title_5, news.php=title_1, pds.php=title_3) */
 export const BOARD_TITLE_IMG: Record<BoardType, string> = {
   notice: "/img/news/title_5.gif",
   news: "/img/news/title_1.gif",
   pds: "/img/news/title_3.gif",
 };
 
-/** Legacy attachment bucket id for imported JSON rows (PostAttachmentSection). */
+/** Legacy attachment bucket id (attachments.json / public/upload) — 마이그레이션·레거시 경로용 주석만 유지 */
 export function attachmentBoardIdForType(t: BoardType): string | null {
   if (t === "news") return "board_news2";
   if (t === "pds") return "pds";
@@ -55,6 +49,7 @@ export function attachmentBoardIdForType(t: BoardType): string | null {
 export interface BoardAttachment {
   name: string;
   url: string;
+  size?: number;
 }
 
 export interface BoardPost {
@@ -70,18 +65,22 @@ export interface BoardPost {
   isNotice?: boolean;
 }
 
-export type MergedBoardListRow = {
+export type BoardListRow = {
   key: string;
   listId: string;
-  source: "json" | "kv";
   title: string;
   author: string;
   dateStr: string;
   displayHits: number;
   sortTime: number;
   isNotice: boolean;
-  legacyBdNo?: number;
 };
+
+/** 목록/URL용 id — `legacy:123` → `123` */
+export function publicBoardListId(p: BoardPost): string {
+  if (p.id.startsWith("legacy:")) return p.id.slice(7);
+  return p.id;
+}
 
 function zkey(type: BoardType) {
   return `board:${type}:posts`;
@@ -140,6 +139,18 @@ export async function listAllKvBoardPosts(
   if (!ids?.length) return [];
   const posts = await Promise.all(ids.map((mid) => getKvPost(type, mid)));
   return posts.filter((p): p is BoardPost => p !== null);
+}
+
+export async function getRecentBoardLinks(
+  type: BoardType,
+  limit: number
+): Promise<{ title: string; href: string }[]> {
+  const posts = await listAllKvBoardPosts(type);
+  const base = listPathForBoardType(type);
+  return posts.slice(0, limit).map((p) => ({
+    title: p.title,
+    href: `${base}/${publicBoardListId(p)}`,
+  }));
 }
 
 export async function saveNewKvPost(post: BoardPost): Promise<void> {
@@ -205,39 +216,11 @@ export async function updateBoardPost(
   return next;
 }
 
-function boardPostPublicListId(p: BoardPost): string {
-  if (p.id.startsWith("legacy:")) return p.id.slice(7);
-  return p.id;
-}
-
-export async function mergeBoardListRows(
-  type: BoardType
-): Promise<MergedBoardListRow[]> {
-  const slug = boardTypeToSlug(type);
-  const jsonPosts = getPostsByBoard(slug);
+async function buildBoardListRows(type: BoardType): Promise<BoardListRow[]> {
   const kvPosts = await listAllKvBoardPosts(type);
-
-  const extras = await Promise.all(
-    jsonPosts.map((p) => getLegacyViewExtra(type, p.legacy_bd_no))
-  );
-
-  const jsonRows: MergedBoardListRow[] = jsonPosts.map((p, i) => ({
-    key: `j-${p.legacy_bd_no}`,
-    listId: String(p.legacy_bd_no),
-    source: "json" as const,
-    title: p.title,
-    author: p.author_name,
-    dateStr: formatDate(p.created_at),
-    displayHits: p.hit_count + (extras[i] ?? 0),
-    sortTime: p.created_at ? Date.parse(p.created_at) : 0,
-    isNotice: p.is_notice,
-    legacyBdNo: p.legacy_bd_no,
-  }));
-
-  const kvRows: MergedBoardListRow[] = kvPosts.map((p) => ({
+  return kvPosts.map((p) => ({
     key: `k-${p.id}`,
-    listId: boardPostPublicListId(p),
-    source: "kv" as const,
+    listId: publicBoardListId(p),
     title: p.title,
     author: p.author,
     dateStr: formatDate(p.createdAt),
@@ -245,10 +228,13 @@ export async function mergeBoardListRows(
     sortTime: Date.parse(p.createdAt),
     isNotice: p.isNotice ?? false,
   }));
+}
 
-  const merged = [...jsonRows, ...kvRows];
-  merged.sort((a, b) => b.sortTime - a.sortTime);
-  return merged;
+export async function mergeBoardListRows(
+  type: BoardType
+): Promise<BoardListRow[]> {
+  const rows = await buildBoardListRows(type);
+  return [...rows].sort((a, b) => b.sortTime - a.sortTime);
 }
 
 export async function getMergedBoardPage(
@@ -256,7 +242,7 @@ export async function getMergedBoardPage(
   page: number,
   pageSize: number
 ): Promise<{
-  rows: MergedBoardListRow[];
+  rows: BoardListRow[];
   total: number;
   page: number;
   totalPages: number;
@@ -270,44 +256,34 @@ export async function getMergedBoardPage(
   return { rows, total, page: p, totalPages };
 }
 
-export type ResolvedBoardPost =
-  | { source: "json"; post: Post; displayHits: number }
-  | { source: "kv"; post: BoardPost; displayHits: number };
+export type ResolvedBoardPost = {
+  post: BoardPost;
+  displayHits: number;
+};
 
 export async function resolveBoardPost(
   type: BoardType,
   id: string
 ): Promise<ResolvedBoardPost | null> {
-  const slug = boardTypeToSlug(type);
   if (/^\d+$/.test(id)) {
     const bd = parseInt(id, 10);
     const kvLegacy = await getKvPost(type, `legacy:${bd}`);
     if (kvLegacy) {
-      return { source: "kv", post: kvLegacy, displayHits: kvLegacy.views };
-    }
-    const post = getPostByLegacyId(slug, bd);
-    if (post) {
-      const extra = await getLegacyViewExtra(type, bd);
-      return {
-        source: "json",
-        post,
-        displayHits: post.hit_count + extra,
-      };
+      return { post: kvLegacy, displayHits: kvLegacy.views };
     }
   }
   const kv = await getKvPost(type, id);
-  if (kv) return { source: "kv", post: kv, displayHits: kv.views };
+  if (kv) return { post: kv, displayHits: kv.views };
   return null;
 }
 
 export async function getBoardNeighbors(
   type: BoardType,
-  listId: string,
-  source: "json" | "kv"
+  publicListId: string
 ): Promise<{ prev?: { href: string }; next?: { href: string } }> {
   const merged = await mergeBoardListRows(type);
   const listBase = listPathForBoardType(type);
-  const idx = merged.findIndex((r) => r.listId === listId && r.source === source);
+  const idx = merged.findIndex((r) => r.listId === publicListId);
   if (idx < 0) return {};
   const older = merged[idx + 1];
   const newer = merged[idx - 1];
@@ -316,3 +292,6 @@ export async function getBoardNeighbors(
     next: newer ? { href: `${listBase}/${newer.listId}` } : undefined,
   };
 }
+
+/** @deprecated Sprint 21+ — use BoardListRow */
+export type MergedBoardListRow = BoardListRow;

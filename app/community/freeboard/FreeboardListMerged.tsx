@@ -3,8 +3,6 @@
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { Post } from "@/lib/posts";
-import { formatDate } from "@/lib/posts";
 
 const PAGE_SIZE = 10;
 const PAGE_GROUP_SIZE = 10;
@@ -24,7 +22,6 @@ type QnaRow = {
   dateStr: string;
   hit: number;
   href: string;
-  isDynamic: boolean;
   sortTime: number;
   isNotice?: boolean;
   depth?: number;
@@ -43,33 +40,7 @@ type ApiPost = {
   legacyBdNo?: number;
 };
 
-function staticRows(posts: Post[], listBase: string): QnaRow[] {
-  const sorted = [...posts].sort((a, b) => {
-    const da = a.created_at ? new Date(a.created_at).getTime() : 0;
-    const db = b.created_at ? new Date(b.created_at).getTime() : 0;
-    return db - da;
-  });
-  return sorted.map((post) => ({
-    id: post.legacy_bd_no,
-    title: post.title,
-    author: post.author_name,
-    dateStr: formatDate(post.created_at),
-    hit: post.hit_count,
-    href: `${listBase}/${post.legacy_bd_no}`,
-    isDynamic: false,
-    sortTime: post.created_at ? new Date(post.created_at).getTime() : 0,
-    isNotice: post.is_notice,
-    depth: 0,
-    isSecret: false,
-  }));
-}
-
-function mergeStaticAndDynamic(
-  initialPosts: Post[],
-  listBase: string,
-  apiPosts: ApiPost[]
-): QnaRow[] {
-  const staticSorted = staticRows(initialPosts, listBase);
+function rowsFromKvPosts(listBase: string, apiPosts: ApiPost[]): QnaRow[] {
   const normalized = apiPosts.map((p) => ({
     ...p,
     depth: p.depth ?? 0,
@@ -102,7 +73,6 @@ function mergeStaticAndDynamic(
         .replace(/-/g, "."),
       hit: 0,
       href: `${listBase}/${pubId}`,
-      isDynamic: true,
       sortTime: p.createdAt,
       depth: p.depth,
       isSecret: p.isSecret,
@@ -114,56 +84,28 @@ function mergeStaticAndDynamic(
     for (const c of children.get(p.id) ?? []) dfs(c);
   }
 
-  let si = 0;
-  let ri = 0;
-  while (si < staticSorted.length || ri < roots.length) {
-    const s = staticSorted[si];
-    const r = roots[ri];
-    if (!s) {
-      dfs(r);
-      ri++;
-      continue;
-    }
-    if (!r) {
-      merged.push(s);
-      si++;
-      continue;
-    }
-    if (s.sortTime >= r.createdAt) {
-      merged.push(s);
-      si++;
-    } else {
-      dfs(r);
-      ri++;
-    }
-  }
+  for (const r of roots) dfs(r);
   return merged;
 }
 
-export default function FreeboardListMerged({
-  initialPosts,
-  listBase,
-}: {
-  initialPosts: Post[];
-  listBase: string;
-}) {
+export default function FreeboardListMerged({ listBase }: { listBase: string }) {
   const router = useRouter();
   const [apiPosts, setApiPosts] = useState<ApiPost[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hoverPage, setHoverPage] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch("/api/qna/posts?page=1&size=1000", { credentials: "include" })
+    fetch("/api/qna/posts?page=1&size=5000", { credentials: "include" })
       .then((r) => r.json())
       .then((d) => {
         setApiPosts(d.posts ?? []);
       })
       .catch(() => {});
-  }, [listBase]);
+  }, []);
 
   const merged = useMemo(
-    () => mergeStaticAndDynamic(initialPosts, listBase, apiPosts),
-    [initialPosts, listBase, apiPosts]
+    () => rowsFromKvPosts(listBase, apiPosts),
+    [listBase, apiPosts]
   );
 
   const unifiedTotal = merged.length;
@@ -252,16 +194,12 @@ export default function FreeboardListMerged({
               const globalIdx = startIdx + i;
               return (
                 <tr
-                  key={`${row.isDynamic ? "d" : "s"}-${row.id}-${globalIdx}`}
+                  key={`${row.id}-${globalIdx}`}
                   style={{ background: "white" }}
                 >
                   <td align="center" height={32} style={tdStyle}>
                     {row.isNotice ? (
                       <span style={metaStyle}>공지</span>
-                    ) : row.isDynamic ? (
-                      <span style={{ color: "#0066cc", fontWeight: "bold" }}>
-                        N{row.id}
-                      </span>
                     ) : (
                       merged.length - globalIdx
                     )}
@@ -275,7 +213,7 @@ export default function FreeboardListMerged({
                     <a
                       href={row.href}
                       style={{
-                        color: row.isDynamic ? "#0066cc" : "#444",
+                        color: "#444",
                         fontSize: 14,
                       }}
                     >

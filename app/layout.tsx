@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "./globals.css";
 
@@ -7,6 +7,11 @@ const SITE = new URL("https://www.mercury.or.kr");
 const rootTitle = "수은세상 - mercury world";
 const rootDescription =
   "수은의 위험성과 안전 관리에 대한 종합 정보 - (주)와이에스환경기술연구원이 운영하는 수은 정보 사이트";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   metadataBase: SITE,

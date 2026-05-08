@@ -8,7 +8,8 @@ export default function NotFound() {
   return (
     <>
       <Header activeGroup={null} activePath="" />
-      <table
+      <div className="mw-fluid-rail mw-simple-page-rail">
+        <table
         width={940}
         border={0}
         cellPadding={0}
@@ -87,6 +88,7 @@ export default function NotFound() {
           </tr>
         </tbody>
       </table>
+      </div>
       <div style={{ height: 60 }} />
       <Footer />
     </>

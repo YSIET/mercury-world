@@ -28,6 +28,7 @@ export default async function AdminDashboardPage() {
 
   return (
     <div
+      className="mw-fluid-rail mw-admin-rail"
       style={{
         width: 940,
         margin: "24px auto",

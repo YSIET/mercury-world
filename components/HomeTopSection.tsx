@@ -74,7 +74,8 @@ export default function HomeTopSection({
 
   return (
     <div id="Layer1">
-      <table
+      <div className="mw-fluid-rail mw-home-top-rail mw-banner-area">
+        <table
         width={940}
         border={0}
         align="center"
@@ -186,6 +187,7 @@ export default function HomeTopSection({
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

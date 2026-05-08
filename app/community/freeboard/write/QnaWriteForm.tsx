@@ -140,6 +140,7 @@ export default function QnaWriteForm() {
       breadcrumb={<>HOME &gt; 수은상담소 &gt; 묻고답하기 &gt; 글쓰기</>}
     >
       <div
+        className="mw-prose"
         style={{
           width: 940,
           margin: "0 auto",

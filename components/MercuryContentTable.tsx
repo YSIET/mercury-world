@@ -117,7 +117,7 @@ export default function MercuryContentTable({
         </div>
       </div>
 
-      <div style={{ overflowX: "auto" }}>
+      <div className="mw-table-scroll">
         <table
           width="100%"
           cellPadding={6}

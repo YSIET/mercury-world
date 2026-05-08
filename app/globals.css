@@ -281,3 +281,60 @@ div.banner div.main_title1 { display: block; position: absolute; z-index: 6; }
   border-color: #007bd1;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
+
+/* ===== Mobile fluid (Sprint 26) =====
+   cafe24 940px 톤 유지 — 뷰포트·레일 안에서만 가로 스크롤 */
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+.mw-fluid-rail {
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mw-prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+.mw-prose table {
+  max-width: 100%;
+}
+
+.table-scroll,
+table.wide,
+.mw-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+table.wide {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+    font-size: 14px;
+  }
+
+  #quick_menu {
+    left: auto;
+    right: 6px;
+    margin-left: 0;
+    transform: scale(0.7);
+    transform-origin: top right;
+  }
+
+  .header img {
+    max-width: 100%;
+    height: auto;
+  }
+}

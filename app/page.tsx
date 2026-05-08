@@ -27,24 +27,26 @@ export default async function HomePage() {
         recentPds={recentPds}
       />
 
-      <table
-        width={940}
-        border={0}
-        cellPadding={0}
-        cellSpacing={0}
-        style={{ margin: "0 auto" }}
-      >
-        <tbody>
-          <tr>
-            <td height={26}>&nbsp;</td>
-          </tr>
-          <tr>
-            <td style={{ paddingTop: 20 }}>
-              <MainVisualWithIqHotspot />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="mw-fluid-rail mw-main-visual-rail">
+        <table
+          width={940}
+          border={0}
+          cellPadding={0}
+          cellSpacing={0}
+          style={{ margin: "0 auto" }}
+        >
+          <tbody>
+            <tr>
+              <td height={26}>&nbsp;</td>
+            </tr>
+            <tr>
+              <td style={{ paddingTop: 20 }}>
+                <MainVisualWithIqHotspot />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <Footer />
     </>

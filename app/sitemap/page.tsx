@@ -17,7 +17,8 @@ export default function Sitemap() {
     <>
       <Header activeGroup={null} activePath="/sitemap" />
 
-      <table
+      <div className="mw-fluid-rail mw-simple-page-rail">
+        <table
         width={940}
         border={0}
         cellPadding={0}
@@ -64,6 +65,7 @@ export default function Sitemap() {
           </tr>
         </tbody>
       </table>
+      </div>
 
       <div style={{ height: 30 }} />
       <Footer />

@@ -7,7 +7,8 @@ import VisitCounter from "./VisitCounter";
  */
 export default function Footer() {
   return (
-    <table
+    <div className="mw-fluid-rail mw-footer-rail">
+      <table
       width={914}
       border={0}
       cellSpacing={0}
@@ -44,5 +45,6 @@ export default function Footer() {
         </tr>
       </tbody>
     </table>
+    </div>
   );
 }

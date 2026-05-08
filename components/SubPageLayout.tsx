@@ -34,7 +34,8 @@ export default function SubPageLayout({
     <>
       <Header activeGroup={activeGroup} activePath={activePath} />
 
-      <table border={0} cellSpacing={0} cellPadding={0} style={{ margin: "0 auto" }}>
+      <div className="mw-fluid-rail mw-subpage-rail">
+        <table border={0} cellSpacing={0} cellPadding={0} style={{ margin: "0 auto" }}>
         <tbody>
           <tr>
             {/* 좌측 213 */}
@@ -119,11 +120,14 @@ export default function SubPageLayout({
               </table>
 
               {/* 페이지별 본문 */}
-              <div style={{ width: 727, textAlign: "left" }}>{children}</div>
+              <div style={{ width: 727, textAlign: "left" }} className="mw-prose">
+                {children}
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
+      </div>
 
       <table width={100} height={30} border={0} cellPadding={0} cellSpacing={0}>
         <tbody>

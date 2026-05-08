@@ -87,7 +87,7 @@ export default function QnaEditPage() {
         titleImg="/img/community/title_1.gif"
         breadcrumb={<>HOME &gt; 수은상담소 &gt; 묻고답하기 &gt; 수정</>}
       >
-        <div style={{ width: 940, margin: "20px auto", fontSize: 14 }}>
+        <div className="mw-prose" style={{ width: 940, margin: "20px auto", fontSize: 14 }}>
           {error || "불러오는 중..."}
         </div>
       </SubPageLayoutClient>
@@ -124,6 +124,7 @@ export default function QnaEditPage() {
       breadcrumb={<>HOME &gt; 수은상담소 &gt; 묻고답하기 &gt; 수정</>}
     >
       <div
+        className="mw-prose"
         style={{
           width: 940,
           margin: "0 auto",

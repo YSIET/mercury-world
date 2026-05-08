@@ -106,7 +106,7 @@ export default function MercuryContentAdminClient() {
   }
 
   return (
-    <div style={{ padding: 24, maxWidth: 1100, margin: "0 auto" }}>
+    <div className="mw-fluid-rail mw-admin-rail" style={{ padding: 24, maxWidth: 1100, margin: "0 auto" }}>
       <p style={{ marginBottom: 16 }}>
         <Link href="/admin" style={{ color: "#007bd1", fontSize: 13 }}>
           ← 대시보드

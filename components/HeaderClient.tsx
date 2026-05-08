@@ -108,37 +108,39 @@ export default function HeaderClient({
         </div>
       </div>
 
-      <div
-        id="pop_wrapper"
-        style={{ width: "940px", height: "1px", position: "relative", zIndex: 9 }}
-      />
+      <div className="mw-fluid-rail mw-header-rail">
+        <div
+          id="pop_wrapper"
+          style={{ width: "940px", height: "1px", position: "relative", zIndex: 9 }}
+        />
 
-      <div className="header">
-        <div className="bt_top">
-          <Link href="/">HOME</Link> | <Link href="/sitemap">SITEMAP</Link>
-          {adminTopLinks}
-        </div>
-        <div className="logo">
-          <Link href="/">
-            <img src="/img/img_new/logo.gif" alt="수은세상 로고" />
-          </Link>
-        </div>
+        <div className="header">
+          <div className="bt_top">
+            <Link href="/">HOME</Link> | <Link href="/sitemap">SITEMAP</Link>
+            {adminTopLinks}
+          </div>
+          <div className="logo">
+            <Link href="/">
+              <img src="/img/img_new/logo.gif" alt="수은세상 로고" />
+            </Link>
+          </div>
 
-        <div className="gnv" id="gnv">
-          {TOP_GROUPS.map((g) => {
-            const isActive = activeGroup === g.group;
-            return (
-              <dl key={g.label}>
-                <dt className={isActive ? "on" : ""}>
-                  <Link href={g.href}>{g.label}</Link>
-                </dt>
-                {g.group !== null && <dd>{renderSubMenu(g.group)}</dd>}
-              </dl>
-            );
-          })}
+          <div className="gnv" id="gnv">
+            {TOP_GROUPS.map((g) => {
+              const isActive = activeGroup === g.group;
+              return (
+                <dl key={g.label}>
+                  <dt className={isActive ? "on" : ""}>
+                    <Link href={g.href}>{g.label}</Link>
+                  </dt>
+                  {g.group !== null && <dd>{renderSubMenu(g.group)}</dd>}
+                </dl>
+              );
+            })}
+            <div className="g_clear_both" />
+          </div>
           <div className="g_clear_both" />
         </div>
-        <div className="g_clear_both" />
       </div>
     </>
   );

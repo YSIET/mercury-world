@@ -22,6 +22,7 @@ export default async function AdminQnaListPage() {
 
   return (
     <div
+      className="mw-fluid-rail mw-admin-rail"
       style={{
         width: 940,
         margin: "24px auto",

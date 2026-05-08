@@ -2,17 +2,28 @@ import { kv } from "@vercel/kv";
 
 export type QnaPost = {
   id: number;
+  parentId?: number;
+  rootId?: number;
+  depth: number;
   title: string;
   content: string;
   name: string;
   email?: string;
   passwordHash: string;
+  isSecret: boolean;
   createdAt: number;
   updatedAt: number;
   ip?: string;
 };
 
+export type QnaPostListItem = Omit<
+  QnaPost,
+  "passwordHash" | "ip" | "content"
+>;
+
 const SALT = "mercury-qna-v1";
+
+export const MAX_DEPTH = 5;
 
 export async function hashPassword(password: string): Promise<string> {
   const enc = new TextEncoder();
@@ -45,7 +56,27 @@ export async function savePost(post: QnaPost): Promise<void> {
 }
 
 export async function getPost(id: number): Promise<QnaPost | null> {
-  return await kv.get<QnaPost>(`qna:post:${id}`);
+  const post = await kv.get<QnaPost>(`qna:post:${id}`);
+  if (!post) return null;
+  return {
+    ...post,
+    depth: post.depth ?? 0,
+    isSecret: post.isSecret ?? false,
+  };
+}
+
+export async function createReplyMeta(
+  parentId: number
+): Promise<{ parentId: number; rootId: number; depth: number } | null> {
+  const parent = await getPost(parentId);
+  if (!parent) return null;
+  const newDepth = (parent.depth ?? 0) + 1;
+  if (newDepth > MAX_DEPTH) return null;
+  return {
+    parentId: parent.id,
+    rootId: parent.rootId ?? parent.id,
+    depth: newDepth,
+  };
 }
 
 export async function deletePostById(id: number): Promise<void> {
@@ -80,5 +111,10 @@ export async function checkRateLimit(ip: string): Promise<boolean> {
 
 export function stripPrivate(p: QnaPost) {
   const { passwordHash, ip, ...safe } = p;
+  return safe;
+}
+
+export function stripForList(p: QnaPost): QnaPostListItem {
+  const { passwordHash, ip, content, ...safe } = p;
   return safe;
 }

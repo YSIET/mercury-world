@@ -3,6 +3,7 @@ import { getPostByLegacyId, formatDate, postBodyUsesHtml } from "@/lib/posts";
 import { getPost } from "@/lib/qna";
 import { notFound } from "next/navigation";
 import QnaDetailActions from "./QnaDetailActions";
+import QnaSecretBody from "./QnaSecretBody";
 
 function formatQnaDate(ts: number): string {
   return new Date(ts).toISOString().slice(0, 10).replace(/-/g, ".");
@@ -77,14 +78,18 @@ export default async function Page({ params }: { params: { id: string } }) {
                 colSpan={2}
                 style={{ padding: 20, minHeight: 200, ...bodyStyle }}
               >
-                <div style={{ whiteSpace: "pre-wrap", ...bodyStyle }}>
-                  {qna.content}
-                </div>
+                {qna.isSecret ? (
+                  <QnaSecretBody postId={idNum} />
+                ) : (
+                  <div style={{ whiteSpace: "pre-wrap", ...bodyStyle }}>
+                    {qna.content}
+                  </div>
+                )}
               </td>
             </tr>
           </tbody>
         </table>
-        <QnaDetailActions id={idNum} />
+        <QnaDetailActions id={idNum} depth={qna.depth} />
         <p style={{ marginTop: 20, textAlign: "right", fontSize: 14 }}>
           <a href="/community/freeboard" style={{ color: "#444" }}>
             [ 목록 ]

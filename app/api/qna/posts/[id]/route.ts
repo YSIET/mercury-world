@@ -15,7 +15,11 @@ export async function GET(_req: NextRequest, context: Ctx) {
   const { id: idStr } = await context.params;
   const post = await getPost(parseInt(idStr, 10));
   if (!post) return NextResponse.json({ error: "not found" }, { status: 404 });
-  return NextResponse.json(stripPrivate(post));
+  const safe = stripPrivate(post);
+  if (post.isSecret) {
+    return NextResponse.json({ ...safe, content: "", locked: true });
+  }
+  return NextResponse.json({ ...safe, locked: false });
 }
 
 export async function PUT(req: NextRequest, context: Ctx) {

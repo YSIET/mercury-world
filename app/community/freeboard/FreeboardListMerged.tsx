@@ -27,6 +27,19 @@ type QnaRow = {
   isDynamic: boolean;
   sortTime: number;
   isNotice?: boolean;
+  depth?: number;
+  isSecret?: boolean;
+};
+
+type ApiPost = {
+  id: number;
+  title: string;
+  name: string;
+  createdAt: number;
+  parentId?: number;
+  rootId?: number;
+  depth?: number;
+  isSecret?: boolean;
 };
 
 function staticRows(posts: Post[], listBase: string): QnaRow[] {
@@ -45,7 +58,82 @@ function staticRows(posts: Post[], listBase: string): QnaRow[] {
     isDynamic: false,
     sortTime: post.created_at ? new Date(post.created_at).getTime() : 0,
     isNotice: post.is_notice,
+    depth: 0,
+    isSecret: false,
   }));
+}
+
+function mergeStaticAndDynamic(
+  initialPosts: Post[],
+  listBase: string,
+  apiPosts: ApiPost[]
+): QnaRow[] {
+  const staticSorted = staticRows(initialPosts, listBase);
+  const normalized = apiPosts.map((p) => ({
+    ...p,
+    depth: p.depth ?? 0,
+    isSecret: p.isSecret ?? false,
+  }));
+  const children = new Map<number, typeof normalized>();
+  for (const p of normalized) {
+    if (p.parentId == null) continue;
+    if (!children.has(p.parentId)) children.set(p.parentId, []);
+    children.get(p.parentId)!.push(p);
+  }
+  for (const [, arr] of children) {
+    arr.sort((a, b) => a.createdAt - b.createdAt);
+  }
+  const roots = normalized
+    .filter((p) => p.parentId == null)
+    .sort((a, b) => b.createdAt - a.createdAt);
+
+  const merged: QnaRow[] = [];
+  type N = (typeof normalized)[number];
+  const toRow = (p: N): QnaRow => ({
+    id: p.id,
+    title: p.title,
+    author: p.name,
+    dateStr: new Date(p.createdAt)
+      .toISOString()
+      .slice(0, 10)
+      .replace(/-/g, "."),
+    hit: 0,
+    href: `${listBase}/${p.id}`,
+    isDynamic: true,
+    sortTime: p.createdAt,
+    depth: p.depth,
+    isSecret: p.isSecret,
+  });
+
+  function dfs(p: N) {
+    merged.push(toRow(p));
+    for (const c of children.get(p.id) ?? []) dfs(c);
+  }
+
+  let si = 0;
+  let ri = 0;
+  while (si < staticSorted.length || ri < roots.length) {
+    const s = staticSorted[si];
+    const r = roots[ri];
+    if (!s) {
+      dfs(r);
+      ri++;
+      continue;
+    }
+    if (!r) {
+      merged.push(s);
+      si++;
+      continue;
+    }
+    if (s.sortTime >= r.createdAt) {
+      merged.push(s);
+      si++;
+    } else {
+      dfs(r);
+      ri++;
+    }
+  }
+  return merged;
 }
 
 export default function FreeboardListMerged({
@@ -56,7 +144,7 @@ export default function FreeboardListMerged({
   listBase: string;
 }) {
   const router = useRouter();
-  const [dynamicRows, setDynamicRows] = useState<QnaRow[]>([]);
+  const [apiPosts, setApiPosts] = useState<ApiPost[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hoverPage, setHoverPage] = useState<number | null>(null);
 
@@ -64,38 +152,15 @@ export default function FreeboardListMerged({
     fetch("/api/qna/posts?page=1&size=1000", { credentials: "include" })
       .then((r) => r.json())
       .then((d) => {
-        const posts = d.posts ?? [];
-        setDynamicRows(
-          posts.map(
-            (p: {
-              id: number;
-              title: string;
-              name: string;
-              createdAt: number;
-            }) => ({
-              id: p.id,
-              title: p.title,
-              author: p.name,
-              dateStr: new Date(p.createdAt)
-                .toISOString()
-                .slice(0, 10)
-                .replace(/-/g, "."),
-              hit: 0,
-              href: `${listBase}/${p.id}`,
-              isDynamic: true,
-              sortTime: p.createdAt,
-            })
-          )
-        );
+        setApiPosts(d.posts ?? []);
       })
       .catch(() => {});
   }, [listBase]);
 
-  const merged = useMemo(() => {
-    return [...staticRows(initialPosts, listBase), ...dynamicRows].sort(
-      (a, b) => b.sortTime - a.sortTime
-    );
-  }, [initialPosts, listBase, dynamicRows]);
+  const merged = useMemo(
+    () => mergeStaticAndDynamic(initialPosts, listBase, apiPosts),
+    [initialPosts, listBase, apiPosts]
+  );
 
   const unifiedTotal = merged.length;
   const totalPages = Math.max(1, Math.ceil(unifiedTotal / PAGE_SIZE));
@@ -197,7 +262,12 @@ export default function FreeboardListMerged({
                       merged.length - globalIdx
                     )}
                   </td>
-                  <td style={{ ...tdStyle, paddingLeft: 8 }}>
+                  <td
+                    style={{
+                      ...tdStyle,
+                      paddingLeft: 8 + (row.depth ?? 0) * 20,
+                    }}
+                  >
                     <a
                       href={row.href}
                       style={{
@@ -205,7 +275,9 @@ export default function FreeboardListMerged({
                         fontSize: 14,
                       }}
                     >
-                      {row.title}
+                      {(row.isSecret ? "🔒 " : "") +
+                        ((row.depth ?? 0) >= 1 ? "└ " : "") +
+                        row.title}
                     </a>
                   </td>
                   <td align="center" style={metaStyle}>

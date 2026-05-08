@@ -6,7 +6,8 @@ import {
   countPosts,
   checkRateLimit,
   nextPostId,
-  stripPrivate,
+  stripForList,
+  createReplyMeta,
   type QnaPost,
 } from "@/lib/qna";
 
@@ -25,7 +26,7 @@ export async function GET(req: NextRequest) {
     countPosts(),
   ]);
   return NextResponse.json({
-    posts: posts.map(stripPrivate),
+    posts: posts.map(stripForList),
     total,
     page,
     size,
@@ -34,7 +35,16 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { title, content, name, password, email, website } = body;
+  const {
+    title,
+    content,
+    name,
+    password,
+    email,
+    website,
+    parentId: parentIdRaw,
+    isSecret: isSecretRaw,
+  } = body;
 
   if (website) return NextResponse.json({ error: "spam" }, { status: 400 });
   if (!title?.trim() || !content?.trim() || !name?.trim() || !password) {
@@ -67,6 +77,30 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const isSecret = !!isSecretRaw;
+
+  let thread: { parentId?: number; rootId?: number; depth: number } = {
+    depth: 0,
+  };
+
+  if (parentIdRaw != null && parentIdRaw !== "") {
+    const pid = parseInt(String(parentIdRaw), 10);
+    if (Number.isNaN(pid)) {
+      return NextResponse.json(
+        { error: "답글 깊이 초과 또는 부모 글을 찾을 수 없습니다." },
+        { status: 400 }
+      );
+    }
+    const meta = await createReplyMeta(pid);
+    if (!meta) {
+      return NextResponse.json(
+        { error: "답글 깊이 초과 또는 부모 글을 찾을 수 없습니다." },
+        { status: 400 }
+      );
+    }
+    thread = meta;
+  }
+
   const id = await nextPostId();
   const now = Date.now();
   const post: QnaPost = {
@@ -79,6 +113,11 @@ export async function POST(req: NextRequest) {
     createdAt: now,
     updatedAt: now,
     ip,
+    depth: thread.depth,
+    isSecret,
+    ...(thread.parentId != null
+      ? { parentId: thread.parentId, rootId: thread.rootId }
+      : {}),
   };
   await savePost(post);
   return NextResponse.json({ id, ok: true });

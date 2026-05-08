@@ -11,6 +11,9 @@ export default function QnaEditPage() {
   const [post, setPost] = useState<{ title: string; content: string } | null>(
     null
   );
+  const [needsUnlock, setNeedsUnlock] = useState(false);
+  const [unlockPwd, setUnlockPwd] = useState("");
+  const [unlockErr, setUnlockErr] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -19,11 +22,36 @@ export default function QnaEditPage() {
     fetch(`/api/qna/posts/${id}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
-        if (d) setPost({ title: d.title, content: d.content });
-        else setError("글을 찾을 수 없습니다.");
+        if (!d) {
+          setError("글을 찾을 수 없습니다.");
+          return;
+        }
+        if (d.locked) {
+          setNeedsUnlock(true);
+          setPost({ title: d.title, content: "" });
+        } else {
+          setPost({ title: d.title, content: d.content ?? "" });
+        }
       })
       .catch(() => setError("글을 불러오지 못했습니다."));
   }, [id]);
+
+  async function onUnlock(e: React.FormEvent) {
+    e.preventDefault();
+    setUnlockErr("");
+    const res = await fetch(`/api/qna/posts/${id}/unlock`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: unlockPwd }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      setUnlockErr(data.error ?? "오류가 발생했습니다.");
+      return;
+    }
+    setPost((p) => (p ? { ...p, content: data.content } : null));
+    setNeedsUnlock(false);
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -109,81 +137,112 @@ export default function QnaEditPage() {
         >
           글 수정
         </h2>
-        <form onSubmit={onSubmit}>
-          <table
+
+        {needsUnlock && (
+          <div
             style={{
-              borderCollapse: "collapse",
-              width: "100%",
-              border: "1px solid #dedede",
+              marginBottom: 16,
+              padding: 12,
+              background: "#f9f9f9",
+              border: "1px solid #ddd",
             }}
           >
-            <tbody>
-              <tr>
-                <th style={cellTh}>비밀번호 *</th>
-                <td style={cellTd} colSpan={3}>
-                  <input
-                    name="password"
-                    type="password"
-                    required
-                    minLength={4}
-                    maxLength={20}
-                    style={{ ...inputStyle, width: 200 }}
-                  />
-                  <span
-                    style={{ color: "#666", marginLeft: 8, fontSize: 13 }}
-                  >
-                    (작성 시 입력한 비밀번호)
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <th style={cellTh}>제목 *</th>
-                <td colSpan={3} style={cellTd}>
-                  <input
-                    name="title"
-                    required
-                    maxLength={200}
-                    defaultValue={post.title}
-                    style={{ ...inputStyle, width: "95%" }}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th style={cellTh}>내용 *</th>
-                <td colSpan={3} style={cellTd}>
-                  <textarea
-                    name="content"
-                    required
-                    rows={15}
-                    defaultValue={post.content}
-                    style={{ ...inputStyle, width: "95%" }}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          {error && (
-            <p style={{ color: "red", margin: "10px 0", fontSize: 14 }}>
-              {error}
-            </p>
-          )}
-          <div style={{ marginTop: 16, textAlign: "center" }}>
-            <button
-              type="submit"
-              disabled={submitting}
-              style={{ fontSize: 14, padding: "6px 16px" }}
-            >
-              {submitting ? "저장 중..." : "저장"}
-            </button>
-            <button
-              type="button"
-              onClick={() => router.back()}
-              style={{ marginLeft: 8, fontSize: 14, padding: "6px 16px" }}
-            >
-              취소
-            </button>
+            <p style={{ marginBottom: 8 }}>비밀글입니다. 수정하려면 먼저 열람 비밀번호를 입력하세요.</p>
+            <form onSubmit={onUnlock} style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+              <input
+                type="password"
+                value={unlockPwd}
+                onChange={(e) => setUnlockPwd(e.target.value)}
+                style={{ padding: "4px 8px", fontSize: 14 }}
+                required
+              />
+              <button type="submit" style={{ fontSize: 14, padding: "6px 16px" }}>
+                열람
+              </button>
+            </form>
+            {unlockErr && (
+              <p style={{ color: "red", marginTop: 8, fontSize: 13 }}>{unlockErr}</p>
+            )}
           </div>
-        </form>
+        )}
+
+        {!needsUnlock && (
+          <form onSubmit={onSubmit}>
+            <table
+              style={{
+                borderCollapse: "collapse",
+                width: "100%",
+                border: "1px solid #dedede",
+              }}
+            >
+              <tbody>
+                <tr>
+                  <th style={cellTh}>비밀번호 *</th>
+                  <td style={cellTd} colSpan={3}>
+                    <input
+                      name="password"
+                      type="password"
+                      required
+                      minLength={4}
+                      maxLength={20}
+                      style={{ ...inputStyle, width: 200 }}
+                    />
+                    <span
+                      style={{ color: "#666", marginLeft: 8, fontSize: 13 }}
+                    >
+                      (작성 시 입력한 비밀번호)
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <th style={cellTh}>제목 *</th>
+                  <td colSpan={3} style={cellTd}>
+                    <input
+                      name="title"
+                      required
+                      maxLength={200}
+                      defaultValue={post.title}
+                      style={{ ...inputStyle, width: "95%" }}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th style={cellTh}>내용 *</th>
+                  <td colSpan={3} style={cellTd}>
+                    <textarea
+                      name="content"
+                      required
+                      rows={15}
+                      defaultValue={post.content}
+                      style={{ ...inputStyle, width: "95%" }}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            {error && (
+              <p style={{ color: "red", margin: "10px 0", fontSize: 14 }}>
+                {error}
+              </p>
+            )}
+            <div style={{ marginTop: 16, textAlign: "center" }}>
+              <button
+                type="submit"
+                disabled={submitting}
+                style={{ fontSize: 14, padding: "6px 16px" }}
+              >
+                {submitting ? "저장 중..." : "저장"}
+              </button>
+              <button
+                type="button"
+                onClick={() => router.back()}
+                style={{ marginLeft: 8, fontSize: 14, padding: "6px 16px" }}
+              >
+                취소
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </SubPageLayout>
   );

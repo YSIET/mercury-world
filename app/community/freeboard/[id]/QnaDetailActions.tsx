@@ -3,6 +3,8 @@
 import type { CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 
+const MAX_DEPTH = 5;
+
 const btn: CSSProperties = {
   fontSize: 14,
   padding: "6px 16px",
@@ -12,7 +14,21 @@ const btn: CSSProperties = {
   cursor: "pointer",
 };
 
-export default function QnaDetailActions({ id }: { id: number }) {
+const replyBtn: CSSProperties = {
+  fontSize: 14,
+  padding: "6px 16px",
+  background: "#f0f0f0",
+  border: "1px solid #ccc",
+  cursor: "pointer",
+};
+
+export default function QnaDetailActions({
+  id,
+  depth = 0,
+}: {
+  id: number;
+  depth?: number;
+}) {
   const router = useRouter();
 
   async function onDelete() {
@@ -41,9 +57,20 @@ export default function QnaDetailActions({ id }: { id: number }) {
       >
         수정
       </button>
-      <button type="button" style={{ ...btn, marginRight: 0 }} onClick={onDelete}>
+      <button type="button" style={btn} onClick={onDelete}>
         삭제
       </button>
+      {depth < MAX_DEPTH && (
+        <button
+          type="button"
+          style={replyBtn}
+          onClick={() =>
+            router.push(`/community/freeboard/write?parent=${id}`)
+          }
+        >
+          답글
+        </button>
+      )}
     </p>
   );
 }

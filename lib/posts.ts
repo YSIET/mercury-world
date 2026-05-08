@@ -84,3 +84,9 @@ export function listPathForSlug(slug: string): string {
   };
   return m[slug] ?? "/";
 }
+
+/** Cafe24 export: some rows have HTML in content but is_html === false. */
+export function postBodyUsesHtml(post: Post): boolean {
+  if (post.is_html) return true;
+  return /<\s*[a-zA-Z!?/]/.test(post.content);
+}

@@ -1,5 +1,5 @@
 import SubPageLayout from "@/components/SubPageLayout";
-import { getPostByLegacyId, formatDate } from "@/lib/posts";
+import { getPostByLegacyId, formatDate, postBodyUsesHtml } from "@/lib/posts";
 import { notFound } from "next/navigation";
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -38,7 +38,7 @@ export default function Page({ params }: { params: { id: string } }) {
           </tr>
           <tr>
             <td colSpan={2} style={{ padding: 20, minHeight: 200, lineHeight: 1.6 }}>
-              {post.is_html ? (
+              {postBodyUsesHtml(post) ? (
                 <div dangerouslySetInnerHTML={{ __html: post.content }} />
               ) : (
                 <div style={{ whiteSpace: post.no_br ? "pre-wrap" : "pre-line" }}>

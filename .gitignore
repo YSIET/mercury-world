@@ -40,6 +40,7 @@ lib/*
 !lib/signal.ts
 !lib/attachments.ts
 !lib/iq.ts
+!lib/turnstile.ts
 cache/
 zwebmy/
 mercury/admin/

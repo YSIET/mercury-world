@@ -10,6 +10,7 @@ import {
   createReplyMeta,
   type QnaPost,
 } from "@/lib/qna";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 
 export const dynamic = "force-dynamic";
 
@@ -44,6 +45,7 @@ export async function POST(req: NextRequest) {
     website,
     parentId: parentIdRaw,
     isSecret: isSecretRaw,
+    turnstileToken: turnstileTokenRaw,
   } = body;
 
   if (website) return NextResponse.json({ error: "spam" }, { status: 400 });
@@ -70,6 +72,20 @@ export async function POST(req: NextRequest) {
     req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
     req.headers.get("x-real-ip") ??
     "unknown";
+
+  const turnstileToken =
+    typeof turnstileTokenRaw === "string" ? turnstileTokenRaw : "";
+  const turnstile = await verifyTurnstileToken(
+    turnstileToken,
+    ip !== "unknown" ? ip : undefined
+  );
+  if (!turnstile.success) {
+    return NextResponse.json(
+      { ok: false, error: "turnstile_failed" },
+      { status: 403 }
+    );
+  }
+
   if (!(await checkRateLimit(ip))) {
     return NextResponse.json(
       { error: "잠시 후 다시 시도해 주세요. (1분에 1개)" },

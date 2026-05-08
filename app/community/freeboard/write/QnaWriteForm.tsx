@@ -3,7 +3,10 @@
 import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Turnstile } from "@marsidev/react-turnstile";
 import SubPageLayout from "@/components/SubPageLayout";
+
+const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 export default function QnaWriteForm() {
   const router = useRouter();
@@ -12,6 +15,7 @@ export default function QnaWriteForm() {
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
   const [parentInfo, setParentInfo] = useState<{
     id: number;
     title: string;
@@ -19,6 +23,16 @@ export default function QnaWriteForm() {
   } | null>(null);
   const [parentErr, setParentErr] = useState("");
   const [titleVal, setTitleVal] = useState("");
+
+  useEffect(() => {
+    if (!siteKey) {
+      console.error("NEXT_PUBLIC_TURNSTILE_SITE_KEY is not set");
+    }
+  }, []);
+
+  useEffect(() => {
+    setTurnstileToken("");
+  }, [parentParam]);
 
   useEffect(() => {
     if (!parentParam) {
@@ -54,6 +68,14 @@ export default function QnaWriteForm() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!siteKey) {
+      window.alert("보안 설정이 완료되지 않았습니다. 관리자에게 문의해 주세요.");
+      return;
+    }
+    if (!turnstileToken) {
+      window.alert("자동입력 방지 인증을 완료해주세요.");
+      return;
+    }
     setSubmitting(true);
     setError("");
     const fd = new FormData(e.currentTarget);
@@ -65,6 +87,7 @@ export default function QnaWriteForm() {
       content: fd.get("content"),
       website: fd.get("website"),
       isSecret: fd.get("isSecret") === "on",
+      turnstileToken,
     };
     if (parentInfo) payload.parentId = parentInfo.id;
 
@@ -75,8 +98,13 @@ export default function QnaWriteForm() {
     });
     const data = await res.json();
     if (!res.ok) {
-      setError(data.error ?? "오류가 발생했습니다.");
+      const msg =
+        data.error === "turnstile_failed"
+          ? "자동입력 방지 인증에 실패했습니다. 아래 위젯을 다시 확인해 주세요."
+          : (data.error ?? "오류가 발생했습니다.");
+      setError(msg);
       setSubmitting(false);
+      setTurnstileToken("");
       return;
     }
     router.push(`/community/freeboard/${data.id}`);
@@ -233,6 +261,28 @@ export default function QnaWriteForm() {
               </tr>
             </tbody>
           </table>
+          {siteKey ? (
+            <div
+              style={{
+                marginTop: 12,
+                marginBottom: 12,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Turnstile
+                key={parentParam ?? "new"}
+                siteKey={siteKey}
+                onSuccess={setTurnstileToken}
+                onExpire={() => setTurnstileToken("")}
+                options={{ theme: "light", size: "normal" }}
+              />
+            </div>
+          ) : (
+            <p style={{ color: "#c00", fontSize: 14, margin: "12px 0" }}>
+              자동입력 방지 위젯을 불러올 수 없습니다. (NEXT_PUBLIC_TURNSTILE_SITE_KEY)
+            </p>
+          )}
           {error && (
             <p style={{ color: "red", margin: "10px 0", fontSize: 14 }}>
               {error}

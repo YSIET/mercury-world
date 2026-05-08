@@ -24,6 +24,11 @@ const nextConfig = {
       { source: "/news/pds.php", destination: "/news/pds", permanent: true },
 
       // 수은상담소
+      {
+        source: "/community/qna/write",
+        destination: "/community/freeboard/write",
+        permanent: false,
+      },
       { source: "/community/freeboard.php", destination: "/community/freeboard", permanent: true },
       { source: "/community/request.php", destination: "/community/request", permanent: true },
       { source: "/community/kit.php", destination: "/community/kit", permanent: true },

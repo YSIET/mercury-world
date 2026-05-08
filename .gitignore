@@ -38,6 +38,7 @@ lib/*
 !lib/posts.ts
 !lib/qna.ts
 !lib/signal.ts
+!lib/attachments.ts
 cache/
 zwebmy/
 mercury/admin/

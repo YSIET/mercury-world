@@ -1,7 +1,9 @@
+import VisitCounter from "./VisitCounter";
+
 /**
  * 원본 inc/footer.php 미러
  * - copyright_1.gif (914 width)
- * - copyright_2.gif (809 wide) + footer_today.gif 통계 (자리표시자)
+ * - copyright_2.gif (809 wide) + footer_today.gif 통계 (KV 방문 카운터)
  */
 export default function Footer() {
   return (
@@ -29,12 +31,11 @@ export default function Footer() {
                   <td
                     align="center"
                     style={{
-                      backgroundImage: "url(/img/common/footer_today.gif)",
-                      backgroundRepeat: "no-repeat",
+                      background: "url(/img/common/footer_today.gif) no-repeat",
+                      height: 37,
                     }}
                   >
-                    {/* 원본은 statisticsShow('statistics.htm') — 추후 분석 통계 위젯 자리 */}
-                    <span style={{ visibility: "hidden" }}>0</span>
+                    <VisitCounter />
                   </td>
                 </tr>
               </tbody>

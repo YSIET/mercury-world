@@ -329,12 +329,171 @@ table.wide {
     left: auto;
     right: 6px;
     margin-left: 0;
-    transform: scale(0.7);
+    transform: scale(0.5);
     transform-origin: top right;
   }
 
   .header img {
     max-width: 100%;
     height: auto;
+  }
+
+  /* ===== Mobile vertical stack (Sprint 27) ===== */
+  .mw-fluid-rail {
+    overflow-x: hidden;
+  }
+
+  .board-placeholder {
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  [width="914"],
+  [width="940"],
+  [width="970"],
+  [style*="width:940px"],
+  [style*="width: 940px"],
+  [style*="width:970px"],
+  [style*="width: 970px"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .mw-prose {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  /* 서브페이지 겉 테이블만 — 213 사이드바 숨김(B), 본문만 표시 */
+  .mw-subpage-rail > table {
+    display: block !important;
+    width: 100% !important;
+  }
+  .mw-subpage-rail > table > tbody {
+    display: block !important;
+    width: 100% !important;
+  }
+  .mw-subpage-rail > table > tbody > tr {
+    display: block !important;
+    width: 100% !important;
+  }
+  .mw-subpage-rail > table > tbody > tr > td[width="213"] {
+    display: none !important;
+  }
+  .mw-subpage-rail > table > tbody > tr > td[width="727"] {
+    display: block !important;
+    width: 100% !important;
+    padding: 8px !important;
+    box-sizing: border-box;
+  }
+
+  .mw-subpage-rail > table > tbody > tr > td[width="727"] img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* 홈 상단: 빈 609열 제거 후 세로 흐름 */
+  .mw-home-top-rail > table {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .mw-home-top-rail > table > tbody {
+    display: block !important;
+    width: 100% !important;
+  }
+  .mw-home-top-rail > table > tbody > tr {
+    display: block !important;
+    width: 100% !important;
+  }
+  .mw-home-top-rail td[width="609"] {
+    display: none !important;
+  }
+  .mw-home-top-rail > table > tbody > tr > td {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  div.banner {
+    max-width: min(331px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 푸터 914 테이블 세로 정리 */
+  .mw-footer-rail > table > tbody > tr {
+    display: block;
+    width: 100%;
+  }
+  .mw-footer-rail > table > tbody > tr > td {
+    display: block;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  img[width="970"],
+  img[width="940"],
+  .mw-main-visual-rail img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .mw-main-visual-rail img[style] {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  .mw-header-rail,
+  .mw-header-rail .header,
+  .mw-header-rail #pop_wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .mw-header-rail .header {
+    height: auto;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 480px) {
+  #quick_menu {
+    display: none !important;
+  }
+
+  .header .logo {
+    float: none;
+    margin: 0 auto 8px;
+    text-align: center;
+  }
+
+  .header .gnv {
+    float: none;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .gnv dl {
+    float: none !important;
+    margin: 4px 4px 0 !important;
+    min-width: auto !important;
+  }
+
+  .gnv dl dt {
+    padding: 8px 4px;
+  }
+
+  .gnv dl dt a {
+    font-size: 12px;
+    white-space: normal;
   }
 }

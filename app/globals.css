@@ -217,10 +217,10 @@ ul.side_nav li a.on, ul.side_nav li a:hover { color: #0099cc; background-positio
   justify-content: center;
   font-family: 굴림, Gulim, sans-serif;
   font-size: 11px;
-  font-weight: bold;
-  line-height: 1.1;
+  font-weight: normal;
+  line-height: 1.2;
   letter-spacing: -1px;
-  color: #222;
+  color: #333;
   white-space: nowrap;
   padding: 4px 0;
   transform: scale(0.92);
@@ -228,44 +228,6 @@ ul.side_nav li a.on, ul.side_nav li a:hover { color: #0099cc; background-positio
 }
 #quick_menu ul li a.quick_menu_iq:hover { color: #007bd1; }
 
-/* 메인 비주얼 IQ 안내 (이미지맵 좌표와 동일 기준) */
-.main-visual-wrap {
-  position: relative;
-  width: 970px;
-  height: 514px;
-}
-.main-visual-img {
-  display: block;
-  width: 970px;
-  height: 514px;
-}
-a.main-visual-iq-hotspot {
-  position: absolute;
-  left: 830px;
-  top: 269px;
-  width: 110px;
-  height: 145px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 13px;
-  font-weight: bold;
-  font-family: 굴림, Gulim, sans-serif;
-  color: #ff6600;
-  background: rgba(255, 255, 255, 0.65);
-  border: 2px dashed rgba(255, 102, 0, 0.5);
-  border-radius: 6px;
-  text-decoration: none;
-  transition: background 0.2s;
-  cursor: pointer;
-  box-sizing: border-box;
-  z-index: 2;
-  line-height: 1.25;
-}
-a.main-visual-iq-hotspot:hover {
-  background: rgba(255, 200, 0, 0.5);
-}
 #quick_menu div.top { padding-top: 5px; text-align: center; }
 #quick_menu div.top img { cursor: pointer; }
 

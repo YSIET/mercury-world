@@ -7,7 +7,7 @@ import {
   collectSubtreeIds,
   type QnaPost,
 } from "@/lib/qna";
-import AdminQnaDeleteBtn from "../AdminQnaDeleteBtn";
+import AdminQnaThreadArticle from "../AdminQnaThreadArticle";
 
 export const dynamic = "force-dynamic";
 
@@ -75,7 +75,10 @@ export default async function AdminQnaDetailPage({
       </div>
 
       <h1 style={{ fontSize: 18 }}>
-        {post.isSecret ? "🔒 " : ""}글 #{post.id}
+        {post.isSecret ? "🔒 " : ""}글 #{post.id}{" "}
+        <span style={{ fontSize: 13, color: "#666", fontWeight: "normal" }}>
+          (관리자는 비밀글 본문·답글을 바로 수정할 수 있습니다)
+        </span>
       </h1>
       <p style={{ color: "#666", fontSize: 13 }}>
         {post.name}
@@ -84,9 +87,11 @@ export default async function AdminQnaDetailPage({
         {post.ip ? ` · IP ${post.ip}` : ""}
       </p>
 
-      <ArticleBlock
+      <AdminQnaThreadArticle
         post={post}
-        label="선택 글"
+        rootPageId={id}
+        isRoot
+        label="본문"
         deleteTitle={post.title}
       />
 
@@ -96,67 +101,15 @@ export default async function AdminQnaDetailPage({
         </h2>
       )}
       {descendants.map((p) => (
-        <ArticleBlock
+        <AdminQnaThreadArticle
           key={p.id}
           post={p}
+          rootPageId={id}
+          isRoot={false}
           label={`#${p.id} 답글`}
           deleteTitle={p.title}
         />
       ))}
     </div>
-  );
-}
-
-function ArticleBlock({
-  post,
-  label,
-  deleteTitle,
-}: {
-  post: QnaPost;
-  label: string;
-  deleteTitle: string;
-}) {
-  return (
-    <section
-      style={{
-        marginTop: 16,
-        padding: 16,
-        border: "1px solid #dedede",
-        background: "#fafafa",
-        marginLeft: post.depth * 20,
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          gap: 12,
-        }}
-      >
-        <div>
-          <div style={{ fontWeight: "bold", marginBottom: 6 }}>
-            {label}: {post.isSecret ? "🔒 " : ""}
-            {post.title}
-          </div>
-          <div style={{ fontSize: 12, color: "#666" }}>
-            {post.name} · depth {post.depth}
-          </div>
-        </div>
-        <AdminQnaDeleteBtn id={post.id} title={deleteTitle} />
-      </div>
-      <div
-        style={{
-          marginTop: 12,
-          whiteSpace: "pre-wrap",
-          fontSize: 14,
-          background: "#fff",
-          padding: 12,
-          border: "1px solid #eee",
-        }}
-      >
-        {post.content}
-      </div>
-    </section>
   );
 }

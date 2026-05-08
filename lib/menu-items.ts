@@ -19,4 +19,5 @@ export const MENU_ITEMS: Array<[number, string, string]> = [
 
   [1500, "수은섭취량테스트", "/content/content"],
   [1500, "ONEDAY수은신호등", "/content/one"],
+  [1500, "수은함유량 데이터", "/content/mercury"],
 ];

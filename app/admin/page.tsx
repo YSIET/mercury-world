@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getBoardStats, getQnaStats, getTodayStats } from "@/lib/stats";
+import { countMercuryRows } from "@/lib/mercury-content";
 
 export const dynamic = "force-dynamic";
 
@@ -17,10 +18,11 @@ async function logoutAction() {
 }
 
 export default async function AdminDashboardPage() {
-  const [board, qna, visit] = await Promise.all([
+  const [board, qna, visit, mercuryN] = await Promise.all([
     getBoardStats(),
     getQnaStats(),
     getTodayStats(),
+    countMercuryRows(),
   ]);
   const roots = qna.totalPosts - qna.totalReplies;
 
@@ -56,7 +58,7 @@ export default async function AdminDashboardPage() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(5, 1fr)",
+          gridTemplateColumns: "repeat(auto-fill, minmax(168px, 1fr))",
           gap: 12,
         }}
       >
@@ -117,6 +119,18 @@ export default async function AdminDashboardPage() {
           </div>
           <div style={{ marginTop: 10, fontSize: 12, color: "#007bd1" }}>
             방문 설정 →
+          </div>
+        </Link>
+
+        <Link href="/admin/mercury-content" className="admin-dash-card">
+          <div style={{ fontWeight: "bold", fontSize: 15, marginBottom: 10 }}>
+            수은함유량 데이터
+          </div>
+          <div style={{ fontSize: 13, lineHeight: 1.65, color: "#444" }}>
+            {mercuryN}행 → 편집
+          </div>
+          <div style={{ marginTop: 10, fontSize: 12, color: "#007bd1" }}>
+            표 관리 →
           </div>
         </Link>
       </div>

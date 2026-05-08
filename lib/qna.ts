@@ -109,6 +109,23 @@ export async function deletePostById(id: number): Promise<void> {
   await kv.zrem("qna:posts", String(id));
 }
 
+export async function updateQnaPostFields(
+  id: number,
+  patch: Partial<Pick<QnaPost, "title" | "content">>
+): Promise<QnaPost | null> {
+  const cur = await getPost(id);
+  if (!cur) return null;
+  const now = Date.now();
+  const next: QnaPost = {
+    ...cur,
+    ...(patch.title !== undefined ? { title: patch.title } : {}),
+    ...(patch.content !== undefined ? { content: patch.content } : {}),
+    updatedAt: now,
+  };
+  await kv.set(`qna:post:${id}`, next);
+  return next;
+}
+
 export async function listPosts(
   offset: number,
   limit: number

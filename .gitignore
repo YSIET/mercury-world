@@ -39,6 +39,7 @@ lib/*
 !lib/post-utils.ts
 !lib/legacy-json-data.ts
 !lib/kv-file-blob.ts
+!lib/mercury-content.ts
 !lib/qna.ts
 !lib/board.ts
 !lib/admin-auth-server.ts

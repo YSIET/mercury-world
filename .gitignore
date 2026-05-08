@@ -37,6 +37,8 @@ conf/
 lib/*
 !lib/posts.ts
 !lib/qna.ts
+!lib/board.ts
+!lib/admin-auth-server.ts
 !lib/signal.ts
 !lib/attachments.ts
 !lib/iq.ts

@@ -7,6 +7,7 @@ import type { Post } from "@/lib/posts";
 import { formatDate } from "@/lib/posts";
 
 const PAGE_SIZE = 10;
+const PAGE_GROUP_SIZE = 10;
 
 const writeBtnStyle: CSSProperties = {
   fontSize: 14,
@@ -57,6 +58,7 @@ export default function FreeboardListMerged({
   const router = useRouter();
   const [dynamicRows, setDynamicRows] = useState<QnaRow[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [hoverPage, setHoverPage] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("/api/qna/posts?page=1&size=1000", { credentials: "include" })
@@ -95,7 +97,16 @@ export default function FreeboardListMerged({
     );
   }, [initialPosts, listBase, dynamicRows]);
 
-  const totalPages = Math.max(1, Math.ceil(merged.length / PAGE_SIZE));
+  const unifiedTotal = merged.length;
+  const totalPages = Math.max(1, Math.ceil(unifiedTotal / PAGE_SIZE));
+  const groupStart =
+    Math.floor((currentPage - 1) / PAGE_GROUP_SIZE) * PAGE_GROUP_SIZE + 1;
+  const groupEnd = Math.min(
+    groupStart + PAGE_GROUP_SIZE - 1,
+    totalPages
+  );
+  const hasPrevGroup = groupStart > 1;
+  const hasNextGroup = groupEnd < totalPages;
 
   useEffect(() => {
     if (currentPage > totalPages) setCurrentPage(totalPages);
@@ -216,50 +227,84 @@ export default function FreeboardListMerged({
         <WriteButton />
       </p>
       {merged.length > 0 && (
-        <nav
+        <div
           style={{
+            textAlign: "center",
+            margin: "20px 0 16px",
+            fontSize: 14,
+            lineHeight: 1.5,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: 8,
             flexWrap: "wrap",
-            fontSize: 14,
-            marginBottom: 16,
-            lineHeight: 1.5,
+            gap: 6,
           }}
         >
-          <button
-            type="button"
-            style={writeBtnStyle}
-            disabled={currentPage <= 1}
-            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+          <span
+            role="button"
+            tabIndex={hasPrevGroup ? 0 : -1}
+            onKeyDown={(e) => {
+              if (!hasPrevGroup) return;
+              if (e.key === "Enter" || e.key === " ")
+                setCurrentPage(groupStart - 1);
+            }}
+            onClick={() => hasPrevGroup && setCurrentPage(groupStart - 1)}
+            style={{
+              padding: "4px 10px",
+              cursor: hasPrevGroup ? "pointer" : "default",
+              color: hasPrevGroup ? "#333" : "#ccc",
+              userSelect: "none",
+            }}
           >
-            &lt;
-          </button>
-          {Array.from({ length: totalPages }, (_, j) => j + 1).map((p) => (
-            <button
+            ‹
+          </span>
+          {Array.from(
+            { length: groupEnd - groupStart + 1 },
+            (_, i) => groupStart + i
+          ).map((p) => (
+            <span
               key={p}
-              type="button"
-              style={{
-                ...writeBtnStyle,
-                minWidth: 32,
-                fontWeight: p === currentPage ? "bold" : "normal",
-                background: p === currentPage ? "#e0e0e0" : "#f0f0f0",
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") setCurrentPage(p);
               }}
               onClick={() => setCurrentPage(p)}
+              onMouseEnter={() => setHoverPage(p)}
+              onMouseLeave={() => setHoverPage(null)}
+              style={{
+                padding: "4px 10px",
+                cursor: "pointer",
+                fontWeight: p === currentPage ? "bold" : "normal",
+                color: p === currentPage ? "#007bd1" : "#333",
+                background: p === currentPage ? "#f0f8ff" : "transparent",
+                textDecoration:
+                  hoverPage === p && p !== currentPage ? "underline" : "none",
+                userSelect: "none",
+              }}
             >
               {p}
-            </button>
+            </span>
           ))}
-          <button
-            type="button"
-            style={writeBtnStyle}
-            disabled={currentPage >= totalPages}
-            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+          <span
+            role="button"
+            tabIndex={hasNextGroup ? 0 : -1}
+            onKeyDown={(e) => {
+              if (!hasNextGroup) return;
+              if (e.key === "Enter" || e.key === " ")
+                setCurrentPage(groupEnd + 1);
+            }}
+            onClick={() => hasNextGroup && setCurrentPage(groupEnd + 1)}
+            style={{
+              padding: "4px 10px",
+              cursor: hasNextGroup ? "pointer" : "default",
+              color: hasNextGroup ? "#333" : "#ccc",
+              userSelect: "none",
+            }}
           >
-            &gt;
-          </button>
-        </nav>
+            ›
+          </span>
+        </div>
       )}
     </>
   );

@@ -266,3 +266,18 @@ div.banner div.main_title1 { display: block; position: absolute; z-index: 6; }
   font-size: 13px;
   line-height: 22px;
 }
+
+.admin-dash-card {
+  display: block;
+  padding: 16px;
+  border: 1px solid #ccc;
+  background: #fff;
+  text-decoration: none;
+  color: #333;
+  border-radius: 2px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.admin-dash-card:hover {
+  border-color: #007bd1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}

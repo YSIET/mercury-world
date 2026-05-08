@@ -1,39 +1,37 @@
 import { kv } from "@vercel/kv";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import {
+  getFakeDailyRange,
+  randInt,
+  todayKST,
+  VISIT_INIT_TOTAL,
+  KV_VISIT_INIT_DONE,
+  KV_VISIT_TOTAL,
+  KV_VISIT_LAST_FAKE_DATE,
+  visitTodayKey,
+} from "@/lib/today";
 
 export const dynamic = "force-dynamic";
-
-const INIT_TOTAL = 17322;
-const FAKE_MIN = 1;
-const FAKE_MAX = 5;
-
-function todayKST(): string {
-  const kst = new Date(Date.now() + 9 * 60 * 60 * 1000);
-  return kst.toISOString().slice(0, 10);
-}
-
-function randInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 export async function GET() {
   const today = todayKST();
 
-  const initDone = await kv.get("visit:init_done");
+  const initDone = await kv.get(KV_VISIT_INIT_DONE);
   if (!initDone) {
-    await kv.set("visit:total", INIT_TOTAL);
-    await kv.set("visit:init_done", "1");
+    await kv.set(KV_VISIT_TOTAL, VISIT_INIT_TOTAL);
+    await kv.set(KV_VISIT_INIT_DONE, "1");
   }
 
-  const lastFakeDate = await kv.get<string>("visit:last_fake_date");
+  const lastFakeDate = await kv.get<string>(KV_VISIT_LAST_FAKE_DATE);
   if (lastFakeDate !== today) {
-    const fake = randInt(FAKE_MIN, FAKE_MAX);
+    const { min, max } = await getFakeDailyRange();
+    const fake = randInt(min, max);
     await Promise.all([
-      kv.incrby("visit:total", fake),
-      kv.incrby(`visit:today:${today}`, fake),
+      kv.incrby(KV_VISIT_TOTAL, fake),
+      kv.incrby(visitTodayKey(today), fake),
     ]);
-    await kv.set("visit:last_fake_date", today);
+    await kv.set(KV_VISIT_LAST_FAKE_DATE, today);
   }
 
   const cookieStore = cookies();
@@ -41,15 +39,15 @@ export async function GET() {
   let counted = false;
   if (lastVisit !== today) {
     await Promise.all([
-      kv.incr("visit:total"),
-      kv.incr(`visit:today:${today}`),
+      kv.incr(KV_VISIT_TOTAL),
+      kv.incr(visitTodayKey(today)),
     ]);
     counted = true;
   }
 
   const [total, todayCount] = await Promise.all([
-    kv.get<number>("visit:total"),
-    kv.get<number>(`visit:today:${today}`),
+    kv.get<number>(KV_VISIT_TOTAL),
+    kv.get<number>(visitTodayKey(today)),
   ]);
 
   const res = NextResponse.json({

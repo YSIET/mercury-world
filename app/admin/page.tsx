@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { listAllPosts } from "@/lib/qna";
+import { getBoardStats, getQnaStats, getTodayStats } from "@/lib/stats";
 
 export const dynamic = "force-dynamic";
 
@@ -17,10 +17,12 @@ async function logoutAction() {
 }
 
 export default async function AdminDashboardPage() {
-  const posts = await listAllPosts();
-  const roots = posts.filter((p) => p.parentId == null).length;
-  const replies = posts.filter((p) => p.parentId != null).length;
-  const secrets = posts.filter((p) => p.isSecret).length;
+  const [board, qna, visit] = await Promise.all([
+    getBoardStats(),
+    getQnaStats(),
+    getTodayStats(),
+  ]);
+  const roots = qna.totalPosts - qna.totalReplies;
 
   return (
     <div
@@ -54,37 +56,75 @@ export default async function AdminDashboardPage() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-          gap: 16,
+          gridTemplateColumns: "repeat(5, 1fr)",
+          gap: 12,
         }}
       >
-        <Link
-          href="/admin/qna"
-          style={{
-            display: "block",
-            padding: 20,
-            border: "1px solid #ccc",
-            background: "#fff",
-            textDecoration: "none",
-            color: "#333",
-            borderRadius: 4,
-          }}
-        >
-          <div style={{ fontWeight: "bold", fontSize: 15, marginBottom: 12 }}>
-            묻고답하기 관리
+        <Link href="/admin/qna" className="admin-dash-card">
+          <div style={{ fontWeight: "bold", fontSize: 15, marginBottom: 10 }}>
+            묻고답하기
           </div>
-          <div style={{ fontSize: 13, lineHeight: 1.6, color: "#555" }}>
-            전체 글 {posts.length}건 (원글 {roots} / 답글 {replies}) · 비밀글{" "}
-            {secrets}건
+          <div style={{ fontSize: 13, lineHeight: 1.65, color: "#444" }}>
+            글 {roots}건 / 답글 {qna.totalReplies}건 / 비밀글 {qna.secretCount}건
           </div>
           <div style={{ marginTop: 10, fontSize: 12, color: "#007bd1" }}>
-            목록 보기 →
+            관리 →
+          </div>
+        </Link>
+
+        <Link href="/admin/news/notice/write" className="admin-dash-card">
+          <div style={{ fontWeight: "bold", fontSize: 15, marginBottom: 10 }}>
+            공지사항
+          </div>
+          <div style={{ fontSize: 13, lineHeight: 1.65, color: "#444" }}>
+            KV {board.notice.kv}건 + 레거시 {board.notice.legacy}건
+          </div>
+          <div style={{ marginTop: 10, fontSize: 12, color: "#007bd1" }}>
+            글쓰기 →
+          </div>
+        </Link>
+
+        <Link href="/admin/news/news/write" className="admin-dash-card">
+          <div style={{ fontWeight: "bold", fontSize: 15, marginBottom: 10 }}>
+            수은관련뉴스
+          </div>
+          <div style={{ fontSize: 13, lineHeight: 1.65, color: "#444" }}>
+            KV {board.news.kv}건 + 레거시 {board.news.legacy}건
+          </div>
+          <div style={{ marginTop: 10, fontSize: 12, color: "#007bd1" }}>
+            글쓰기 →
+          </div>
+        </Link>
+
+        <Link href="/admin/news/pds/write" className="admin-dash-card">
+          <div style={{ fontWeight: "bold", fontSize: 15, marginBottom: 10 }}>
+            수은함유량정보
+          </div>
+          <div style={{ fontSize: 13, lineHeight: 1.65, color: "#444" }}>
+            KV {board.pds.kv}건 + 레거시 {board.pds.legacy}건
+          </div>
+          <div style={{ marginTop: 10, fontSize: 12, color: "#007bd1" }}>
+            글쓰기 →
+          </div>
+        </Link>
+
+        <Link href="/admin/stats" className="admin-dash-card">
+          <div style={{ fontWeight: "bold", fontSize: 15, marginBottom: 10 }}>
+            통계
+          </div>
+          <div style={{ fontSize: 13, lineHeight: 1.65, color: "#444" }}>
+            today {visit.today} / total {visit.total}
+          </div>
+          <div style={{ marginTop: 10, fontSize: 12, color: "#007bd1" }}>
+            방문 설정 →
           </div>
         </Link>
       </div>
 
-      <p style={{ marginTop: 32, fontSize: 12, color: "#888" }}>
-        통계는 묻고답하기 KV 기준입니다.
+      <p style={{ marginTop: 24, fontSize: 12, color: "#888", lineHeight: 1.6 }}>
+        게시판 수: KV ZSET·묻고답하기·수은소식 공지/뉴스/pds · 레거시 JSON 합산. 자유게시판 KV =
+        묻고답하기 전체 글 수 ({board.freeboard.kv}건) / 레거시{" "}
+        {board.freeboard.legacy}건.
       </p>
     </div>
   );

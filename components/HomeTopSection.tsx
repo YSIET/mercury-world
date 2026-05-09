@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export type HomeRecentLink = { title: string; href: string };
+export type HomeRecentLink = { title: string; href: string; date?: string };
 
 export default function HomeTopSection({
   recentNotice,

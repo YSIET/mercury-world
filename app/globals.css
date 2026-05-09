@@ -319,9 +319,117 @@ table.wide {
   display: block;
 }
 
+/* ===== Mobile-only home page (Sprint 29) ===== */
+.mw-mobile-home-wrap {
+  display: none;
+}
+
 @media (max-width: 768px) {
   body {
     padding: 0;
+    font-size: 14px;
+  }
+
+  .mw-desktop-home {
+    display: none !important;
+  }
+
+  .mw-mobile-home-wrap {
+    display: block !important;
+  }
+
+  .mw-mobile-home {
+    width: 100%;
+    max-width: 100vw;
+    padding: 16px;
+    font-family: 굴림, Gulim, sans-serif;
+    box-sizing: border-box;
+  }
+
+  .mw-mob-intro {
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid #eeeeee;
+  }
+
+  .mw-mob-intro h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 8px;
+    color: #2a4d8a;
+  }
+
+  .mw-mob-intro p {
+    font-size: 14px;
+    color: #666666;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .mw-mob-board-section {
+    padding: 16px 0;
+    border-bottom: 1px solid #eeeeee;
+  }
+
+  .mw-mob-board-section h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 12px;
+  }
+
+  .mw-mob-board-section h3 a {
+    color: #2a4d8a;
+    text-decoration: none;
+  }
+
+  .mw-mob-board-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mw-mob-board-section li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 14px;
+    border-top: 1px dotted #dddddd;
+  }
+
+  .mw-mob-board-section li a {
+    color: #333333;
+    text-decoration: none;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 12px;
+    min-width: 0;
+  }
+
+  .mw-mob-date {
+    font-size: 12px;
+    color: #999999;
+    flex-shrink: 0;
+  }
+
+  .mw-mob-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 20px 0 8px;
+  }
+
+  .mw-mob-menu-grid a {
+    display: block;
+    padding: 16px;
+    text-align: center;
+    background: #f5f7fb;
+    border: 1px solid #d4dcec;
+    border-radius: 6px;
+    color: #2a4d8a;
+    text-decoration: none;
     font-size: 14px;
   }
 
@@ -477,29 +585,44 @@ table.wide {
     height: auto;
   }
 
-  /* 푸터 914 — 세로 stack + 이미지 fluid */
+  /* 푸터 914 — Sprint 29 모바일 stack 강화 */
   .mw-footer-rail,
-  .mw-footer-rail > table {
-    width: 100% !important;
+  .mw-footer-rail * {
     max-width: 100% !important;
     box-sizing: border-box;
   }
 
-  .mw-footer-rail > table > tbody > tr {
-    display: block;
-    width: 100%;
+  .mw-footer-rail,
+  .mw-footer-rail > table {
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
-  .mw-footer-rail > table > tbody > tr > td {
+  .mw-footer-rail table,
+  .mw-footer-rail tbody,
+  .mw-footer-rail tr {
     display: block !important;
     width: 100% !important;
-    box-sizing: border-box;
-    padding: 4px 8px !important;
+  }
+
+  .mw-footer-rail td {
+    display: block !important;
+    width: 100% !important;
+    padding: 6px 12px !important;
+    text-align: left !important;
   }
 
   .mw-footer-rail img {
     max-width: 100%;
     height: auto;
+  }
+
+  .mw-footer-rail table table {
+    margin: 8px auto !important;
+  }
+
+  .mw-footer-rail table table td {
+    text-align: center !important;
   }
 
   .mw-header-rail,

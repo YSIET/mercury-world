@@ -144,12 +144,13 @@ export async function listAllKvBoardPosts(
 export async function getRecentBoardLinks(
   type: BoardType,
   limit: number
-): Promise<{ title: string; href: string }[]> {
+): Promise<{ title: string; href: string; date: string }[]> {
   const posts = await listAllKvBoardPosts(type);
   const base = listPathForBoardType(type);
   return posts.slice(0, limit).map((p) => ({
     title: p.title,
     href: `${base}/${publicBoardListId(p)}`,
+    date: formatDate(p.createdAt),
   }));
 }
 

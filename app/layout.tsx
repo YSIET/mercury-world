@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { headers } from "next/headers";
 import "./globals.css";
 import { SITE_ORIGIN, canonicalFromPathname } from "@/lib/site-canonical";
+import DesktopJqueryScripts from "@/components/DesktopJqueryScripts";
 
 const SITE = new URL(SITE_ORIGIN);
 
@@ -104,16 +104,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {/* 원본 jQuery 1.12.4 그대로 유지 (배너 슬라이더 / 메뉴 hover 동작용) */}
-        <Script
-          src="https://code.jquery.com/jquery-1.12.4.min.js"
-          strategy="beforeInteractive"
-        />
-        <Script
-          src="/js/banner-slider.js"
-          strategy="afterInteractive"
-        />
-        {/* 원본 페이지 내 보조 스크립트들 (필요 시 해당 페이지에서 추가 로드) */}
+        <DesktopJqueryScripts />
         {children}
       </body>
     </html>

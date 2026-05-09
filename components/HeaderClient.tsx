@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import MobileBackButton from "@/components/MobileBackButton";
+import { MW_JQUERY_READY_EVENT } from "@/lib/jquery-desktop";
 import { MENU_ITEMS } from "@/lib/menu-items";
 
 const TOP_GROUPS: Array<{ group: number | null; label: string; href: string }> = [
@@ -28,42 +29,57 @@ export default function HeaderClient({
   const [iqQuickHover, setIqQuickHover] = useState(false);
 
   useEffect(() => {
-    const $ = (window as any).$ || (window as any).jQuery;
-    if (!$) return;
+    let detach: (() => void) | undefined;
 
-    const bindGnvHover = () => {
-      $("#gnv dl").off("mouseenter focusin mouseleave focusout");
-      if (!window.matchMedia("(min-width: 769px)").matches) return;
-      $("#gnv dl")
-        .on("mouseenter focusin", function (this: HTMLElement) {
-          $(this).find("dd").eq(0).stop().slideDown(150);
-        })
-        .on("mouseleave focusout", function (this: HTMLElement) {
-          $(this).find("dd").eq(0).stop().slideUp(30);
-        });
-    };
+    const attach = () => {
+      const $ = (window as any).$ || (window as any).jQuery;
+      if (!$) return;
 
-    bindGnvHover();
-    window.addEventListener("resize", bindGnvHover);
+      detach?.();
+      detach = undefined;
 
-    const handleScroll = () => {
-      try {
-        const elem = $("#quick_menu");
-        const pos = $(window).scrollTop();
-        if (pos === 0) {
-          elem.stop().animate({ top: 100 }, 600);
-        } else {
-          elem.stop().animate({ top: pos + 100 }, 600);
+      const bindGnvHover = () => {
+        $("#gnv dl").off("mouseenter focusin mouseleave focusout");
+        if (!window.matchMedia("(min-width: 769px)").matches) return;
+        $("#gnv dl")
+          .on("mouseenter focusin", function (this: HTMLElement) {
+            $(this).find("dd").eq(0).stop().slideDown(150);
+          })
+          .on("mouseleave focusout", function (this: HTMLElement) {
+            $(this).find("dd").eq(0).stop().slideUp(30);
+          });
+      };
+
+      bindGnvHover();
+      window.addEventListener("resize", bindGnvHover);
+
+      const handleScroll = () => {
+        try {
+          const elem = $("#quick_menu");
+          const pos = $(window).scrollTop();
+          if (pos === 0) {
+            elem.stop().animate({ top: 100 }, 600);
+          } else {
+            elem.stop().animate({ top: pos + 100 }, 600);
+          }
+        } catch {
+          // ignore
         }
-      } catch {
-        // ignore
-      }
+      };
+      $(window).on("scroll.mercuryQuick", handleScroll);
+
+      detach = () => {
+        $(window).off("scroll.mercuryQuick");
+        window.removeEventListener("resize", bindGnvHover);
+      };
     };
-    $(window).on("scroll.mercuryQuick", handleScroll);
+
+    attach();
+    window.addEventListener(MW_JQUERY_READY_EVENT, attach);
 
     return () => {
-      $(window).off("scroll.mercuryQuick");
-      window.removeEventListener("resize", bindGnvHover);
+      window.removeEventListener(MW_JQUERY_READY_EVENT, attach);
+      detach?.();
     };
   }, []);
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { MW_JQUERY_READY_EVENT } from "@/lib/jquery-desktop";
 
 export type HomeRecentLink = { title: string; href: string; date?: string };
 
@@ -17,51 +18,65 @@ export default function HomeTopSection({
   const [activeTab, setActiveTab] = useState<"notice" | "news" | "pds">("notice");
 
   useEffect(() => {
-    const $ = (window as any).$ || (window as any).jQuery;
-    if (!$) return;
+    let teardown: (() => void) | undefined;
 
-    const bn_pause = 3000;
-    let bn_speed = 1000;
-    let bn_direction = 1;
-    let bn_interval_id: ReturnType<typeof setInterval>;
+    const mountBanner = () => {
+      const $ = (window as any).$ || (window as any).jQuery;
+      if (!$) return;
 
-    function banner_on() {
-      const bn_width = $("#banner li").width();
-      if (bn_direction === -1) {
-        $("#banner")
-          .prepend($("#banner li:last"))
-          .css("left", "-" + bn_width + "px");
-        $("#banner").stop().animate({ left: "0" }, bn_speed, function () {});
-      } else {
-        const $banner = $("#banner");
-        $banner
-          .stop()
-          .animate({ left: "-" + bn_width + "px" }, bn_speed, function () {
-            $banner.find("li").first().appendTo($banner);
-            $banner.css("left", "0px");
-          });
-      }
-    }
+      teardown?.();
 
-    bn_interval_id = setInterval(banner_on, bn_pause);
-    $("#banner")
-      .parent()
-      .hover(
-        function () {
-          clearInterval(bn_interval_id);
-        },
-        function () {
-          bn_speed = 1500;
-          bn_interval_id = setInterval(banner_on, bn_pause);
+      const bn_pause = 3000;
+      let bn_speed = 1000;
+      let bn_direction = 1;
+      let bn_interval_id: ReturnType<typeof setInterval>;
+
+      function banner_on() {
+        const bn_width = $("#banner li").width();
+        if (bn_direction === -1) {
+          $("#banner")
+            .prepend($("#banner li:last"))
+            .css("left", "-" + bn_width + "px");
+          $("#banner").stop().animate({ left: "0" }, bn_speed, function () {});
+        } else {
+          const $banner = $("#banner");
+          $banner
+            .stop()
+            .animate({ left: "-" + bn_width + "px" }, bn_speed, function () {
+              $banner.find("li").first().appendTo($banner);
+              $banner.css("left", "0px");
+            });
         }
-      );
+      }
 
-    (window as any).banner_nav = (_dir: number) => {
-      bn_direction = _dir;
+      bn_interval_id = setInterval(banner_on, bn_pause);
+      $("#banner")
+        .parent()
+        .hover(
+          function () {
+            clearInterval(bn_interval_id);
+          },
+          function () {
+            bn_speed = 1500;
+            bn_interval_id = setInterval(banner_on, bn_pause);
+          }
+        );
+
+      (window as any).banner_nav = (_dir: number) => {
+        bn_direction = _dir;
+      };
+
+      teardown = () => {
+        clearInterval(bn_interval_id);
+      };
     };
 
+    mountBanner();
+    window.addEventListener(MW_JQUERY_READY_EVENT, mountBanner);
+
     return () => {
-      clearInterval(bn_interval_id);
+      window.removeEventListener(MW_JQUERY_READY_EVENT, mountBanner);
+      teardown?.();
     };
   }, []);
 

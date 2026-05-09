@@ -813,12 +813,23 @@ table.wide {
     height: auto;
   }
 
-  /* 푸터 914 — 모바일 stack + 방문 카운터 table 복구 */
+  /* 푸터 914 — 모바일 stack + 방문 카운터(텍스트만) */
   .mw-footer-rail {
     max-width: 100% !important;
     width: 100% !important;
     box-sizing: border-box;
-    padding: 0 12px 24px !important;
+    padding: 16px 12px 24px !important;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .mw-footer-rail,
+  .mw-footer-rail td,
+  .mw-footer-rail span,
+  .mw-footer-rail p {
+    font-size: 13px !important;
+    line-height: 1.7 !important;
+    color: #555;
   }
 
   .mw-footer-rail > table > tbody > tr:first-child img,
@@ -873,8 +884,11 @@ table.wide {
     display: block !important;
     width: 100% !important;
     text-align: center !important;
-    padding: 12px !important;
+    padding: 8px 12px !important;
     box-sizing: border-box;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 
   .mw-footer-rail .mw-visit-counter-wrap {
@@ -882,8 +896,10 @@ table.wide {
     text-align: center;
     width: 100%;
     max-width: none !important;
-    margin: 12px auto 0;
+    margin: 8px auto 0;
     box-sizing: border-box;
+    border: none !important;
+    background: transparent !important;
   }
 
   .mw-footer-rail .mw-visit-counter-wrap > table {
@@ -891,6 +907,9 @@ table.wide {
     width: auto !important;
     max-width: none !important;
     margin: 0 auto !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
   .mw-footer-rail .mw-visit-counter-wrap > table > tbody {
@@ -906,9 +925,14 @@ table.wide {
     display: table-cell !important;
     width: auto !important;
     max-width: none !important;
-    padding: 0 !important;
+    padding: 4px 0 !important;
     text-align: center !important;
     vertical-align: middle !important;
+    background: none !important;
+    background-image: none !important;
+    height: auto !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 
   .mw-footer-rail .mw-visit-counter-table {
@@ -916,6 +940,9 @@ table.wide {
     width: auto !important;
     max-width: none !important;
     margin: 0 auto !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
   .mw-footer-rail .mw-visit-counter-table tbody {
@@ -931,18 +958,26 @@ table.wide {
     width: auto !important;
     max-width: none !important;
     padding: 2px 4px !important;
-    text-align: left !important;
+    text-align: center !important;
+    color: #888 !important;
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+    border: none !important;
+    background: transparent !important;
   }
 
   .mw-footer-rail .mw-visit-counter-table table {
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box;
+    border: none !important;
+    background: transparent !important;
   }
 
   .mw-footer-rail img {
     max-width: 100%;
     height: auto;
+    margin-bottom: 8px;
   }
 
   .mw-header-rail,

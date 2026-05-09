@@ -112,6 +112,7 @@ function BoardListInner({
         <WriteButton />
       </p>
       <table
+        className="mw-board-table"
         width="100%"
         border={0}
         cellPadding={0}

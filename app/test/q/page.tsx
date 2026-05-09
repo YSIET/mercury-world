@@ -52,7 +52,7 @@ export default function MercuryIqPage() {
   if (submitted) {
     const result = calculateScore(answers);
     return (
-      <div style={wrapperStyle}>
+      <div className="mw-iq-test" style={wrapperStyle}>
         <div style={{ textAlign: "center", padding: "15px 0 18px" }}>
           <img
             src="/img/test/iq_top.gif"
@@ -101,7 +101,10 @@ export default function MercuryIqPage() {
                   <div style={{ fontWeight: "bold", marginBottom: 8 }}>
                     {q.num}. {q.question}
                   </div>
-                  <div style={{ marginLeft: 16, marginBottom: 10 }}>
+                  <div
+                    className="mw-iq-review-options"
+                    style={{ marginLeft: 16, marginBottom: 10 }}
+                  >
                     {q.options.map((opt, i) => {
                       const v = i + 1;
                       const isSel = selected === v;
@@ -165,7 +168,7 @@ export default function MercuryIqPage() {
   }
 
   return (
-    <div style={wrapperStyle}>
+    <div className="mw-iq-test" style={wrapperStyle}>
       <div style={{ textAlign: "center", padding: "15px 0 18px" }}>
         <img
           src="/img/test/iq_top.gif"
@@ -180,12 +183,13 @@ export default function MercuryIqPage() {
             <div style={{ fontWeight: "bold", marginBottom: 8 }}>
               {q.num}. {q.question}
             </div>
-            <div style={{ marginLeft: 16 }}>
+            <div className="mw-iq-quiz-options" style={{ marginLeft: 16 }}>
               {q.options.map((opt, i) => {
                 const v = i + 1;
                 return (
                   <label
                     key={v}
+                    className="mw-iq-quiz-option"
                     style={{ marginRight: 16, cursor: "pointer" }}
                   >
                     <input
@@ -231,7 +235,7 @@ export default function MercuryIqPage() {
 function ScoreDisplay({ score }: { score: number }) {
   const digits = score.toString().split("");
   return (
-    <div style={{ display: "inline-flex", alignItems: "center" }}>
+    <div className="mw-iq-score-display" style={{ display: "inline-flex", alignItems: "center" }}>
       {digits.map((d, i) => (
         <img key={i} src={`/img/test/jum_${d}.gif`} alt={d} />
       ))}

@@ -912,6 +912,85 @@ table.wide {
   .mw-mobile-hide {
     display: none !important;
   }
+
+  /* ===== /test/q 수은IQ — 이미지 fluid + 보기/채점 옵션 세로 stack ===== */
+  .mw-iq-test {
+    padding: 12px !important;
+    font-size: 14px !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .mw-iq-test img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .mw-iq-test .mw-iq-quiz-options label,
+  .mw-iq-test .mw-iq-quiz-option {
+    display: block !important;
+    margin: 8px 0 !important;
+    padding: 4px 0;
+    line-height: 1.5;
+  }
+
+  .mw-iq-test .mw-iq-review-options > span {
+    display: block !important;
+    margin: 8px 0 !important;
+    padding: 4px 0;
+    line-height: 1.5;
+  }
+
+  .mw-iq-test button[type="submit"],
+  .mw-iq-test button[type="button"] {
+    display: block;
+    margin: 12px auto 0;
+    max-width: 100%;
+  }
+
+  .mw-iq-test .mw-iq-score-display {
+    flex-wrap: wrap !important;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  /* ===== 게시판 목록 표 — 전체 폭 + 번호·제목·작성일 비율 (3·4열은 mw-mobile-hide) ===== */
+  .mw-board-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: fixed !important;
+    box-sizing: border-box !important;
+  }
+
+  .mw-board-table th:nth-child(1),
+  .mw-board-table td:nth-child(1) {
+    width: 48px !important;
+    max-width: 48px !important;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .mw-board-table th:nth-child(2),
+  .mw-board-table td:nth-child(2) {
+    width: auto !important;
+    word-break: break-all;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    box-sizing: border-box;
+  }
+
+  .mw-board-table th:nth-child(4),
+  .mw-board-table td:nth-child(4) {
+    width: 80px !important;
+    max-width: 80px !important;
+    text-align: center;
+    font-size: 12px !important;
+    box-sizing: border-box;
+  }
 }
 
 @media (max-width: 480px) {

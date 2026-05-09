@@ -159,6 +159,7 @@ export default function FreeboardListMerged({ listBase }: { listBase: string }) 
         <WriteButton />
       </p>
       <table
+        className="mw-board-table"
         width="100%"
         border={0}
         cellPadding={0}

@@ -367,7 +367,7 @@ table.wide {
     display: flex !important;
     align-items: stretch !important;
     gap: 16px;
-    padding: 16px 14px !important;
+    padding: 18px 14px !important;
     background: #f8fafc;
     border-top: 1px solid #e2e8f0;
     box-sizing: border-box;
@@ -376,12 +376,11 @@ table.wide {
   }
 
   .mw-footer-mobile-logo {
-    width: 110px !important;
+    width: 140px !important;
     height: auto;
     flex-shrink: 0;
     object-fit: contain;
     align-self: center !important;
-    margin-top: 0 !important;
   }
 
   .mw-footer-mobile-info {
@@ -390,26 +389,25 @@ table.wide {
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    font-size: 12.5px;
-    line-height: 1.7;
     color: #64748b;
     min-width: 0;
   }
 
   .mw-footer-mobile-info p {
-    margin: 4px 0;
+    margin: 2px 0 !important;
+    font-size: 12.5px !important;
+    line-height: 1.4 !important;
     word-break: keep-all;
   }
 
   .mw-footer-mobile-info p:first-child {
-    font-size: 12.5px;
-    line-height: 1.6;
+    font-size: 12.5px !important;
   }
 
   .mw-footer-mobile-info p:last-child {
-    font-size: 11px !important;
-    white-space: nowrap !important;
-    letter-spacing: -0.2px;
+    font-size: 12.5px !important;
+    white-space: normal !important;
+    letter-spacing: 0;
   }
 
   .mw-mobile-home > .mw-footer-mobile {

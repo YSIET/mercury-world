@@ -367,7 +367,7 @@ table.wide {
     display: flex !important;
     align-items: stretch !important;
     gap: 12px !important;
-    padding: 16px 12px !important;
+    padding: 20px 14px !important;
     background: #ffffff !important;
     border-top: 1px solid #e2e8f0;
     box-sizing: border-box;
@@ -391,6 +391,16 @@ table.wide {
     text-align: center;
     color: #64748b;
     min-width: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mw-footer-mobile-info p:first-child {
+    margin-top: 0 !important;
+  }
+
+  .mw-footer-mobile-info p:last-child {
+    margin-bottom: 0 !important;
   }
 
   .mw-footer-mobile-info p {

@@ -18,7 +18,7 @@ const MENU_CARDS: {
   { label: "수은백서", href: "/mercury/mercury", icon: "📘", sub: "수은이란·규제·응급" },
   { label: "수은소식", href: "/news/board", icon: "📰", sub: "공지·뉴스·함유량" },
   { label: "수은상담소", href: "/community/freeboard", icon: "💬", sub: "묻고답하기·의뢰" },
-  { label: "식품속수은", href: "/content/content", icon: "🥗", sub: "섭취량·데이터" },
+  { label: "식품속수은", href: "/content/mercury", icon: "🥗", sub: "섭취량·데이터" },
   { label: "수은IQ테스트", href: "/test/q", icon: "🧠", sub: "간단 퀴즈" },
 ];
 
@@ -47,7 +47,7 @@ export default async function MobileHome() {
           종합 정보를 제공합니다.
         </p>
         <Link href="/test/q" className="mw-hero-cta">
-          수은IQ테스트 시작 →
+          <span className="mw-hero-cta-label">수은IQ테스트 시작 →</span>
         </Link>
       </section>
 

@@ -9,7 +9,7 @@ const TOP_GROUPS: Array<{ group: number | null; label: string; href: string }> =
   { group: 1200, label: "수은백서", href: "/mercury/mercury" },
   { group: 1300, label: "수은소식", href: "/news/board" },
   { group: 1400, label: "수은상담소", href: "/community/freeboard" },
-  { group: 1500, label: "식품속수은", href: "/content/content" },
+  { group: 1500, label: "식품속수은", href: "/content/mercury" },
 ];
 
 export interface HeaderClientProps {
@@ -25,18 +25,25 @@ export default function HeaderClient({
   adminTopLinks,
 }: HeaderClientProps) {
   const [iqQuickHover, setIqQuickHover] = useState(false);
+
   useEffect(() => {
     const $ = (window as any).$ || (window as any).jQuery;
     if (!$) return;
 
-    $("#gnv dl")
-      .off("mouseenter focusin mouseleave focusout")
-      .on("mouseenter focusin", function (this: any) {
-        $(this).find("dd").eq(0).stop().slideDown(150);
-      })
-      .on("mouseleave focusout", function (this: any) {
-        $(this).find("dd").eq(0).stop().slideUp(30);
-      });
+    const bindGnvHover = () => {
+      $("#gnv dl").off("mouseenter focusin mouseleave focusout");
+      if (!window.matchMedia("(min-width: 769px)").matches) return;
+      $("#gnv dl")
+        .on("mouseenter focusin", function (this: HTMLElement) {
+          $(this).find("dd").eq(0).stop().slideDown(150);
+        })
+        .on("mouseleave focusout", function (this: HTMLElement) {
+          $(this).find("dd").eq(0).stop().slideUp(30);
+        });
+    };
+
+    bindGnvHover();
+    window.addEventListener("resize", bindGnvHover);
 
     const handleScroll = () => {
       try {
@@ -55,6 +62,7 @@ export default function HeaderClient({
 
     return () => {
       $(window).off("scroll.mercuryQuick");
+      window.removeEventListener("resize", bindGnvHover);
     };
   }, []);
 

@@ -411,6 +411,21 @@ table.wide {
     transform: scale(0.97);
   }
 
+  .mw-mobile-home a.mw-hero-cta:link,
+  .mw-mobile-home a.mw-hero-cta:visited,
+  .mw-mobile-home a.mw-hero-cta:hover,
+  .mw-mobile-home a.mw-hero-cta:active {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff;
+    background-color: #0ea5e9;
+    text-decoration: none !important;
+  }
+
+  .mw-hero-cta-label {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff;
+  }
+
   .mw-mob-board-section {
     background: #ffffff;
     border: 1px solid #e2e8f0;
@@ -568,6 +583,16 @@ table.wide {
     height: auto;
   }
 
+  .gnv dl dd {
+    display: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    visibility: hidden !important;
+  }
+
   /* ===== Mobile vertical stack (Sprint 27) ===== */
   .mw-fluid-rail {
     overflow-x: hidden;
@@ -707,44 +732,128 @@ table.wide {
     height: auto;
   }
 
-  /* 푸터 914 — Sprint 29 모바일 stack 강화 */
-  .mw-footer-rail,
-  .mw-footer-rail * {
+  /* 푸터 914 — 모바일 stack + 방문 카운터 table 복구 */
+  .mw-footer-rail {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box;
+    padding: 0 12px;
+  }
+
+  .mw-footer-rail > table > tbody > tr:first-child img,
+  .mw-footer-rail > table > tbody > tr:first-child td img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 0 auto 8px;
+    object-fit: contain;
+    box-sizing: border-box;
+  }
+
+  .mw-footer-rail > table > tbody > tr:nth-child(2) > td:first-child img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+  }
+
+  .mw-footer-rail > table {
+    width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box;
   }
 
-  .mw-footer-rail,
-  .mw-footer-rail > table {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .mw-footer-rail table,
-  .mw-footer-rail tbody,
-  .mw-footer-rail tr {
-    display: block !important;
-    width: 100% !important;
-  }
-
-  .mw-footer-rail td {
+  .mw-footer-rail > table > tbody > tr > td:not(.mw-footer-counter-cell) {
     display: block !important;
     width: 100% !important;
     padding: 6px 12px !important;
+    text-align: left !important;
+    box-sizing: border-box;
+  }
+
+  .mw-footer-rail > table > tbody > tr {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .mw-footer-rail > table > tbody {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .mw-footer-rail > table {
+    display: block !important;
+  }
+
+  .mw-footer-rail .mw-footer-counter-cell {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    padding: 12px !important;
+    box-sizing: border-box;
+  }
+
+  .mw-footer-rail .mw-visit-counter-wrap {
+    display: block;
+    text-align: center;
+    width: 100%;
+    max-width: none !important;
+  }
+
+  .mw-footer-rail .mw-visit-counter-wrap > table {
+    display: table !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+  }
+
+  .mw-footer-rail .mw-visit-counter-wrap > table > tbody {
+    display: table-row-group !important;
+  }
+
+  .mw-footer-rail .mw-visit-counter-wrap > table > tbody > tr {
+    display: table-row !important;
+    width: auto !important;
+  }
+
+  .mw-footer-rail .mw-visit-counter-wrap > table > tbody > tr > td {
+    display: table-cell !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 0 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+
+  .mw-footer-rail .mw-visit-counter-table {
+    display: table !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+  }
+
+  .mw-footer-rail .mw-visit-counter-table tbody {
+    display: table-row-group !important;
+  }
+
+  .mw-footer-rail .mw-visit-counter-table tr {
+    display: table-row !important;
+  }
+
+  .mw-footer-rail .mw-visit-counter-table td {
+    display: table-cell !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 2px 4px !important;
     text-align: left !important;
   }
 
   .mw-footer-rail img {
     max-width: 100%;
     height: auto;
-  }
-
-  .mw-footer-rail table table {
-    margin: 8px auto !important;
-  }
-
-  .mw-footer-rail table table td {
-    text-align: center !important;
   }
 
   .mw-header-rail,

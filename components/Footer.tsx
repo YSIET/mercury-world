@@ -25,22 +25,30 @@ export default function Footer() {
           <td width={809} height={90} valign="top">
             <img src="/img/common/copyright_2.gif" alt="저작권 정보" />
           </td>
-          <td width={150} valign="top">
-            <table width={128} height={37} border={0} cellPadding={0} cellSpacing={0}>
-              <tbody>
-                <tr>
-                  <td
-                    align="center"
-                    style={{
-                      background: "url(/img/common/footer_today.gif) no-repeat",
-                      height: 37,
-                    }}
-                  >
-                    <VisitCounter />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <td width={150} valign="top" className="mw-footer-counter-cell">
+            <div className="mw-visit-counter-wrap">
+              <table
+                width={128}
+                height={37}
+                border={0}
+                cellPadding={0}
+                cellSpacing={0}
+              >
+                <tbody>
+                  <tr>
+                    <td
+                      align="center"
+                      style={{
+                        background: "url(/img/common/footer_today.gif) no-repeat",
+                        height: 37,
+                      }}
+                    >
+                      <VisitCounter />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </td>
         </tr>
       </tbody>

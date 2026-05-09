@@ -15,7 +15,9 @@ export default function VisitCounter() {
   }, []);
 
   return (
-    <table width={120} border={0} cellSpacing={0} cellPadding={0}>
+    <table
+      className="mw-visit-counter-table"
+      width={120} border={0} cellSpacing={0} cellPadding={0}>
       <tbody>
         <tr>
           <td>

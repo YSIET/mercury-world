@@ -79,12 +79,25 @@ export default async function MobileHome() {
         ))}
       </section>
 
-      <section className="mw-mob-company">
-        <strong>(주)와이에스환경기술연구원 | KOLAS 인정 제364호</strong>
-        연세대학교 화공생명공학과 첨단융합기술연구실
-        <br />
-        Tel:{" "}
-        <a href="tel:02-2123-7780">02-2123-7780</a>
+      <section
+        className="mw-mob-company-row"
+        aria-label="회사 정보"
+      >
+        <img
+          src="/og-image.png"
+          alt="Mercury World"
+          className="mw-mob-company-logo"
+        />
+        <div className="mw-mob-company-text">
+          <p>
+            <strong>(주)와이에스환경기술연구원 | KOLAS 인정 제364호</strong>
+          </p>
+          <p>연세대학교 화공생명공학과 첨단융합기술연구실</p>
+          <p>
+            Tel:{" "}
+            <a href="tel:02-2123-7780">02-2123-7780</a>
+          </p>
+        </div>
       </section>
     </div>
   );

@@ -8,63 +8,69 @@ import VisitCounter from "./VisitCounter";
 export default function Footer() {
   return (
     <div className="mw-fluid-rail mw-footer-rail">
-      <table
-      width={914}
-      border={0}
-      cellSpacing={0}
-      cellPadding={0}
-      style={{ margin: "0 auto" }}
-    >
-      <tbody>
-        <tr>
-          <td colSpan={2}>
-            <img src="/img/common/copyright_1.gif" alt="copyright" />
-          </td>
-        </tr>
-        <tr>
-          <td width={809} height={90} valign="top">
-            <img
-              className="mw-desktop-only"
-              src="/img/common/copyright_2.gif"
-              alt="저작권 정보"
-            />
-            <div className="mw-footer-company-text mw-mobile-only">
-              <p className="mw-footer-address-short" style={{ margin: "0 0 10px" }}>
-                연세대학교 화공생명공학과 이태규교수 첨단융합기술연구실
-              </p>
-              <p className="mw-footer-copyright-line" style={{ margin: 0 }}>
-                Copyright©수은세상 All right Reserved.
-              </p>
-            </div>
-          </td>
-          <td width={150} valign="top" className="mw-footer-counter-cell">
-            <div className="mw-visit-counter-wrap">
-              <table
-                width={128}
-                height={37}
-                border={0}
-                cellPadding={0}
-                cellSpacing={0}
-              >
-                <tbody>
-                  <tr>
-                    <td
-                      align="center"
-                      style={{
-                        background: "url(/img/common/footer_today.gif) no-repeat",
-                        height: 37,
-                      }}
-                    >
-                      <VisitCounter />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <div className="mw-footer-mobile mw-mobile-only">
+        <img
+          src="/og-image.png"
+          alt="Mercury World"
+          className="mw-footer-mobile-logo"
+        />
+        <div className="mw-footer-mobile-info">
+          <p>연세대학교 화공생명공학과 이태규교수 첨단융합기술연구실</p>
+          <p>Copyright©수은세상 All right Reserved.</p>
+        </div>
+      </div>
+
+      <div className="mw-footer-desktop mw-desktop-only">
+        <table
+          width={914}
+          border={0}
+          cellSpacing={0}
+          cellPadding={0}
+          style={{ margin: "0 auto" }}
+        >
+          <tbody>
+            <tr>
+              <td colSpan={2}>
+                <img src="/img/common/copyright_1.gif" alt="copyright" />
+              </td>
+            </tr>
+            <tr>
+              <td width={809} height={90} valign="top">
+                <img
+                  src="/img/common/copyright_2.gif"
+                  alt="저작권 정보"
+                />
+              </td>
+              <td width={150} valign="top" className="mw-footer-counter-cell">
+                <div className="mw-visit-counter-wrap">
+                  <table
+                    width={128}
+                    height={37}
+                    border={0}
+                    cellPadding={0}
+                    cellSpacing={0}
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          align="center"
+                          style={{
+                            background:
+                              "url(/img/common/footer_today.gif) no-repeat",
+                            height: 37,
+                          }}
+                        >
+                          <VisitCounter />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

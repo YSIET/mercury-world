@@ -3,6 +3,7 @@
 import HeaderClient, { SideNav } from "@/components/HeaderClient";
 import AdminHeaderTopLinksClient from "@/components/AdminHeaderTopLinksClient";
 import Footer from "@/components/Footer";
+import MobileBackButton from "@/components/MobileBackButton";
 
 interface SubPageLayoutClientProps {
   activeGroup: number | null;
@@ -76,6 +77,7 @@ export default function SubPageLayoutClient({
             </td>
 
             <td width={727} valign="top">
+              <MobileBackButton />
               <table width="100%" border={0} cellSpacing={0} cellPadding={0}>
                 <tbody>
                   <tr>

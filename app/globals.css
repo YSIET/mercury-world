@@ -27,6 +27,11 @@ table {
   border-collapse: collapse;
 }
 
+/* 모바일 전용 뒤로가기 — 데스크탑 기본 숨김 */
+.mw-mobile-back-btn {
+  display: none;
+}
+
 #Layer1 {
   position: absolute;
   left: 0px;
@@ -330,6 +335,28 @@ table.wide {
   body {
     padding: 0;
     font-size: 14px;
+  }
+
+  .mw-mobile-back-btn {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    margin: 12px 0 8px 12px;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mw-mobile-back-btn:active {
+    background: #e2e8f0;
+    transform: scale(0.97);
   }
 
   .mw-desktop-home {

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import VisitCounter from "./VisitCounter";
 
 /**
@@ -9,10 +10,13 @@ export default function Footer() {
   return (
     <div className="mw-fluid-rail mw-footer-rail">
       <div className="mw-footer-mobile mw-mobile-only">
-        <img
-          src="/og-image.png"
+        <Image
+          src="/og-image.webp"
           alt="Mercury World"
           className="mw-footer-mobile-logo"
+          width={1200}
+          height={630}
+          sizes="100px"
         />
         <div className="mw-footer-mobile-info">
           <p>연세대학교 화공생명공학과 이태규교수 연구실</p>

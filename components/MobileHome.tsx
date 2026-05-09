@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   getRecentBoardLinks,
@@ -37,7 +38,15 @@ export default async function MobileHome() {
   return (
     <div className="mw-mobile-home">
       <section className="mw-hero">
-        <img src="/icon.png" alt="" className="mw-hero-logo" width={64} height={64} />
+        <Image
+          src="/icon.webp"
+          alt=""
+          className="mw-hero-logo"
+          width={512}
+          height={512}
+          sizes="64px"
+          priority
+        />
         <h1>수은세상</h1>
         <p className="mw-hero-tagline">mercury world</p>
         <p className="mw-hero-desc">

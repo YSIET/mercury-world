@@ -46,10 +46,6 @@ const nextConfig = {
       { source: "/favicon.ico", destination: "/icon.png" },
     ];
   },
-  // 원본 이미지를 그대로 사용하므로 next/image 최적화 없이 통과
-  images: {
-    unoptimized: true,
-  },
 };
 
 module.exports = nextConfig;

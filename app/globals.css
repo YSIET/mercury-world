@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+
 /* ============================================================
    Mercury World - 원본 디자인 미러 CSS
    원본: /css/style.css + /inc/header.php inline + /inc/footer.php inline
@@ -319,7 +321,7 @@ table.wide {
   display: block;
 }
 
-/* ===== Mobile-only home page (Sprint 29) ===== */
+/* ===== Mobile-only modern home (Sprint 29) ===== */
 .mw-mobile-home-wrap {
   display: none;
 }
@@ -339,47 +341,102 @@ table.wide {
   }
 
   .mw-mobile-home {
+    font-family:
+      "Pretendard",
+      Pretendard,
+      -apple-system,
+      BlinkMacSystemFont,
+      system-ui,
+      sans-serif;
+    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 200px);
+    color: #0f172a;
+    line-height: 1.5;
+    padding: 0 16px 32px;
+    box-sizing: border-box;
     width: 100%;
     max-width: 100vw;
-    padding: 16px;
-    font-family: 굴림, Gulim, sans-serif;
-    box-sizing: border-box;
+    text-align: left;
   }
 
-  .mw-mob-intro {
-    padding: 20px 0;
+  .mw-hero {
+    padding: 32px 8px 40px;
     text-align: center;
-    border-bottom: 1px solid #eeeeee;
   }
 
-  .mw-mob-intro h2 {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 0 0 8px;
-    color: #2a4d8a;
+  .mw-hero-logo {
+    width: 64px;
+    height: auto;
+    margin: 0 auto 16px;
+    display: block;
   }
 
-  .mw-mob-intro p {
+  .mw-hero h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e3a5f;
+    margin: 0 0 4px;
+    letter-spacing: -0.02em;
+  }
+
+  .mw-hero-tagline {
     font-size: 14px;
-    color: #666666;
-    margin: 0;
-    line-height: 1.5;
+    color: #64748b;
+    margin: 0 0 16px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+  }
+
+  .mw-hero-desc {
+    font-size: 15px;
+    color: #475569;
+    margin: 0 0 24px;
+    line-height: 1.6;
+  }
+
+  .mw-hero-cta {
+    display: inline-block;
+    padding: 14px 28px;
+    background: #0ea5e9;
+    color: #ffffff !important;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 15px;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+    transition: transform 0.15s ease;
+  }
+
+  .mw-hero-cta:active {
+    transform: scale(0.97);
   }
 
   .mw-mob-board-section {
-    padding: 16px 0;
-    border-bottom: 1px solid #eeeeee;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
   }
 
   .mw-mob-board-section h3 {
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 700;
+    color: #1e3a5f;
     margin: 0 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
   }
 
   .mw-mob-board-section h3 a {
-    color: #2a4d8a;
+    color: #0ea5e9;
     text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
   }
 
   .mw-mob-board-section ul {
@@ -391,46 +448,111 @@ table.wide {
   .mw-mob-board-section li {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
+    gap: 12px;
+    padding: 10px 0;
+    border-top: 1px solid #f1f5f9;
     font-size: 14px;
-    border-top: 1px dotted #dddddd;
+    align-items: center;
+  }
+
+  .mw-mob-board-section li:first-child {
+    border-top: none;
+    padding-top: 0;
   }
 
   .mw-mob-board-section li a {
-    color: #333333;
+    color: #334155;
     text-decoration: none;
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin-right: 12px;
     min-width: 0;
   }
 
   .mw-mob-date {
+    color: #94a3b8;
     font-size: 12px;
-    color: #999999;
     flex-shrink: 0;
   }
 
   .mw-mob-menu-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    padding: 20px 0 8px;
+    gap: 10px;
+    margin-top: 8px;
   }
 
-  .mw-mob-menu-grid a {
+  .mw-mob-menu-card {
     display: block;
-    padding: 16px;
-    text-align: center;
-    background: #f5f7fb;
-    border: 1px solid #d4dcec;
-    border-radius: 6px;
-    color: #2a4d8a;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 18px 14px;
     text-decoration: none;
+    text-align: center;
+    transition: background 0.15s ease, transform 0.15s ease;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  }
+
+  .mw-mob-menu-card:active {
+    transform: scale(0.97);
+    background: #f8fafc;
+  }
+
+  .mw-mob-menu-card .icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+    display: block;
+    line-height: 1;
+  }
+
+  .mw-mob-menu-card .label {
     font-size: 14px;
+    font-weight: 600;
+    color: #1e3a5f;
+    margin: 0;
+  }
+
+  .mw-mob-menu-card .sub {
+    font-size: 11px;
+    color: #94a3b8;
+    margin: 4px 0 0;
+    line-height: 1.35;
+  }
+
+  .mw-mob-company {
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 24px;
+    text-align: center;
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.7;
+    border: 1px solid #e2e8f0;
+  }
+
+  .mw-mob-company strong {
+    color: #1e3a5f;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  .mw-mob-company a {
+    color: #0ea5e9;
+    text-decoration: none;
+  }
+
+  /* 홈(/): cafe24 푸터·퀵메뉴 대신 인앱 회사 카드만 사용 */
+  .mw-home-page .mw-footer-rail {
+    display: none !important;
+  }
+
+  .mw-home-page #quick_menu {
+    display: none !important;
   }
 
   #quick_menu {

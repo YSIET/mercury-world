@@ -6,11 +6,7 @@ import MobileHome from "@/components/MobileHome";
 import { getRecentBoardLinks } from "@/lib/board";
 
 /**
- * 원본 main.php 미러
- * - 우상단: 331x119 배너 슬라이더
- * - 우하단 탭: 공지사항/수은관련뉴스/수은함유량 (KV)
- * - 중앙: 940 폭 main_visual.gif (970x514, image map)
- * - 모바일(≤768px): MobileHome 단순 레이아웃 (Sprint 29)
+ * 원본 main.php 미러 (데스크탑) + 모바일 modern 전용 홈 (Sprint 29)
  */
 export default async function HomePage() {
   const [recentNotice, recentNews, recentPds] = await Promise.all([
@@ -20,7 +16,7 @@ export default async function HomePage() {
   ]);
 
   return (
-    <>
+    <div className="mw-home-page">
       <Header activeGroup={null} activePath="/" />
 
       <main className="mw-home-main">
@@ -59,6 +55,6 @@ export default async function HomePage() {
       </main>
 
       <Footer />
-    </>
+    </div>
   );
 }

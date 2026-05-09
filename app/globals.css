@@ -412,10 +412,6 @@ table.wide {
     word-break: keep-all;
   }
 
-  .mw-mobile-home > .mw-footer-mobile {
-    margin-top: 24px;
-  }
-
   .mw-mobile-back-btn {
     display: inline-flex !important;
     align-items: center;
@@ -660,9 +656,9 @@ table.wide {
     line-height: 1.35;
   }
 
-  /* 홈(/): cafe24 푸터·퀵메뉴 대신 인앱 회사 카드만 사용 */
-  .mw-home-page .mw-footer-rail {
-    display: none !important;
+  /* 홈(/): 모바일도 공통 Footer(회사 카드) — 내부 중복 제거, 데스크 cafe24는 .mw-desktop-only */
+  .mw-home-page > .mw-footer-rail {
+    margin-top: 24px;
   }
 
   .mw-home-page #quick_menu {

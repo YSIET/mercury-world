@@ -75,13 +75,16 @@ export default function HomeTopSection({
   return (
     <div id="Layer1">
       <div className="mw-fluid-rail mw-home-top-rail mw-banner-area">
-        <table
-        width={940}
-        border={0}
-        align="center"
-        cellPadding={0}
-        cellSpacing={0}
-      >
+        <div className="mw-mobile-scale-940-clip">
+          <div className="mw-mobile-scale-940">
+            <table
+              className="mw-home-top-table"
+              width={940}
+              border={0}
+              align="center"
+              cellPadding={0}
+              cellSpacing={0}
+            >
         <tbody>
           <tr>
             <td width={609} valign="top">
@@ -185,8 +188,10 @@ export default function HomeTopSection({
               />
             </td>
           </tr>
-        </tbody>
-      </table>
+            </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );

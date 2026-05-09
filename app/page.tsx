@@ -27,7 +27,7 @@ export default async function HomePage() {
         recentPds={recentPds}
       />
 
-      <div className="mw-fluid-rail mw-main-visual-rail">
+      <div className="mw-fluid-rail mw-main-visual-section">
         <table
           width={940}
           border={0}

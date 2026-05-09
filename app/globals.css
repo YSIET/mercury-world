@@ -908,6 +908,24 @@ table.wide {
     overflow: visible;
   }
 
+  /* 상단 HOME | SITEMAP | 관리자 — 우측 짤림 방지 (모바일만) */
+  .mw-header-rail .header .bt_top {
+    padding-right: 14px !important;
+    padding-left: 8px !important;
+    box-sizing: border-box;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    row-gap: 4px;
+    column-gap: 0;
+  }
+
+  .mw-header-rail .header .bt_top a {
+    font-size: 11px !important;
+  }
+
   /* 게시판 목록: 작성자·조회 열 — 클래스만 붙이고 모바일에서만 숨김 */
   .mw-mobile-hide {
     display: none !important;

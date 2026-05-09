@@ -81,7 +81,7 @@ export default async function MobileHome() {
 
       <section className="mw-mob-company">
         <strong>(주)와이에스환경기술연구원 | KOLAS 인정 제364호</strong>
-        서울시 서대문구 연세로 50, 연세대학교 화공생명공학과 첨단융합기술연구실
+        연세대학교 화공생명공학과 첨단융합기술연구실
         <br />
         Tel:{" "}
         <a href="tel:02-2123-7780">02-2123-7780</a>

@@ -23,7 +23,19 @@ export default function Footer() {
         </tr>
         <tr>
           <td width={809} height={90} valign="top">
-            <img src="/img/common/copyright_2.gif" alt="저작권 정보" />
+            <img
+              className="mw-desktop-only"
+              src="/img/common/copyright_2.gif"
+              alt="저작권 정보"
+            />
+            <div className="mw-footer-company-text mw-mobile-only">
+              <p className="mw-footer-address-short" style={{ margin: "0 0 10px" }}>
+                연세대학교 화공생명공학과 이태규교수 첨단융합기술연구실
+              </p>
+              <p className="mw-footer-copyright-line" style={{ margin: 0 }}>
+                Copyright©수은세상 All right Reserved.
+              </p>
+            </div>
           </td>
           <td width={150} valign="top" className="mw-footer-counter-cell">
             <div className="mw-visit-counter-wrap">

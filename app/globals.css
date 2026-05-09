@@ -37,6 +37,11 @@ table {
   display: none;
 }
 
+/* 반응형 텍스트/블록 스왑: 데스크탑은 .mw-desktop-only, 모바일은 .mw-mobile-only */
+.mw-mobile-only {
+  display: none;
+}
+
 #Layer1 {
   position: absolute;
   left: 0px;
@@ -340,6 +345,21 @@ table.wide {
   body {
     padding: 0;
     font-size: 14px;
+  }
+
+  .mw-desktop-only {
+    display: none !important;
+  }
+
+  .mw-mobile-only {
+    display: inline !important;
+  }
+
+  .mw-footer-rail .mw-footer-company-text.mw-mobile-only {
+    display: block !important;
+    text-align: left;
+    padding: 8px 12px 0;
+    box-sizing: border-box;
   }
 
   .mw-mobile-back-btn {

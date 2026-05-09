@@ -35,11 +35,13 @@ export default function AdminHeaderTopLinksClient() {
           style={{ ...linkStyle, visibility: "hidden" }}
           aria-hidden
         >
-          관리자 로그인
+          <span className="mw-desktop-only">관리자 로그인</span>
+          <span className="mw-mobile-only">관리자</span>
         </span>
       ) : !loggedIn ? (
         <Link href="/admin/login" className="mw-admin-top-link" style={linkStyle}>
-          관리자 로그인
+          <span className="mw-desktop-only">관리자 로그인</span>
+          <span className="mw-mobile-only">관리자</span>
         </Link>
       ) : (
         <>

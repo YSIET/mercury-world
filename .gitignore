@@ -51,6 +51,7 @@ lib/*
 !lib/attachments.ts
 !lib/iq.ts
 !lib/turnstile.ts
+!lib/use-is-mobile.ts
 !lib/admin-auth.ts
 cache/
 zwebmy/

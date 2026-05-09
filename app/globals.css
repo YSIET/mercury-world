@@ -593,6 +593,11 @@ table.wide {
     visibility: hidden !important;
   }
 
+  /* 식품속수은 GNV 항목 — 모바일에서만 숨김(데스크탑 5메뉴 유지, CSS only) */
+  .header #gnv dl:has(> dt a[href="/content/mercury"]) {
+    display: none !important;
+  }
+
   /* ===== Mobile vertical stack (Sprint 27) ===== */
   .mw-fluid-rail {
     overflow-x: hidden;
@@ -645,6 +650,32 @@ table.wide {
   .mw-subpage-rail > table > tbody > tr > td[width="727"] img {
     max-width: 100%;
     height: auto;
+  }
+
+  /* 서브페이지 본문(.mw-prose) — 내부 고정 폭·테이블 폭 모바일에서 fluid */
+  .mw-subpage-rail .mw-prose,
+  .mw-subpage-rail .mw-prose * {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .mw-subpage-rail .mw-prose [width],
+  .mw-subpage-rail .mw-prose td[width] {
+    width: auto !important;
+    max-width: 100% !important;
+  }
+
+  .mw-subpage-rail .mw-prose {
+    padding: 12px !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+  }
+
+  .mw-subpage-rail .mw-prose img {
+    max-width: 100% !important;
+    height: auto !important;
   }
 
   /* 홈 상단: 빈 609열 제거 후 세로 흐름 (.mw-home-top-table = 겉 테이블만) */
@@ -737,7 +768,7 @@ table.wide {
     max-width: 100% !important;
     width: 100% !important;
     box-sizing: border-box;
-    padding: 0 12px;
+    padding: 0 12px 24px !important;
   }
 
   .mw-footer-rail > table > tbody > tr:first-child img,
@@ -801,6 +832,8 @@ table.wide {
     text-align: center;
     width: 100%;
     max-width: none !important;
+    margin: 12px auto 0;
+    box-sizing: border-box;
   }
 
   .mw-footer-rail .mw-visit-counter-wrap > table {
@@ -851,6 +884,12 @@ table.wide {
     text-align: left !important;
   }
 
+  .mw-footer-rail .mw-visit-counter-table table {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+
   .mw-footer-rail img {
     max-width: 100%;
     height: auto;
@@ -867,6 +906,11 @@ table.wide {
   .mw-header-rail .header {
     height: auto;
     overflow: visible;
+  }
+
+  /* 게시판 목록: 작성자·조회 열 — 클래스만 붙이고 모바일에서만 숨김 */
+  .mw-mobile-hide {
+    display: none !important;
   }
 }
 

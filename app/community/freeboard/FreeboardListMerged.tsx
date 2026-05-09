@@ -171,13 +171,13 @@ export default function FreeboardListMerged({ listBase }: { listBase: string }) 
               번호
             </th>
             <th style={thStyle}>제목</th>
-            <th width={100} style={thStyle}>
+            <th width={100} className="mw-mobile-hide" style={thStyle}>
               작성자
             </th>
             <th width={90} style={thStyle}>
               작성일
             </th>
-            <th width={60} style={thStyle}>
+            <th width={60} className="mw-mobile-hide" style={thStyle}>
               조회
             </th>
           </tr>
@@ -222,13 +222,13 @@ export default function FreeboardListMerged({ listBase }: { listBase: string }) 
                         row.title}
                     </a>
                   </td>
-                  <td align="center" style={metaStyle}>
+                  <td align="center" className="mw-mobile-hide" style={metaStyle}>
                     {row.author}
                   </td>
                   <td align="center" style={metaStyle}>
                     {row.dateStr}
                   </td>
-                  <td align="center" style={metaStyle}>
+                  <td align="center" className="mw-mobile-hide" style={metaStyle}>
                     {row.hit}
                   </td>
                 </tr>

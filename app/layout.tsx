@@ -6,6 +6,13 @@ import { SITE_ORIGIN, canonicalFromPathname } from "@/lib/site-canonical";
 
 const SITE = new URL(SITE_ORIGIN);
 
+/** Pretendard subset (한글) — globals.css @font-face 와 동일 URL */
+const PRETENDARD_SUBSET_WOFF2 = {
+  regular:
+    "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2-subset/Pretendard-Regular.subset.woff2",
+  bold: "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2-subset/Pretendard-Bold.subset.woff2",
+} as const;
+
 const rootTitle = "수은세상 - mercury world";
 const rootDescription =
   "수은의 위험성과 안전 관리에 대한 종합 정보 - (주)와이에스환경기술연구원이 운영하는 수은 정보 사이트";
@@ -81,6 +88,20 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         <meta charSet="utf-8" />
+        <link
+          rel="preload"
+          href={PRETENDARD_SUBSET_WOFF2.regular}
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href={PRETENDARD_SUBSET_WOFF2.bold}
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
       </head>
       <body>
         {/* 원본 jQuery 1.12.4 그대로 유지 (배너 슬라이더 / 메뉴 hover 동작용) */}

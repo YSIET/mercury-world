@@ -336,6 +336,13 @@ table.wide {
   display: block;
 }
 
+/* 관리자 데스크탑: 레이아웃용 Footer 숨김(모바일 @768에서만 동일 푸터 노출) */
+@media (min-width: 769px) {
+  .mw-admin-layout-shell > .mw-footer-rail {
+    display: none !important;
+  }
+}
+
 /* ===== Mobile-only modern home (Sprint 29) ===== */
 .mw-mobile-home-wrap {
   display: none;
@@ -355,11 +362,12 @@ table.wide {
     display: inline !important;
   }
 
-  .mw-footer-rail .mw-footer-mobile.mw-mobile-only {
+  /* 메인·서브·관리자 공통 모바일 푸터 */
+  .mw-footer-mobile {
     display: flex !important;
     align-items: center;
-    gap: 14px;
-    padding: 18px 16px;
+    gap: 16px;
+    padding: 20px 16px;
     background: #f8fafc;
     border-top: 1px solid #e2e8f0;
     box-sizing: border-box;
@@ -368,7 +376,7 @@ table.wide {
   }
 
   .mw-footer-mobile-logo {
-    width: 90px;
+    width: 130px !important;
     height: auto;
     flex-shrink: 0;
     object-fit: contain;
@@ -387,11 +395,8 @@ table.wide {
     word-break: keep-all;
   }
 
-  .mw-footer-rail .mw-footer-mobile-info,
-  .mw-footer-rail .mw-footer-mobile-info p {
-    font-size: 12.5px !important;
-    line-height: 1.7 !important;
-    color: #64748b !important;
+  .mw-mobile-home > .mw-footer-mobile {
+    margin-top: 24px;
   }
 
   .mw-mobile-back-btn {
@@ -636,51 +641,6 @@ table.wide {
     color: #94a3b8;
     margin: 4px 0 0;
     line-height: 1.35;
-  }
-
-  .mw-mob-company-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 18px 16px;
-    background: #f8fafc;
-    border-radius: 12px;
-    margin-top: 24px;
-    border: 1px solid #e2e8f0;
-    box-sizing: border-box;
-  }
-
-  .mw-mob-company-logo {
-    width: 90px;
-    height: auto;
-    flex-shrink: 0;
-    object-fit: contain;
-  }
-
-  .mw-mob-company-text {
-    flex: 1;
-    text-align: center;
-    font-size: 12px;
-    line-height: 1.7;
-    color: #64748b;
-  }
-
-  .mw-mob-company-text p {
-    margin: 4px 0;
-    word-break: keep-all;
-  }
-
-  .mw-mob-company-text strong {
-    color: #1e3a5f;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 4px;
-    font-size: 13px;
-  }
-
-  .mw-mob-company-text a {
-    color: #0ea5e9;
-    text-decoration: none;
   }
 
   /* 홈(/): cafe24 푸터·퀵메뉴 대신 인앱 회사 카드만 사용 */

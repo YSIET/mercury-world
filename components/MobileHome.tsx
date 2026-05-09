@@ -79,26 +79,17 @@ export default async function MobileHome() {
         ))}
       </section>
 
-      <section
-        className="mw-mob-company-row"
-        aria-label="회사 정보"
-      >
+      <div className="mw-footer-mobile" aria-label="회사 정보">
         <img
           src="/og-image.png"
           alt="Mercury World"
-          className="mw-mob-company-logo"
+          className="mw-footer-mobile-logo"
         />
-        <div className="mw-mob-company-text">
-          <p>
-            <strong>(주)와이에스환경기술연구원 | KOLAS 인정 제364호</strong>
-          </p>
-          <p>연세대학교 화공생명공학과 첨단융합기술연구실</p>
-          <p>
-            Tel:{" "}
-            <a href="tel:02-2123-7780">02-2123-7780</a>
-          </p>
+        <div className="mw-footer-mobile-info">
+          <p>연세대학교 화공생명공학과 이태규교수 연구실</p>
+          <p>Copyright © 수은세상. All Rights Reserved.</p>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

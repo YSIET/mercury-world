@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import MobileBackButton from "@/components/MobileBackButton";
 
 export const dynamic = "force-dynamic";
@@ -13,6 +14,7 @@ export default function AdminLayout({
         <MobileBackButton />
       </div>
       {children}
+      <Footer />
     </div>
   );
 }

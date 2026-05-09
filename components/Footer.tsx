@@ -15,8 +15,8 @@ export default function Footer() {
           className="mw-footer-mobile-logo"
         />
         <div className="mw-footer-mobile-info">
-          <p>연세대학교 화공생명공학과 이태규교수 첨단융합기술연구실</p>
-          <p>Copyright©수은세상 All right Reserved.</p>
+          <p>연세대학교 화공생명공학과 이태규교수 연구실</p>
+          <p>Copyright © 수은세상. All Rights Reserved.</p>
         </div>
       </div>
 

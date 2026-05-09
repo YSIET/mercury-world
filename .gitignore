@@ -43,6 +43,7 @@ lib/*
 !lib/qna.ts
 !lib/board.ts
 !lib/seo-metadata.ts
+!lib/site-canonical.ts
 !lib/admin-auth-server.ts
 !lib/today.ts
 !lib/stats.ts

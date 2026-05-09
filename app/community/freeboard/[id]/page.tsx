@@ -5,6 +5,7 @@ import QnaDetailActions from "./QnaDetailActions";
 import QnaSecretBody from "./QnaSecretBody";
 import { contentUsesHtml, plainTextExcerpt } from "@/lib/post-utils";
 import type { Metadata } from "next";
+import { canonicalFromPathname } from "@/lib/site-canonical";
 
 export async function generateMetadata({
   params,
@@ -18,13 +19,17 @@ export async function generateMetadata({
   const desc = qna.isSecret
     ? "비밀글입니다."
     : plainTextExcerpt(qna.content, 160);
+  const path = `/community/freeboard/${params.id}`;
+  const canonical = canonicalFromPathname(path);
   return {
     title: qna.title,
     description: desc,
     robots: qna.isSecret ? { index: false, follow: true } : undefined,
+    alternates: { canonical },
     openGraph: {
       title: qna.title,
       description: desc,
+      url: canonical,
     },
     twitter: {
       title: qna.title,

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { SITE_ORIGIN } from "@/lib/site-canonical";
 import {
   listAllKvBoardPosts,
   listPathForBoardType,
@@ -6,8 +7,6 @@ import {
   type BoardType,
 } from "@/lib/board";
 import { listAllPosts } from "@/lib/qna";
-
-const SITE = "https://www.mercury.or.kr";
 
 const STATIC_PATHS: Array<{
   path: string;
@@ -32,7 +31,7 @@ const BOARD_TYPES: BoardType[] = ["notice", "news", "pds"];
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const out: MetadataRoute.Sitemap = STATIC_PATHS.map(({ path, changeFrequency, priority }) => ({
-    url: `${SITE}${path}`,
+    url: `${SITE_ORIGIN}${path}`,
     lastModified: now,
     changeFrequency,
     priority,
@@ -43,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const base = listPathForBoardType(type);
     for (const p of posts) {
       out.push({
-        url: `${SITE}${base}/${publicBoardListId(p)}`,
+        url: `${SITE_ORIGIN}${base}/${publicBoardListId(p)}`,
         lastModified: new Date(p.updatedAt || p.createdAt),
         changeFrequency: "weekly",
         priority: 0.6,
@@ -55,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const p of qnaPosts) {
     const pubId = p.legacyBdNo ?? p.id;
     out.push({
-      url: `${SITE}/community/freeboard/${pubId}`,
+      url: `${SITE_ORIGIN}/community/freeboard/${pubId}`,
       lastModified: new Date(p.updatedAt),
       changeFrequency: "weekly",
       priority: 0.55,

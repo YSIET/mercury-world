@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { headers } from "next/headers";
 import "./globals.css";
+import { SITE_ORIGIN, canonicalFromPathname } from "@/lib/site-canonical";
 
-const SITE = new URL("https://www.mercury.or.kr");
+const SITE = new URL(SITE_ORIGIN);
 
 const rootTitle = "수은세상 - mercury world";
 const rootDescription =
@@ -13,54 +15,62 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export const metadata: Metadata = {
-  metadataBase: SITE,
-  title: {
-    default: rootTitle,
-    template: "%s | 수은세상",
-  },
-  description: rootDescription,
-  keywords: [
-    "수은",
-    "mercury",
-    "수은 안전",
-    "수은 분석",
-    "수은 함유량",
-    "KOLAS",
-    "YS환경기술연구원",
-  ],
-  robots: {
-    index: true,
-    follow: true,
-  },
-  openGraph: {
-    title: rootTitle,
-    description: rootDescription,
-    siteName: "수은세상",
-    locale: "ko_KR",
-    type: "website",
-    url: SITE,
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "수은세상",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: rootTitle,
-    description: rootDescription,
-    images: ["/og-image.png"],
-  },
-  verification: {
-    other: {
-      "naver-site-verification": "49469930b8af79467aea1fa71a1e2258732c31ef",
+export async function generateMetadata(): Promise<Metadata> {
+  const pathname = headers().get("x-pathname") ?? "/";
+  const canonical = canonicalFromPathname(pathname);
+
+  return {
+    metadataBase: SITE,
+    title: {
+      default: rootTitle,
+      template: "%s | 수은세상",
     },
-  },
-};
+    description: rootDescription,
+    keywords: [
+      "수은",
+      "mercury",
+      "수은 안전",
+      "수은 분석",
+      "수은 함유량",
+      "KOLAS",
+      "YS환경기술연구원",
+    ],
+    robots: {
+      index: true,
+      follow: true,
+    },
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title: rootTitle,
+      description: rootDescription,
+      siteName: "수은세상",
+      locale: "ko_KR",
+      type: "website",
+      url: canonical,
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: "수은세상",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: rootTitle,
+      description: rootDescription,
+      images: ["/og-image.png"],
+    },
+    verification: {
+      other: {
+        "naver-site-verification": "49469930b8af79467aea1fa71a1e2258732c31ef",
+      },
+    },
+  };
+}
 
 export default function RootLayout({
   children,

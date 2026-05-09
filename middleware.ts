@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifySessionToken, ADMIN_COOKIE_NAME } from "@/lib/admin-auth";
 
+const PATHNAME_HEADER = "x-pathname";
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set(PATHNAME_HEADER, pathname);
+
+  const withPathHeader = () =>
+    NextResponse.next({ request: { headers: requestHeaders } });
 
   if (
     pathname === "/admin/login" ||
@@ -10,7 +18,7 @@ export async function middleware(req: NextRequest) {
     pathname === "/api/admin/logout" ||
     pathname === "/api/admin/session"
   ) {
-    return NextResponse.next();
+    return withPathHeader();
   }
 
   if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
@@ -29,9 +37,11 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  return withPathHeader();
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:ico|png|jpg|jpeg|svg|gif|webp|css|js|woff2?|txt|xml)$).*)",
+  ],
 };

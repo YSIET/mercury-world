@@ -32,6 +32,11 @@ table {
   display: none;
 }
 
+/* 헤더/관리자/IQ — 뒤로가기 슬롯 (모바일에서만 표시) */
+.mw-mobile-back-slot {
+  display: none;
+}
+
 #Layer1 {
   position: absolute;
   left: 0px;
@@ -357,6 +362,24 @@ table.wide {
   .mw-mobile-back-btn:active {
     background: #e2e8f0;
     transform: scale(0.97);
+  }
+
+  .mw-mobile-back-slot {
+    display: inline-flex !important;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 10;
+  }
+
+  .mw-mobile-back-slot .mw-mobile-back-btn {
+    margin: 0 !important;
+  }
+
+  .mw-admin-layout-shell,
+  .mw-test-q-layout-shell {
+    position: relative;
+    padding-top: 48px;
   }
 
   .mw-desktop-home {
@@ -933,6 +956,7 @@ table.wide {
   .mw-header-rail .header {
     height: auto;
     overflow: visible;
+    position: relative;
   }
 
   /* 상단 HOME | SITEMAP | 관리자 — 우측 짤림 방지 (모바일만) */

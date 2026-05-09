@@ -1,6 +1,5 @@
 import Header, { SideNav } from "./Header";
 import Footer from "./Footer";
-import MobileBackButton from "./MobileBackButton";
 
 interface SubPageLayoutProps {
   /** 상단 메뉴 active 그룹 (1100/1200/1300/1400/1500) */
@@ -79,7 +78,6 @@ export default function SubPageLayout({
 
             {/* 본문 727 */}
             <td width={727} valign="top">
-              <MobileBackButton />
               <table width="100%" border={0} cellSpacing={0} cellPadding={0}>
                 <tbody>
                   <tr>

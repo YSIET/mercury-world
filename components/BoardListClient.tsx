@@ -5,9 +5,13 @@ import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { BoardType, BoardListRow } from "@/lib/board";
 import { listPathForBoardType } from "@/lib/board";
+import {
+  PAGE_GROUP_SIZE_DESKTOP,
+  PAGE_GROUP_SIZE_MOBILE,
+  useIsMobile768,
+} from "@/lib/use-is-mobile";
 
 const PAGE_SIZE = 10;
-const PAGE_GROUP_SIZE = 10;
 
 const writeBtnStyle: CSSProperties = {
   fontSize: 14,
@@ -37,6 +41,9 @@ function BoardListInner({
   const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10) || 1);
 
   const [data, setData] = useState<ApiPage | null>(null);
+  const [hoverPage, setHoverPage] = useState<number | null>(null);
+  const isMobile = useIsMobile768();
+  const pageGroupSize = isMobile ? PAGE_GROUP_SIZE_MOBILE : PAGE_GROUP_SIZE_DESKTOP;
 
   useEffect(() => {
     let cancelled = false;
@@ -54,8 +61,6 @@ function BoardListInner({
       cancelled = true;
     };
   }, [boardType, page]);
-
-  const [hoverPage, setHoverPage] = useState<number | null>(null);
 
   function goPage(p: number) {
     if (p <= 1) router.push(listBase);
@@ -96,9 +101,9 @@ function BoardListInner({
   const currentPage = data?.page ?? page;
 
   const groupStart =
-    Math.floor((currentPage - 1) / PAGE_GROUP_SIZE) * PAGE_GROUP_SIZE + 1;
+    Math.floor((currentPage - 1) / pageGroupSize) * pageGroupSize + 1;
   const groupEnd = Math.min(
-    groupStart + PAGE_GROUP_SIZE - 1,
+    groupStart + pageGroupSize - 1,
     totalPages
   );
   const hasPrevGroup = groupStart > 1;

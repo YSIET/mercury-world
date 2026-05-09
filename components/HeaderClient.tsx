@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
+import MobileBackButton from "@/components/MobileBackButton";
 import { MENU_ITEMS } from "@/lib/menu-items";
 
 const TOP_GROUPS: Array<{ group: number | null; label: string; href: string }> = [
@@ -123,6 +124,9 @@ export default function HeaderClient({
         />
 
         <div className="header">
+          <div className="mw-mobile-back-slot">
+            <MobileBackButton />
+          </div>
           <div className="bt_top">
             <Link href="/">HOME</Link> | <Link href="/sitemap">SITEMAP</Link>
             {adminTopLinks}

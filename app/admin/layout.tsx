@@ -8,9 +8,11 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <MobileBackButton />
+    <div className="mw-admin-layout-shell">
+      <div className="mw-mobile-back-slot">
+        <MobileBackButton />
+      </div>
       {children}
-    </>
+    </div>
   );
 }

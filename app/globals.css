@@ -365,7 +365,7 @@ table.wide {
   /* 메인·서브·관리자 공통 모바일 푸터 */
   .mw-footer-mobile {
     display: flex !important;
-    align-items: flex-start !important;
+    align-items: stretch !important;
     gap: 16px;
     padding: 16px 14px !important;
     background: #f8fafc;
@@ -380,11 +380,15 @@ table.wide {
     height: auto;
     flex-shrink: 0;
     object-fit: contain;
-    margin-top: 6px;
+    align-self: center !important;
+    margin-top: 0 !important;
   }
 
   .mw-footer-mobile-info {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     text-align: center;
     font-size: 12.5px;
     line-height: 1.7;
@@ -393,7 +397,7 @@ table.wide {
   }
 
   .mw-footer-mobile-info p {
-    margin: 0;
+    margin: 4px 0;
     word-break: keep-all;
   }
 
@@ -406,7 +410,6 @@ table.wide {
     font-size: 11px !important;
     white-space: nowrap !important;
     letter-spacing: -0.2px;
-    margin-top: 6px !important;
   }
 
   .mw-mobile-home > .mw-footer-mobile {

@@ -362,13 +362,13 @@ table.wide {
     display: inline !important;
   }
 
-  /* 메인·서브·관리자 공통 모바일 푸터 */
+  /* 메인·서브·관리자 공통 모바일 푸터 — 흰 배경(로고 PNG 자연스럽게), 2줄(각 문장 1줄) */
   .mw-footer-mobile {
     display: flex !important;
     align-items: stretch !important;
-    gap: 16px;
-    padding: 18px 14px !important;
-    background: #f8fafc;
+    gap: 12px !important;
+    padding: 16px 12px !important;
+    background: #ffffff !important;
     border-top: 1px solid #e2e8f0;
     box-sizing: border-box;
     width: 100%;
@@ -376,7 +376,7 @@ table.wide {
   }
 
   .mw-footer-mobile-logo {
-    width: 140px !important;
+    width: 100px !important;
     height: auto;
     flex-shrink: 0;
     object-fit: contain;
@@ -394,20 +394,12 @@ table.wide {
   }
 
   .mw-footer-mobile-info p {
-    margin: 2px 0 !important;
-    font-size: 12.5px !important;
+    margin: 3px 0 !important;
+    font-size: 11px !important;
     line-height: 1.4 !important;
+    letter-spacing: -0.3px;
+    white-space: nowrap !important;
     word-break: keep-all;
-  }
-
-  .mw-footer-mobile-info p:first-child {
-    font-size: 12.5px !important;
-  }
-
-  .mw-footer-mobile-info p:last-child {
-    font-size: 12.5px !important;
-    white-space: normal !important;
-    letter-spacing: 0;
   }
 
   .mw-mobile-home > .mw-footer-mobile {

@@ -12,18 +12,21 @@ export default async function AdminHeaderTopLinks() {
   const authed = await isAdminFromCookies();
   return (
     <>
-      {" | "}
       {!authed ? (
-        <Link href="/admin/login" style={linkStyle}>
+        <Link href="/admin/login" className="mw-admin-top-link" style={linkStyle}>
           관리자 로그인
         </Link>
       ) : (
         <>
-          <Link href="/admin" style={linkStyle}>
+          <Link href="/admin" className="mw-admin-top-link" style={linkStyle}>
             관리자
           </Link>
           {" | "}
-          <Link href="/api/admin/logout?redirect=/" style={linkStyle}>
+          <Link
+            href="/api/admin/logout?redirect=/"
+            className="mw-admin-top-link"
+            style={linkStyle}
+          >
             로그아웃
           </Link>
         </>

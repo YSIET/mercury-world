@@ -827,7 +827,7 @@ table.wide {
   .mw-footer-rail td,
   .mw-footer-rail span,
   .mw-footer-rail p {
-    font-size: 13px !important;
+    font-size: 14px !important;
     line-height: 1.7 !important;
     color: #555;
   }
@@ -1012,7 +1012,15 @@ table.wide {
     font-size: 11px !important;
   }
 
-  /* 게시판 목록: 작성자·조회 열 — 클래스만 붙이고 모바일에서만 숨김 */
+  .mw-header-rail .header .bt_top .mw-bt-top-sitemap-block {
+    display: none !important;
+  }
+
+  .mw-header-rail .header .bt_top .mw-admin-top-link {
+    color: #444444 !important;
+    font-weight: normal !important;
+    font-size: 11px !important;
+  }
   .mw-mobile-hide {
     display: none !important;
   }

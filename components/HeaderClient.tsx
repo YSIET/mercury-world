@@ -128,7 +128,12 @@ export default function HeaderClient({
             <MobileBackButton />
           </div>
           <div className="bt_top">
-            <Link href="/">HOME</Link> | <Link href="/sitemap">SITEMAP</Link>
+            <Link href="/">HOME</Link>
+            <span className="mw-bt-top-sep"> | </span>
+            <span className="mw-bt-top-sitemap-block">
+              <Link href="/sitemap">SITEMAP</Link>
+              <span className="mw-bt-top-sep"> | </span>
+            </span>
             {adminTopLinks}
           </div>
           <div className="logo">

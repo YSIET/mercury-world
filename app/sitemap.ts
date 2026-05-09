@@ -14,15 +14,22 @@ const STATIC_PATHS: Array<{
   priority: number;
 }> = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
-  { path: "/content/content", changeFrequency: "monthly", priority: 0.8 },
-  { path: "/content/mercury", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/site/greeting", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/content/content", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/content/mercury", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/content/one", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/mercury/mercury", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/mercury/mercury_cycle", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/mercury/fish", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/mercury/emergency", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/mercury/regulation", changeFrequency: "monthly", priority: 0.7 },
   { path: "/community/freeboard", changeFrequency: "daily", priority: 0.85 },
   { path: "/community/kit", changeFrequency: "monthly", priority: 0.7 },
   { path: "/community/request", changeFrequency: "monthly", priority: 0.7 },
   { path: "/news/board", changeFrequency: "daily", priority: 0.85 },
   { path: "/news/news", changeFrequency: "daily", priority: 0.85 },
   { path: "/news/pds", changeFrequency: "weekly", priority: 0.85 },
-  { path: "/test/q", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/test/q", changeFrequency: "monthly", priority: 0.7 },
   { path: "/sitemap", changeFrequency: "monthly", priority: 0.5 },
 ];
 

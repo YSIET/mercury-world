@@ -22,7 +22,6 @@ export const metadata: Metadata = {
         type: "image/png",
       },
     ],
-    shortcut: ["/favicon.ico"],
   },
   manifest: "/site.webmanifest",
   // 원본 verification 태그 보존

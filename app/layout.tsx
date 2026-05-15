@@ -77,6 +77,16 @@ export async function generateMetadata(): Promise<Metadata> {
         "naver-site-verification": "49469930b8af79467aea1fa71a1e2258732c31ef",
       },
     },
+    icons: {
+      apple: [
+        {
+          url: "/apple-touch-icon.png",
+          sizes: "180x180",
+          type: "image/png",
+        },
+      ],
+    },
+    manifest: "/site.webmanifest",
   };
 }
 
